@@ -151,6 +151,8 @@ a:active .active-color  {
   /* padding-bottom: .5rem; */
   font-size: 2rem;
   font-weight: 500;
+  word-break:break-all;
+  word-wrap: break-word;
 }
 
 .single-post .post-heading {
