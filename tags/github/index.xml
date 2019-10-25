@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GitHub on Xing MHz</title>
+    <link>https://MHz-Xing.github.io/tags/github/</link>
+    <description>Recent content in GitHub on Xing MHz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Mon, 21 Oct 2019 17:18:56 +0800</lastBuildDate>
+    
+	<atom:link href="https://MHz-Xing.github.io/tags/github/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Win&#43;Hugo&#43;GitHub搭建静态Blog[MD格式]</title>
+      <link>https://MHz-Xing.github.io/blog/2019-10/win-hugo-github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81blogmd%E6%A0%BC%E5%BC%8F/</link>
+      <pubDate>Mon, 21 Oct 2019 17:18:56 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-10/win-hugo-github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81blogmd%E6%A0%BC%E5%BC%8F/</guid>
+      <description>Tools 1、Hugo hugo官网 https://gohugo.io/ 发布版本 https://github.com/gohugoio/hugo/releases 本文使用0.58.3版本 2、Git 安装 1、安装Git 绝大部分程</description>
+    </item>
+    
+  </channel>
+</rss>

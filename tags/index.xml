@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Xing MHz</title>
+    <link>https://MHz-Xing.github.io/tags/</link>
+    <description>Recent content in Tags on Xing MHz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Fri, 25 Oct 2019 16:01:54 +0800</lastBuildDate>
+    
+	<atom:link href="https://MHz-Xing.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>TAG</title>
+      <link>https://MHz-Xing.github.io/tags/tag/</link>
+      <pubDate>Fri, 25 Oct 2019 16:01:54 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/tag/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>TEST</title>
+      <link>https://MHz-Xing.github.io/tags/test/</link>
+      <pubDate>Fri, 25 Oct 2019 16:01:54 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/test/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>快::慢</title>
+      <link>https://MHz-Xing.github.io/tags/%E5%BF%AB%E6%85%A2/</link>
+      <pubDate>Fri, 25 Oct 2019 15:55:15 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/%E5%BF%AB%E6%85%A2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>52840</title>
+      <link>https://MHz-Xing.github.io/tags/52840/</link>
+      <pubDate>Fri, 25 Oct 2019 15:52:37 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/52840/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>BLE</title>
+      <link>https://MHz-Xing.github.io/tags/ble/</link>
+      <pubDate>Fri, 25 Oct 2019 15:52:37 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/ble/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Noridic</title>
+      <link>https://MHz-Xing.github.io/tags/noridic/</link>
+      <pubDate>Fri, 25 Oct 2019 15:52:37 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/noridic/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GitHub</title>
+      <link>https://MHz-Xing.github.io/tags/github/</link>
+      <pubDate>Mon, 21 Oct 2019 17:18:56 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/github/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hugo</title>
+      <link>https://MHz-Xing.github.io/tags/hugo/</link>
+      <pubDate>Mon, 21 Oct 2019 17:18:56 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>前端</title>
+      <link>https://MHz-Xing.github.io/tags/%E5%89%8D%E7%AB%AF/</link>
+      <pubDate>Mon, 21 Oct 2019 17:18:56 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/%E5%89%8D%E7%AB%AF/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

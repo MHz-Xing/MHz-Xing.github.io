@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>档案馆 on Xing MHz</title>
+    <link>https://MHz-Xing.github.io/about/</link>
+    <description>Recent content in 档案馆 on Xing MHz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Fri, 01 Sep 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://MHz-Xing.github.io/about/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+  </channel>
+</rss>
