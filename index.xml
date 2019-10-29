@@ -57,16 +57,5 @@
       <description>&lt;p&gt;&lt;strong&gt;作为一个前端小白，记录搭建个人主站的流程，以备后查，也希望给有相同需求的小伙伴一些启发。&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     
-    <item>
-      <title></title>
-      <link>https://MHz-Xing.github.io/404/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://MHz-Xing.github.io/404/</guid>
-      <description> 网页走丢了 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,audio,canvas,details,figcaption,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,summary,time,video{margin:0;padding:0}fieldset,img{border:0}address,caption,cite,code,dfn,em,th,var,optgroup{font-style:normal;font-weight:normal} html,body{height:100%;width:100%;background-color:#EAEDF5}.wrap{height:100%;min-height:600px;min-width:1108px;position:relative}.lost,.pic{display:inline-block}.lost{text-align:center;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}.pic{vertical-align:top}.lost .text{margin-top:28px;height:20px;font-size:20px;font-weight:700;color:#727d99}.lost .back{display:inline-block;margin-top:20px;width:108px;height:42px;color:#FFF;border-radius:21px;background-color:#727d99;line-height:42px;text-decoration:none}.lost .text .num{color:#d43d3d}.lost .back:hover{background-color:#606b86}         /* 404 page not found. */
-返回主页
-  var errorEmojiContainer = document.getElementsByClassName(&#39;error-emoji&#39;)[0]; var emojiArray = [ &#39;\\(o_o)/&#39;, &#39;(o^^)o&#39;, &#39;(˚Δ˚)b&#39;, &#39;(^-^*)&#39;, &#39;(≥o≤)&#39;, &#39;(^_^)b&#39;, &#39;(·_·)&#39;, &#39;(=\&#39;X\&#39;=)&#39;, &#39;(_ </description>
-    </item>
-    
   </channel>
 </rss>
