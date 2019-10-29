@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Theme preview on Xing MHz</title>
+    <link>https://MHz-Xing.github.io/tags/theme-preview/</link>
+    <description>Recent content in Theme preview on Xing MHz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Tue, 10 Jul 2018 00:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://MHz-Xing.github.io/tags/theme-preview/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Theme preview</title>
+      <link>https://MHz-Xing.github.io/blog/2018-07/theme-preview/</link>
+      <pubDate>Tue, 10 Jul 2018 00:00:00 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2018-07/theme-preview/</guid>
+      <description>Based on MarkdownPreview test.md.
+ Markdown # H1 ## H2 ### H3 #### H4 ##### H5 ###### H6 ### Duplicate Header ### Duplicate Header  H1 H2 H3 H4 H5 H6 Duplicate Header Duplicate Header Paragraphs This is a paragraph. I am still part of the paragraph. New paragraph.</description>
+    </item>
+    
+  </channel>
+</rss>

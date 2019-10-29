@@ -47,6 +47,31 @@ if (location.hash) {
     $(window).trigger('hashchange');
 }
 
+Even.fancybox = function() {
+  if ($.fancybox) {
+    $('.post-content').each(function() {
+      $(this).find('images').each(function() {
+        $(this).wrap(`<a class="fancybox" href="${this.src}" data-fancybox="gallery" data-caption="${this.title}"></a>`);
+      });
+    });
+
+    $('.fancybox').fancybox({
+      selector: '.fancybox',
+      protect: true,
+	  buttons : [ 
+		'slideShow',
+		'share',
+		'zoom',
+		'fullScreen',
+		'close'
+		],
+	  thumbs : {
+		autoStart : true
+	},
+    });
+  }
+};
+
 // // $('[data-spy="scroll"]').each(function () {
 // //     var $spy = $(this).scrollspy('refresh')
 // //   })

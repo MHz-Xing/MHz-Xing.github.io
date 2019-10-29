@@ -7,14 +7,14 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
   <meta name="author" content="Xing MHz">
-  <meta name="description" content="Tools 1、Hugo hugo官网 https://gohugo.io/ 发布版本 https://github.com/gohugoio/hugo/releases 本文使用0.58.3版本 2、Git 安装 1、安装Git 绝大部分程">
+  <meta name="description" content="作为一个前端小白，记录搭建个人主站的流程，以备后查，也希望给有相同需求的小伙伴一些启发。">
   
   <meta property="og:title" content="Win&#43;Hugo&#43;GitHub搭建静态Blog[MD格式]" />
-<meta property="og:description" content="Tools 1、Hugo hugo官网 https://gohugo.io/ 发布版本 https://github.com/gohugoio/hugo/releases 本文使用0.58.3版本 2、Git 安装 1、安装Git 绝大部分程" />
+<meta property="og:description" content="作为一个前端小白，记录搭建个人主站的流程，以备后查，也希望给有相同需求的小伙伴一些启发。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://MHz-Xing.github.io/blog/2019-10/win-hugo-github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81blogmd%E6%A0%BC%E5%BC%8F/" />
 <meta property="article:published_time" content="2019-10-23T00:00:00+00:00" />
-<meta property="article:modified_time" content="2019-10-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-10-29T00:00:00+00:00" />
 
 
 
@@ -73,8 +73,9 @@
     
     <link rel="stylesheet" href="https://MHz-Xing.github.io/css/vendors/highlight/github-gist.css">
   
-
-</head>
+  
+  
+  <link href="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet"></head>
 
   <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
   
@@ -319,20 +320,16 @@
 
     
       <li class="middot"></li>
-      <li>One minute read</li>
+      <li>2 minutes read</li>
     
   </ul>
-  
-    <div class="view">
-      <img src="https://inews.gtimg.com/newsapp_bt/0/10594054029/641" />
-    </div>
   
 
 </div>
 
 
           <div class="post-content markdown">
-            
+            <p><strong>作为一个前端小白，记录搭建个人主站的流程，以备后查，也希望给有相同需求的小伙伴一些启发。</strong></p>
 
 <h1 id="tools">Tools</h1>
 
@@ -343,7 +340,7 @@
 <p>发布版本 <a href="https://github.com/gohugoio/hugo/releases">https://github.com/gohugoio/hugo/releases</a></p>
 
 <p>本文使用0.58.3版本
-<img src="http://static.oschina.net/uploads/space/2015/1211/122247_k1Rf_2332014.png" alt="版本信息" /></p>
+<img src="https://MHz-Xing.github.io/images/blog/hugo_version.png" alt="版本信息" /></p>
 
 <h2 id="2-git">2、Git</h2>
 
@@ -369,17 +366,72 @@
 地址：<a href="https://themes.gohugo.io/">https://themes.gohugo.io/</a></p>
 
 <p>下载好对应的themes文件，放置到对应的Blog目录下，目录结构如下：
-<img src="http://src.onlinedown.net/images/h_ipad_imges/170310/logo/6135116bb35726ef578ab567acb14380.jpg" alt="目录树" /></p>
+<img src="https://MHz-Xing.github.io/images/blog/file_def.png" alt="目录树" /></p>
 
 <h2 id="5-新建文章">5、新建文章</h2>
 
 <p>以about me为例</p>
 
-<h2 id="6-运行">6、运行</h2>
+<p>hugo new blog/2019-10/blog1.md -k blog</p>
 
-<pre><code>hugo server --theme=hyde --buildDrafts
+<p>hugo new picture/picture1.md -k picture</p>
+
+<h2 id="6-本地调试">6、本地调试</h2>
+
+<pre><code>hugo server --buildDrafts
 </code></pre>
 
+<h2 id="7-编译正式版本">7、编译正式版本</h2>
+
+<pre><code>hugo  -D
+</code></pre>
+
+<h2 id="8-部署到github">8、部署到GitHub</h2>
+
+<p>github 个人主站上首先创建个人的github page 仓库</p>
+
+<p>注意：创建的名称必须为如下格式：</p>
+
+<p>==你的github用户名.github.io==</p>
+
+<p>eg：</p>
+
+<pre><code>zhangsan.github.io
+</code></pre>
+
+<p>进入本地public目录，分别执行以下操作</p>
+
+<p>git init</p>
+
+<p>git add .</p>
+
+<p>git commit -m &ldquo;git push v0.1 test&rdquo;</p>
+
+<p>git remote add origin git@github.com:XX/xx.github.io.git</p>
+
+<p>git push -u origin master</p>
+
+<p>如果上述操作不成功，可以先将remote端在服务器上新建一个readme文件，之后使用服务器自带的pull方法下载到本地，之后再执行git add .等指令</p>
+
+<h2 id="9-访问个人主页">9、访问个人主页</h2>
+
+<p>xx.github.io</p>
+
+<p>本站地址：<a href="https://MHz-Xing.github.io">MHz Xing</a></p>
+
+<h1 id="写在最后">写在最后</h1>
+
+<h2 id="常用命令">常用命令</h2>
+
+<ul>
+<li>hugo new site SITE_NAME 生成静态博客项目</li>
+<li>hugo server 启动本地服务器，加上 -D 可以渲染 draft</li>
+<li>hugo new post/new-content.md 在 post 下新建一篇文章</li>
+<li>hugo new blog/2019-10/blog1.md -k blog  在 blog/2019-10/下新建一篇名称为blog1的文章</li>
+<li>hugo new picture/picture1.md -k picture 在 picture//下新建一篇名称为picture1的相册集</li>
+<li>hugo 生成站点静态文件</li>
+<li>hugo list drafts/expired/future 列出特点的文件</li>
+</ul>
           </div>
 
           
@@ -697,8 +749,134 @@
 								
 
 										<li class="nav-item">
-						 					<a class="nav-link" href="#6-%e8%bf%90%e8%a1%8c">
-												 6、运行
+						 					<a class="nav-link" href="#6-%e6%9c%ac%e5%9c%b0%e8%b0%83%e8%af%95">
+												 6、本地调试
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#7-%e7%bc%96%e8%af%91%e6%ad%a3%e5%bc%8f%e7%89%88%e6%9c%ac">
+												 7、编译正式版本
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#8-%e9%83%a8%e7%bd%b2%e5%88%b0github">
+												 8、部署到GitHub
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#9-%e8%ae%bf%e9%97%ae%e4%b8%aa%e4%ba%ba%e4%b8%bb%e9%a1%b5">
+												 9、访问个人主页
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%86%99%e5%9c%a8%e6%9c%80%e5%90%8e">
+												 写在最后
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4">
+												 常用命令
 											</a>
 										</li>
 						 
@@ -830,8 +1008,6 @@
   new WOW().init();
 </script>
 
-
-
-
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.js"></script>
   </body>
 </html>
