@@ -6,7 +6,7 @@
     <description>Recent content on Xing MHz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zn-Hans</language>
-    <lastBuildDate>Fri, 25 Oct 2019 16:01:54 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 04 Nov 2019 20:58:13 +0800</lastBuildDate>
     
 	<atom:link href="https://MHz-Xing.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -19,6 +19,15 @@
       <guid>https://MHz-Xing.github.io/blog/2018-07/theme-preview/</guid>
       <description>Based on MarkdownPreview test.md.
  Markdown # H1 ## H2 ### H3 #### H4 ##### H5 ###### H6 ### Duplicate Header ### Duplicate Header  H1 H2 H3 H4 H5 H6 Duplicate Header Duplicate Header Paragraphs This is a paragraph. I am still part of the paragraph. New paragraph.</description>
+    </item>
+    
+    <item>
+      <title>秋日</title>
+      <link>https://MHz-Xing.github.io/picture/2019-11/%E7%A7%8B%E6%97%A5/</link>
+      <pubDate>Mon, 04 Nov 2019 20:58:13 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/picture/2019-11/%E7%A7%8B%E6%97%A5/</guid>
+      <description>一叶而知秋意浓，半刻钟，微光影。</description>
     </item>
     
     <item>

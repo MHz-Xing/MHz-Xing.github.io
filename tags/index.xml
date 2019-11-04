@@ -6,10 +6,19 @@
     <description>Recent content in Tags on Xing MHz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zn-Hans</language>
-    <lastBuildDate>Fri, 25 Oct 2019 16:01:54 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 04 Nov 2019 20:58:13 +0800</lastBuildDate>
     
 	<atom:link href="https://MHz-Xing.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>快::慢</title>
+      <link>https://MHz-Xing.github.io/tags/%E5%BF%AB%E6%85%A2/</link>
+      <pubDate>Mon, 04 Nov 2019 20:58:13 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/%E5%BF%AB%E6%85%A2/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>TAG</title>
@@ -26,15 +35,6 @@
       <pubDate>Fri, 25 Oct 2019 16:01:54 +0800</pubDate>
       
       <guid>https://MHz-Xing.github.io/tags/test/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>快::慢</title>
-      <link>https://MHz-Xing.github.io/tags/%E5%BF%AB%E6%85%A2/</link>
-      <pubDate>Fri, 25 Oct 2019 15:55:15 +0800</pubDate>
-      
-      <guid>https://MHz-Xing.github.io/tags/%E5%BF%AB%E6%85%A2/</guid>
       <description></description>
     </item>
     
