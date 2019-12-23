@@ -6,10 +6,19 @@
     <description>Recent content in Tags on Xing MHz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zn-Hans</language>
-    <lastBuildDate>Mon, 04 Nov 2019 20:58:13 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 23 Dec 2019 20:50:08 +0800</lastBuildDate>
     
 	<atom:link href="https://MHz-Xing.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>TAG</title>
+      <link>https://MHz-Xing.github.io/tags/tag/</link>
+      <pubDate>Mon, 23 Dec 2019 20:50:08 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/tag/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>快::慢</title>
@@ -17,51 +26,6 @@
       <pubDate>Mon, 04 Nov 2019 20:58:13 +0800</pubDate>
       
       <guid>https://MHz-Xing.github.io/tags/%E5%BF%AB%E6%85%A2/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>TAG</title>
-      <link>https://MHz-Xing.github.io/tags/tag/</link>
-      <pubDate>Fri, 25 Oct 2019 16:01:54 +0800</pubDate>
-      
-      <guid>https://MHz-Xing.github.io/tags/tag/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>TEST</title>
-      <link>https://MHz-Xing.github.io/tags/test/</link>
-      <pubDate>Fri, 25 Oct 2019 16:01:54 +0800</pubDate>
-      
-      <guid>https://MHz-Xing.github.io/tags/test/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>52840</title>
-      <link>https://MHz-Xing.github.io/tags/52840/</link>
-      <pubDate>Fri, 25 Oct 2019 15:52:37 +0800</pubDate>
-      
-      <guid>https://MHz-Xing.github.io/tags/52840/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>BLE</title>
-      <link>https://MHz-Xing.github.io/tags/ble/</link>
-      <pubDate>Fri, 25 Oct 2019 15:52:37 +0800</pubDate>
-      
-      <guid>https://MHz-Xing.github.io/tags/ble/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Noridic</title>
-      <link>https://MHz-Xing.github.io/tags/noridic/</link>
-      <pubDate>Fri, 25 Oct 2019 15:52:37 +0800</pubDate>
-      
-      <guid>https://MHz-Xing.github.io/tags/noridic/</guid>
       <description></description>
     </item>
     

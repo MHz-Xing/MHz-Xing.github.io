@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>指针 on Xing MHz</title>
+    <link>https://MHz-Xing.github.io/categories/%E6%8C%87%E9%92%88/</link>
+    <description>Recent content in 指针 on Xing MHz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Mon, 23 Dec 2019 20:50:08 +0800</lastBuildDate>
+    
+	<atom:link href="https://MHz-Xing.github.io/categories/%E6%8C%87%E9%92%88/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>嵌入式Linux_C语言（二）--指针</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux_c%E8%AF%AD%E8%A8%80%E4%BA%8C-%E6%8C%87%E9%92%88/</link>
+      <pubDate>Mon, 23 Dec 2019 20:50:08 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux_c%E8%AF%AD%E8%A8%80%E4%BA%8C-%E6%8C%87%E9%92%88/</guid>
+      <description>&lt;p&gt;指针是C语言中广泛使用的一种数据类型，是C语言的灵魂。指针提供了动态操控内存的机制，强化了对数据结构的支持，而且实现了访问硬件的功能。学习指针是学习C语言中最重要的一环，能否正确理解和使用指针是我们是否掌握C语言的一个标志。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

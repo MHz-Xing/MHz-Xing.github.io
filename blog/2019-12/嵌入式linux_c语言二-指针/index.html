@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  <meta name="author" content="Xing MHz">
+  <meta name="description" content="指针是C语言中广泛使用的一种数据类型，是C语言的灵魂。指针提供了动态操控内存的机制，强化了对数据结构的支持，而且实现了访问硬件的功能。学习指针是学习C语言中最重要的一环，能否正确理解和使用指针是我们是否掌握C语言的一个标志。">
+  
+  <meta property="og:title" content="嵌入式Linux_C语言（二）--指针" />
+<meta property="og:description" content="指针是C语言中广泛使用的一种数据类型，是C语言的灵魂。指针提供了动态操控内存的机制，强化了对数据结构的支持，而且实现了访问硬件的功能。学习指针是学习C语言中最重要的一环，能否正确理解和使用指针是我们是否掌握C语言的一个标志。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux_c%E8%AF%AD%E8%A8%80%E4%BA%8C-%E6%8C%87%E9%92%88/" />
+<meta property="article:published_time" content="2019-12-23T20:50:08+08:00" />
+<meta property="article:modified_time" content="2019-12-23T20:50:08+08:00" />
+
+
+
+  <title>
+  
+       嵌入式Linux_C语言（二）--指针 | Xing MHz 
+  
+  </title>
+
+  <link rel="canonical" href="https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux_c%E8%AF%AD%E8%A8%80%E4%BA%8C-%E6%8C%87%E9%92%88/">
+
+  
+  
+
+  
+  <link href="https://MHz-Xing.github.io/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://MHz-Xing.github.io/css/font.css" rel="stylesheet"> 
+    
+  
+  <link href="https://MHz-Xing.github.io/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://MHz-Xing.github.io/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet"> 
+  <link href="https://MHz-Xing.github.io/css/vendors/mdb/style.min.css" rel="stylesheet"> 
+  <link href="https://MHz-Xing.github.io/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"
+  
+      href="https://MHz-Xing.github.io/img/xing.svg"
+  
+  >
+
+
+  
+  
+
+  <style type="text/css">
+      @media (min-width: 800px) and (max-width: 850px) {
+              .navbar:not(.top-nav-collapse) {
+                  background: #1C2331!important;
+              }
+          }
+  </style>
+
+
+  
+    
+    <link rel="stylesheet" href="https://MHz-Xing.github.io/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+    
+    <link rel="stylesheet" href="https://MHz-Xing.github.io/css/vendors/highlight/github-gist.css">
+  
+  
+  
+  <link href="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet"></head>
+
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://MHz-Xing.github.io/">
+          
+        <img class="smallavatar" src="https://MHz-Xing.github.io/img/xing.svg" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> Xing MHz</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://MHz-Xing.github.io/">主页</a>
+          </li>
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/blog/" >文章  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/picture/" >照片  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/about/" >档案馆  </a>
+            </li>
+          
+          
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+  
+ 
+      
+ 
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;" >  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+      
+
+        
+        <div class="carousel-item active">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides/IMG_0264.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+              
+              
+              
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides//IMG_0276.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides//IMG_0593.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+
+  
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://MHz-Xing.github.io/">
+          
+            <img class="pull-right avatar avatar-md" src="https://avatars1.githubusercontent.com/u/16077406?s=460&amp;v=4" alt="" >
+          
+        </a>
+      </div>
+      
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://MHz-Xing.github.io/">
+          <h1 class="mb-2 h1" style="font-weight: 300;" >
+            <strong>Xing MHz</strong>
+          </h1>
+        </a>
+        
+
+             
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+            
+              <a href="//github.com/MHz-Xing" target="_blank" rel="noopener"><i class="fab fa-github pr-1" aria-hidden="true"></i></a>    
+            
+            
+              <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin pr-1" aria-hidden="true"></i></a>
+            
+
+            
+
+            
+            <a href="//weibo.com/2462050587" target="_blank" rel="noopener"><i class="fab fa-weibo pr-1" aria-hidden="true"></i></a>
+            
+
+            
+
+            
+    
+            
+                <a href="//cli.im/text?1c3bfd70c3d1d9ab80ca5543243dc57f" target="_blank" rel="noopener"><i class="fab fa-weixin pr-1" aria-hidden="true"></i></a>
+            
+    
+        
+            
+                <a href="mailto:xingzhh@126.com"><i class="far fa-envelope pr-1" aria-hidden="true"></i></a>
+            
+    
+            
+
+            
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://MHz-Xing.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 博客文章 </a></li>
+      
+        <li><a href="https://MHz-Xing.github.io/categories/%E6%8C%87%E9%92%88"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 指针 </a></li>
+      
+        <li><a href="https://MHz-Xing.github.io/categories/c"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> C </a></li>
+      
+    
+    
+      
+        <li><a href="https://MHz-Xing.github.io/series/c%E8%AF%AD%E8%A8%80"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>C语言</a></li>
+      
+    
+  </ul>
+
+  <div class="px-4 post-heading">嵌入式Linux_C语言（二）--指针</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Dec 23, 2019</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>9 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <p>指针是C语言中广泛使用的一种数据类型，是C语言的灵魂。指针提供了动态操控内存的机制，强化了对数据结构的支持，而且实现了访问硬件的功能。学习指针是学习C语言中最重要的一环，能否正确理解和使用指针是我们是否掌握C语言的一个标志。</p>
+
+<h2 id="一-指针的概念">一、指针的概念</h2>
+
+<p>在计算机中，所有的数据都是存放在内存中的，一般把内存中的一个字节称为一个内存单元，不同的数据类型所占用的内存单元数不一样，如int占用4个字 节，char占用1个字节。为了正确地访问内存单元，必须为每个内存单元编上号。每个内存单元的编号是唯一的，根据编号可以准确地找到该内存单元。内存单元的编号叫做地址（Address），也称为指针（Pointer）。因此理解指针的关键在于理解C程序如何管理内存。</p>
+
+<p>内存单元的指针和内存单元的内容是两个不同的概念。 可以用一个通俗的例子来说明它们之间的关系。我们每个人都有一个编号唯一的×××账户，×××存储了我们每个人的身份信息，×××号码就是账户的指针， 身份信息是账户的内容。对于一个内存单元来说，单元的地址（编号）即为指针，其中存放的数据才是该单元的内容。</p>
+
+<p>在C语言中，存放指针的变量称为指针变量。一个指针变量的值就是某个内存单元的地址或称为某内存单元的指针。设有字符变量c，其内容为 &lsquo;K&rsquo;（ASCII码为十进制数 75），c占用了0X11A号内存单元（地址通常用十六进数表示）。设有指针变量p，内容为 0X11A，这种情况我们称为p指向变量c，或说p是指向变量c的指针。</p>
+
+<p><img src="images/blog/C/2-1.jpg" alt="image" /></p>
+
+<h2 id="二-c语言指针类型分析">二、C语言指针类型分析</h2>
+
+<h3 id="1-c语言常见指针类型分析">1、C语言常见指针类型分析</h3>
+
+<p>int p;</p>
+
+<p>这是一个普通的整型变量</p>
+
+<p>int *p;</p>
+
+<p>首先从P处开始,先与*结合,所以说明P是一个指针,然后再与int结合,说明指针所指向的内容的类型为int 型.所以 P是一个返回整型数据的指针</p>
+
+<p>int p[3];</p>
+
+<p>首先从P处开始,先与[]结合,说明P是一个数组,然后与int结合,说明数组里的元素是整型的,所以 P是一个由整型数据组成的数组</p>
+
+<p>int *p[3];</p>
+
+<p>首先从P处开始,先与[]结合,因为其优先级比*高,所以P是一个数组,然后再与*结合,说明数组里的元素是指针类型,然后再与int结合,说明指针所指向的内容的类型是整型的,所以是一个由返回整型数据的指针所组成的数组</p>
+
+<p>int (*p)[3];</p>
+
+<p>首先从P处开始,先与*结合,说明P是一个指针然后再与[]结合(与&rdquo;()&ldquo;这步可以忽略,只是为了改变优先级),说明指针所指向的内容是一个数组,然后再与int结合,说明数组里的元素是整型的.所以P是一个指向由整型数据组成的数组的指针</p>
+
+<p>int **p;</p>
+
+<p>首先从 P开始,先与*结合,说明P是一个指针,然后再与*结合,说明指针所指向的元素是指针,然后再与 int结合,说明该指针所指向的元素是整型数据.所以P是一个返回指向整型数据的指针的指针</p>
+
+<p>int p(int);</p>
+
+<p>从P处起,先与()结合,说明P是一个函数,然后进入()里分析,说明该函数有一个整型变量的参数然后再与外面的int结合,说明函数的返回值是一个整型数据.所以P是一个有整型参数且返回类型为整型的函数</p>
+
+<p>int (*p)(int);</p>
+
+<p>从P处开始,先与指针结合,说明P是一个指针,然后与()结合,说明指针指向的是一个函数,然后再与()里的int 结合,说明函数有一个int 型的参数,再与最外层的int 结合,说明函数的返回类型是整型,所以P是一个指向有一个整型参数且返回类型为整型的函数的指针</p>
+
+<p>int *(*p(int))[3];</p>
+
+<p>从 P开始,先与()结合,说明P是一个函数,然后进入()里面,与int结合,说明函数有一个整型变量参数,然后再与外面的*结合,说明函数返回的是一个指针,然后到最外面一层,先与[]结合,说明返回的指针指向的是一个数组,然后再与*结合,说明数组里的元素是指针,然后再与int 结合,说明指针指向的内容是整型数据.所以P是一个参数为一个整数且返回一个指向由整型指针变量组成的数组的指针变量的函数。</p>
+
+<h3 id="2-指针分析">2、指针分析</h3>
+
+<pre><code>指针是一个特殊的变量，它里面存储的数值被解释成为内存里的一个地址。要搞清一个指针需要搞清指针的四方面的内容：指针的类型、指针所指向的类型、指针的值或者叫指针所指向的内存区、指针本身所占据的内存区。
+</code></pre>
+
+<p>A、指针的类型</p>
+
+<p>把指针声明语句里的指针名字去掉，剩下的部分就是这个指针的类型</p>
+
+<p>B、指针所指向的类型</p>
+
+<p>把指针声明语句中的指针名字和名字左边的指针声明符*去掉，剩下的就是指针所指向的类型（在指针的算术运算中，指针所指向的类型有很大的作用）</p>
+
+<p>C、指针所指向的内存区</p>
+
+<p>指针变量定义之后必须赋值才能使用，指针所指向的内存区从指针的值所代表的那个内存地址开始，长度为sizeof(指针所指向的类型)的一片内存区。一个变量指针指向了某块内存区域，就相当于说该指针变量的值是这块内存区域的首地址。如果指针变量指向的内存区未初始化，则该内存区保存的是垃圾数据。如同变量定义之后不赋值就会是垃圾值一样，指针定义后也必须赋值指定合法内存地址，否则解引用将会出错（段错误）</p>
+
+<p>D、指针本身所占据的内存区</p>
+
+<p>用函数sizeof(指针的类型)可以测出指针本身所占据的内存区（在 32位平台里，指针本身占据了 4个字节的长度） 。</p>
+
+<h3 id="3-指针的强制类型转换">3、指针的强制类型转换</h3>
+
+<p>当我们初始化一个指针或给一个指针赋值时，赋值号的左边是一个指针，赋值号的右边是一个指针表达式，这就要求两边的类型一致，所指向的类型也一致，如果不一致的话，需要进行强制类型转换。语法格式是：(TYPE *)p。</p>
+
+<p>这样强制类型转换的结果是一个新指针，该新指针的类型是TYPE*，它指向的类型是TYPE，它指向的地址就是原指针指向的地址。要注意的是，原来的指针p的一切属性都没有被修改。</p>
+
+<p>另外，一个函数如果使用了指针作为形参， 那么在函数调用语句的实参和形参的结合过程中，也必须保证类型一致 ，否则需要强制转换。</p>
+
+<h3 id="4-const与指针">4、const与指针</h3>
+
+<p>const int *p;指针p为变量，指针指向的内存空间存储的是常量</p>
+
+<p>int const *p;指针p为变量，指针指向的内存空间存储的是常量</p>
+
+<p>int * cosnt p;指针是常量，指针指向的内存空间存储的是变量</p>
+
+<p>const int * const p;指针是常量，指针指向的内存空间存储的是常量</p>
+
+<h3 id="5-野指针">5、野指针</h3>
+
+<p>野指针是指向的地址不可预知的指针。野指针容易触发运行时段错误。一般来说，指针定义后如果没有赋值就使用就是一个野指针，指向的内存地址空间是不确定的。避免野指针的一般做法：</p>
+
+<pre><code>A、定义指针时初始化为NULL
+
+B、解引用指针前将指针赋值
+
+C、解引用指针前检查指针是否是NULL
+
+D、指针使用完毕后赋值NULL
+</code></pre>
+
+<pre><code>int a;
+int *p = NULL;
+p = &amp;a;
+
+if(NULL != p)
+{
+    *p = 3;
+}
+p = NULL;
+</code></pre>
+
+<h2 id="三-指针变量的赋值">三、指针变量的赋值</h2>
+
+<p>指针变量同普通变量一样，使用之前不仅要定义说明，而且必须赋予具体的值。未经赋值的指针变量不能使用，否则将造成系统混乱，甚至死机。指针变量的赋值只能赋予地址，决不能赋予任何其它数据，否则将引起错误。在Ｃ语言中，变量的地址是由编译系统分配的，对用户完全透明，用户不知道变量的具体地址。Ｃ语言中提供了地址运算符&amp;来表示变量的地址。其一般形式为：</p>
+
+<pre><code>&amp; 变量名；
+</code></pre>
+
+<p>如&amp;a变示变量a的地址，&amp;b表示变量b的地址。 变量本身必须预先说明。</p>
+
+<p>指针变量的赋值方式有两种：</p>
+
+<h3 id="1-指针变量初始化的方法">1、指针变量初始化的方法</h3>
+
+<pre><code>int a;
+int *p = &amp;a;
+</code></pre>
+
+<h3 id="2-赋值语句的方法">2、赋值语句的方法</h3>
+
+<pre><code>int a;
+int *p;
+p = &amp;a;
+</code></pre>
+
+<p>不允许把一个数赋予指针变量，故下面的赋值是错误的：</p>
+
+<pre><code>int *p;p=1000;
+</code></pre>
+
+<p>被赋值的指针变量前不能再加“*”说明符，如写为下面的方式也是错误的。</p>
+
+<pre><code>*p=&amp;a
+</code></pre>
+
+<h2 id="四-指针变量的运算">四、指针变量的运算</h2>
+
+<p>指针变量可以进行某些运算，但其运算的种类是有限的。 它只能进行赋值运算和部分算术运算及关系运算。</p>
+
+<h3 id="1-指针运算符">1、指针运算符</h3>
+
+<p><strong>A、取地址运算符  &amp;</strong></p>
+
+<p>取地址运算符&amp;是单目运算符，其结合性为自右至左，其功能是取变量的地址。&amp;a的运算结果是一个指针，指针的类型是a的类型加个*，指针所指向的类型是a的类型，指针所指向的地址嘛，那就是a的地址。</p>
+
+<p><strong>B、取内容运算符</strong>*
+　　
+取内容运算符*是单目运算符，其结合性为自右至左，用来表示指针变量所指的变量。在*运算符之后跟的变量必须是指针变量。需要注意的是指针运算符*和指针变量说明中的指针说明符*不是一回事。在指针变量说明中，“*”是类型说明符，表示其后的变量是指针类型。而表达式中出现的“*”则是一个运算符，用以表示指针变量所指的变量。</p>
+
+<h3 id="2-指针变量的运算">2、指针变量的运算</h3>
+
+<p><strong>A、赋值运算</strong></p>
+
+<p>指针变量的赋值运算有以下几种形式：</p>
+
+<p>指针变量初始化赋值</p>
+
+<p>把一个变量的地址赋予指向相同数据类型的指针变量</p>
+
+<pre><code>int a,*pa;
+
+pa=&amp;a; /*把整型变量a的地址赋予整型指针变量pa*/
+</code></pre>
+
+<p>把一个指针变量的值赋予指向相同类型变量的另一个指针变量</p>
+
+<pre><code>int a,*pa=&amp;a,*pb;
+
+pb=pa; /*把a的地址赋予指针变量pb*/
+</code></pre>
+
+<p>把数组的首地址赋予指向数组的指针变量</p>
+
+<pre><code>int a[5],*pa;
+
+pa=a; (数组名表示数组的首地址，故可赋予指向数组的指针变量pa)
+</code></pre>
+
+<p>把字符串的首地址赋予指向字符类型的指针变量。</p>
+
+<pre><code>char *pc;pc=&quot;c language&quot;;
+
+char *pc=&quot;C Language&quot;;
+</code></pre>
+
+<p>把函数的入口地址赋予指向函数的指针变量</p>
+
+<pre><code>int (*pf)();
+
+pf=f; /*f为函数名*/
+</code></pre>
+
+<p><strong>B、加减算术运算</strong></p>
+
+<p>指针变量加或减一个整数n的意义是把指针指向的当前位置(指向某数组元素)向前或向后移动n个位置。应该注意，数组指针变量向前或向后移动一个位置和地址 加1或减1 在概念上是不同的。因为数组可以有不同的类型， 各种类型的数组元素所占的字节长度是不同的。如指针变量加1，即向后移动1 个位置表示指针变量指向下一个数据元素的首地址。而不是在原地址基础上加1。</p>
+
+<pre><code>int a[5],*pa;
+pa=a; /*pa指向数组a，也是指向a[0]*/
+pa=pa+2; /*pa指向a[2]，即pa的值为&amp;pa[2]*/
+</code></pre>
+
+<p>指针变量的加减运算只能对数组指针变量进行， 对指向其它类型变量的指针变量作加减运算是毫无意义的。</p>
+
+<p><strong>C、指针变量之间的运算</strong></p>
+
+<p>两个指针变量之间的运算只有指向同一数组的两个指针变量之间才能进行运算， 否则运算毫无意义。</p>
+
+<ul>
+<li>两指针变量相减</li>
+</ul>
+
+<p>两指针变量相减所得之差是两个指针所指数组元素之间相差的元素个数。实际上是两个指针值(地址) 相减之差再除以该数组元素的长度(字节数)。例如pf1和pf2 是指向同一浮点数组的两个指针变量，设pf1的值为2010H，pf2的值为2000H，而浮点数组每个元素占4个字节，所以pf1-pf2的结果为 (2000H-2010H)/4=4，表示pf1和 pf2之间相差4个元素。两个指针变量不能进行加法运算。 例如， pf1+pf2是什么意思呢?毫无实际意义。</p>
+
+<ul>
+<li>两指针变量进行关系运算</li>
+</ul>
+
+<p>指向同一数组的两指针变量进行关系运算可表示它们所指数组元素之间的关系。例如：</p>
+
+<pre><code>pf1==pf2 //表示pf1和pf2指向同一数组元素
+
+pf1&gt;pf2 //表示pf1处于高地址位置
+
+pf1&lt;pf2 //表示pf2处于低地址位置
+</code></pre>
+
+<p>指针变量还可以与0比较。设p为指针变量，则p==0表明p是空指针，它不指向任何变量；p!=0表示p不是空指针。空指针是由对指针变量赋予0值而得到的。</p>
+
+<p>例如：</p>
+
+<pre><code>#define NULL 0int *p=NULL;
+</code></pre>
+
+<p>对指针变量赋0值和不赋值是不同的。指针变量未赋值时，可以是任意值，是不能使用的。否则将造成意外错误。而指针变量赋0值后，则可以使用，只是它不指向 具体的变量而已。</p>
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://MHz-Xing.github.io/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://MHz-Xing.github.io/tags/tag" role="button">TAG </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux_c%E8%AF%AD%E8%A8%80%E4%B8%80-%E4%BD%8D%E8%BF%90%E7%AE%97%E7%9A%84%E4%BD%BF%E7%94%A8/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>嵌入式linux_C语言（一）--位运算的使用</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://MHz-Xing.github.io/blog/2018-07/theme-preview/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>Theme preview</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- 目录 - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%80-%e6%8c%87%e9%92%88%e7%9a%84%e6%a6%82%e5%bf%b5">
+												 一、指针的概念
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%ba%8c-c%e8%af%ad%e8%a8%80%e6%8c%87%e9%92%88%e7%b1%bb%e5%9e%8b%e5%88%86%e6%9e%90">
+												 二、C语言指针类型分析
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-c%e8%af%ad%e8%a8%80%e5%b8%b8%e8%a7%81%e6%8c%87%e9%92%88%e7%b1%bb%e5%9e%8b%e5%88%86%e6%9e%90">
+												 1、C语言常见指针类型分析
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e6%8c%87%e9%92%88%e5%88%86%e6%9e%90">
+												 2、指针分析
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e6%8c%87%e9%92%88%e7%9a%84%e5%bc%ba%e5%88%b6%e7%b1%bb%e5%9e%8b%e8%bd%ac%e6%8d%a2">
+												 3、指针的强制类型转换
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#4-const%e4%b8%8e%e6%8c%87%e9%92%88">
+												 4、const与指针
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#5-%e9%87%8e%e6%8c%87%e9%92%88">
+												 5、野指针
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%89-%e6%8c%87%e9%92%88%e5%8f%98%e9%87%8f%e7%9a%84%e8%b5%8b%e5%80%bc">
+												 三、指针变量的赋值
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e6%8c%87%e9%92%88%e5%8f%98%e9%87%8f%e5%88%9d%e5%a7%8b%e5%8c%96%e7%9a%84%e6%96%b9%e6%b3%95">
+												 1、指针变量初始化的方法
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e8%b5%8b%e5%80%bc%e8%af%ad%e5%8f%a5%e7%9a%84%e6%96%b9%e6%b3%95">
+												 2、赋值语句的方法
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%9b%9b-%e6%8c%87%e9%92%88%e5%8f%98%e9%87%8f%e7%9a%84%e8%bf%90%e7%ae%97">
+												 四、指针变量的运算
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e6%8c%87%e9%92%88%e8%bf%90%e7%ae%97%e7%ac%a6">
+												 1、指针运算符
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e6%8c%87%e9%92%88%e5%8f%98%e9%87%8f%e7%9a%84%e8%bf%90%e7%ae%97">
+												 2、指针变量的运算
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+      <a href="//github.com/MHz-Xing " target="_blank" rel="noopener"><i class="fab fa-github mr-3" aria-hidden="true"></i></a>    
+    
+    
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+    <a href="//weibo.com/2462050587" target="_blank" rel="noopener"><i class="fab fa-weibo mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+    
+        <a href="//cli.im/text?1c3bfd70c3d1d9ab80ca5543243dc57f" target="_blank" rel="noopener"><i class="fab fa-weixin mr-3" aria-hidden="true"></i></a>
+    
+
+
+    
+        <a href="mailto:xingzhh@126.com"><i class="far fa-envelope mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span>  2016 - 2019 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne' target="_blank">AllinOne</a> Modefied by <a href='https://github.com/MHz-Xing' target="_blank">MHz-Xing</a>  </span>
+  </div>
+  
+
+</footer>
+
+
+    
+
+
+
+
+
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/main.js"></script>
+
+
+
+  
+  <script src="https://MHz-Xing.github.io/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+ 
+  <script src="https://MHz-Xing.github.io/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://MHz-Xing.github.io/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  </body>
+</html>

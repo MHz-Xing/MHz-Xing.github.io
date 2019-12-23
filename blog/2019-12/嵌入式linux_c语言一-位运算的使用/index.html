@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  <meta name="author" content="Xing MHz">
+  <meta name="description" content="ARM是内存与IO统一编址，SoC中有很多控制寄存器，通过对这些寄存器进行位运算对这些控制寄存器进行设置，进而控制外设功能。在修改寄存器某些位的过程中不能修改其他的位。">
+  
+  <meta property="og:title" content="嵌入式linux_C语言（一）--位运算的使用" />
+<meta property="og:description" content="ARM是内存与IO统一编址，SoC中有很多控制寄存器，通过对这些寄存器进行位运算对这些控制寄存器进行设置，进而控制外设功能。在修改寄存器某些位的过程中不能修改其他的位。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux_c%E8%AF%AD%E8%A8%80%E4%B8%80-%E4%BD%8D%E8%BF%90%E7%AE%97%E7%9A%84%E4%BD%BF%E7%94%A8/" />
+<meta property="article:published_time" content="2019-12-23T20:43:04+08:00" />
+<meta property="article:modified_time" content="2019-12-23T20:43:04+08:00" />
+
+
+
+  <title>
+  
+       嵌入式linux_C语言（一）--位运算的使用 | Xing MHz 
+  
+  </title>
+
+  <link rel="canonical" href="https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux_c%E8%AF%AD%E8%A8%80%E4%B8%80-%E4%BD%8D%E8%BF%90%E7%AE%97%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+  
+  
+
+  
+  <link href="https://MHz-Xing.github.io/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://MHz-Xing.github.io/css/font.css" rel="stylesheet"> 
+    
+  
+  <link href="https://MHz-Xing.github.io/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://MHz-Xing.github.io/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet"> 
+  <link href="https://MHz-Xing.github.io/css/vendors/mdb/style.min.css" rel="stylesheet"> 
+  <link href="https://MHz-Xing.github.io/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"
+  
+      href="https://MHz-Xing.github.io/img/xing.svg"
+  
+  >
+
+
+  
+  
+
+  <style type="text/css">
+      @media (min-width: 800px) and (max-width: 850px) {
+              .navbar:not(.top-nav-collapse) {
+                  background: #1C2331!important;
+              }
+          }
+  </style>
+
+
+  
+    
+    <link rel="stylesheet" href="https://MHz-Xing.github.io/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+    
+    <link rel="stylesheet" href="https://MHz-Xing.github.io/css/vendors/highlight/github-gist.css">
+  
+  
+  
+  <link href="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet"></head>
+
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://MHz-Xing.github.io/">
+          
+        <img class="smallavatar" src="https://MHz-Xing.github.io/img/xing.svg" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> Xing MHz</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://MHz-Xing.github.io/">主页</a>
+          </li>
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/blog/" >文章  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/picture/" >照片  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/about/" >档案馆  </a>
+            </li>
+          
+          
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+  
+ 
+      
+ 
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;" >  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+      
+
+        
+        <div class="carousel-item active">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides/IMG_0264.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+              
+              
+              
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides//IMG_0276.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides//IMG_0593.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+
+  
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://MHz-Xing.github.io/">
+          
+            <img class="pull-right avatar avatar-md" src="https://avatars1.githubusercontent.com/u/16077406?s=460&amp;v=4" alt="" >
+          
+        </a>
+      </div>
+      
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://MHz-Xing.github.io/">
+          <h1 class="mb-2 h1" style="font-weight: 300;" >
+            <strong>Xing MHz</strong>
+          </h1>
+        </a>
+        
+
+             
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+            
+              <a href="//github.com/MHz-Xing" target="_blank" rel="noopener"><i class="fab fa-github pr-1" aria-hidden="true"></i></a>    
+            
+            
+              <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin pr-1" aria-hidden="true"></i></a>
+            
+
+            
+
+            
+            <a href="//weibo.com/2462050587" target="_blank" rel="noopener"><i class="fab fa-weibo pr-1" aria-hidden="true"></i></a>
+            
+
+            
+
+            
+    
+            
+                <a href="//cli.im/text?1c3bfd70c3d1d9ab80ca5543243dc57f" target="_blank" rel="noopener"><i class="fab fa-weixin pr-1" aria-hidden="true"></i></a>
+            
+    
+        
+            
+                <a href="mailto:xingzhh@126.com"><i class="far fa-envelope pr-1" aria-hidden="true"></i></a>
+            
+    
+            
+
+            
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://MHz-Xing.github.io/categories/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 博客文章 </a></li>
+      
+        <li><a href="https://MHz-Xing.github.io/categories/%E4%BD%8D%E8%BF%90%E7%AE%97"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> ”位运算” </a></li>
+      
+        <li><a href="https://MHz-Xing.github.io/categories/c"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> “C” </a></li>
+      
+    
+    
+      
+        <li><a href="https://MHz-Xing.github.io/series/c%E8%AF%AD%E8%A8%80"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>C语言</a></li>
+      
+    
+  </ul>
+
+  <div class="px-4 post-heading">嵌入式linux_C语言（一）--位运算的使用</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Dec 23, 2019</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>7 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <p>ARM是内存与IO统一编址，SoC中有很多控制寄存器，通过对这些寄存器进行位运算对这些控制寄存器进行设置，进而控制外设功能。在修改寄存器某些位的过程中不能修改其他的位。</p>
+
+<h2 id="一-位运算基础">一、位运算基础</h2>
+
+<p>C语言基本的位操作符有与、或、异或、取反、左移、右移六种位运算符。如下表所示：</p>
+
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>描述</th>
+<th>运算规则</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>&amp;</td>
+<td>与</td>
+<td>两个位都为1时，结果才为1</td>
+</tr>
+
+<tr>
+<td>|</td>
+<td>或</td>
+<td>两个位都为0时，结果才为0</td>
+</tr>
+
+<tr>
+<td>^</td>
+<td>异或</td>
+<td>两个位相同为0，相异为1</td>
+</tr>
+
+<tr>
+<td>~</td>
+<td>取反</td>
+<td>0变1，1变0</td>
+</tr>
+
+<tr>
+<td>&lt;&lt;</td>
+<td>左移</td>
+<td>各二进位全部左移若干位，高位丢弃，低位补0</td>
+</tr>
+
+<tr>
+<td>&gt;&gt;</td>
+<td>右移</td>
+<td>各二进位全部右移若干位，对无符号数，高位补0，有符号数，各编译器处理方法不一样，有的补符号位（算术右移），有的补0（逻辑右移）</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="位运算使用说明">位运算使用说明：</h4>
+
+<p>1、六种位运算只能用于整型数据，对float和double类型进行位操作会被编译器报错。</p>
+
+<p>2、逻辑运算与位运算的区别：逻辑运算是将参与运算的两个表达式整体的结果进行逻辑运算，而位运算是将参与运算的两个数据，按对应的二进制数逐位进行逻辑运算。逻辑运算符有逻辑与&amp;&amp;、逻辑或||、逻辑非！，位运算则有六种运算符，位与&amp;、位或|、位异或^、位取反~、位左移&lt;&lt;、位右移&gt;&gt;。</p>
+
+<p>3、如果左移位数&gt;=类型长度，在GCC环境下，GCC编译器会报警告，但实际左移位数为左移位数%(8 * sizeof(int))。例如：</p>
+
+<pre><code>int i = 0x00000001; //设int为32位
+int j = 0x80000000; //设int为32位
+i = i &lt;&lt; 33;   // 33 % 32 = 1 左移1位,i变成2
+j = j &lt;&lt; 33;   // 33 % 32 = 1 左移1位,j变成0,最高位被丢弃
+</code></pre>
+
+<p>4、在C语言中,左移是逻辑/算术左移(两者完全相同),右移是算术右移,会保持符号位不变。左移时总是移位和补零。右移时无符号数是移位和补零，此时称为逻辑右移;而有符号数大多数情况下是移位和补最左边的位（也就是补最高有效位），移几位就补几位,此时称为算术右移。 算术移位是相对于逻辑移位，它们在左移操作中都一样，低位补0即可，但在右移中逻辑移位的高位补0而算术移位的高位是补符号位。</p>
+
+<p>右移对符号位的处理和左移不同,对于有符号整数来说,比如int类型,右移会保持符号位不变。符号位向右移动后,正数的话补0,负数补1,也就是汇编语言中的算术右移。当移动的位数超过类型的长度时,会取余数,然后移动余数个位。</p>
+
+<pre><code>int i = 0x80000000;
+
+i = i &gt;&gt; 1;  //i的值不会变成0x40000000,而会变成0xc0000000
+</code></pre>
+
+<p>5、位操作符的运算优先级比较低，因为尽量使用括号来确保运算顺序，否则很可能会得到莫明其妙 的结果。
+比如要得到像1，3，5，9这些2^i+1的数字。</p>
+
+<pre><code>int a = 1 &lt;&lt; i + 1;   //是不对的，程序会先执行i + 1，再执行左移操作。
+int a = (1 &lt;&lt; i) + 1; //通过括号确保优先级顺序正确
+</code></pre>
+
+<h2 id="二-位运算的使用">二、位运算的使用</h2>
+
+<h3 id="1-位与运算">1、位与运算  &amp;</h3>
+
+<p>位与运算的实质是将参与运算的两个数据，按对应的二进制数逐位进行逻辑与运算。典型应用如下：</p>
+
+<ul>
+<li><p>特定数据段清零</p>
+
+<p>快速对某一段数据单元的数据清零</p>
+
+<pre><code>unsigned int a = 0x00FF1278;
+
+a &amp;= 0xFFFF0FFF;//对a的bit12--bit15位进行清零，a=0x00FF0278
+
+//a &amp;= ~(0xF&lt;&lt;12) ;//对a的bit12--bit15位进行清零，a=0x00FF0278
+</code></pre></li>
+
+<li><p>保留数据区的特定位</p>
+
+<pre><code>unsigned int a = 0x00FF1278;
+
+a &amp;= (0xF&lt;&lt;12);//保留a的bit12--bit15位，其他清零，a=0x00001000
+</code></pre></li>
+
+<li><p>判断奇偶数</p>
+
+<p>只要根据最未位是0还是1来决定，为0就是偶数，为1就是奇数。因此可以用
+if ((a &amp; 1) == 0)代替if (a % 2 == 0)来判断a是不是偶数</p></li>
+</ul>
+
+<h3 id="2-位或运算符">2、位或运算符  |</h3>
+
+<p>位或运算的实质是将参与运算的两个数据，按对应的二进制数逐位进行逻辑或运算。典型应用如下：</p>
+
+<p>A、对数据位置1</p>
+
+<pre><code>unsigned int a = 0x00FF0278;
+
+a |= 0x0000F000;//对a的第12-15位置1，a=0x00FFF278
+
+//a |= (0xF&lt;&lt;12);//对a的第12-15位置1，a=0x00FFF278
+</code></pre>
+
+<h3 id="3-位异或">3、位异或  ^</h3>
+
+<p>位异或运算的实质是将参与运算的两个数据，按对应的二进制数逐位进行逻辑异或运算。只有当对应位的二进制数互斥的时候，对应位的结果才为真。典型应用如下：</p>
+
+<p><strong>A、特定位取反</strong></p>
+
+<p>设定一个数据的指定位，将1换为0，0换为1。例如整型数a=321,，将其低八位数据进行翻位的操作为a=a^0XFF。</p>
+
+<p><strong>B、数值交换</strong></p>
+
+<pre><code>a=a^b;
+
+b=b^a;
+
+a=a^b;
+</code></pre>
+
+<p>不使用第三方变量可以用位操作来实现交换两数</p>
+
+<h3 id="4-位非">4、位非~</h3>
+
+<p>位非运算的实质是将参与运算的两个数据，按对应的二进制数逐位进行逻辑非运算。</p>
+
+<p>A、变换符号</p>
+
+<p>变换符号只需要取反后加1</p>
+
+<h3 id="5-位左移">5、位左移&lt;&lt;</h3>
+
+<p>左移运算的实质是将对应的数据的二进制值逐位左移若干位，并在空出的位置上填0，最高位溢出并舍弃。</p>
+
+<h3 id="6-位右移">6、位右移&gt;&gt;</h3>
+
+<p>位右移运算的实质是将对应的数据的二进制值逐位右移若干位，并舍弃出界的数字。如果当前的数为无符号数，高位补零。</p>
+
+<p>如果当前的数据为有符号数，在进行右移的时候，根据符号位决定左边补0还是补1。如果符号位为0，则左边补0；但是如果符号位为1，则根据不同的计算机系统，可能有不同的处理方式。可以看出位右移运算，可以实现对除数为2的整除运算。</p>
+
+<p>==提示：将所有对2的整除运算转换为位移运算，可提高程序的运行效率。==</p>
+
+<p>A、求绝对值</p>
+
+<pre><code>int i = a &gt;&gt; 31;  
+
+return i == 0 ? a : (~a + 1);
+</code></pre>
+
+<p>或</p>
+
+<pre><code>int i = a &gt;&gt; 31;  
+
+return ((a ^ i) - i);
+</code></pre>
+
+<h3 id="7-嵌入式开发中常用位操作">7、嵌入式开发中常用位操作</h3>
+
+<p>A、将寄存器指定位（第n位）置为1</p>
+
+<pre><code>GPXX |= (1&lt;&lt;n) 
+
+GPXX |= (1&lt;&lt; 7) | (1&lt;&lt; 4 ) | (1&lt;&lt; 0)；//第0、4、7位置1，其他保留
+</code></pre>
+
+<p>B、将寄存器指定位（第n位）置为0</p>
+
+<pre><code>GPXX &amp;= ~（1&lt;&lt;n )  //将寄存器的第n位清0，而又不影响其它位的现有状态。
+
+GPXX &amp;= ~（1&lt;&lt;4 )
+</code></pre>
+
+<p>C、嵌入式开发位操作实例</p>
+
+<pre><code>unsigned int i = 0x00ff1234;
+
+//i |= (0x1&lt;&lt;13);//bit13置1
+
+//i |= (0xF&lt;&lt;4);//bit4-bit7置1
+
+//i &amp;= ~(1&lt;&lt;17);//清除bit17
+
+//i &amp;= ~(0x1f&lt;&lt;12);//清除bit12开始的5位
+
+
+//取出bit3-bit8
+
+//i &amp;= (0x3F&lt;&lt;3);//保留bit3-bit8，其他位清零
+
+//i &gt;&gt;= 3;//右移3位
+
+
+//给寄存器的bit7-bit17赋值937
+
+//i &amp;= ~(0x7FF&lt;&lt;7);//bit7-bit17清零
+
+//i |= (937&lt;&lt;7);//bit7-bit17赋值
+
+
+//将寄存器bit7-bit17的值加17
+
+// unsigned int a = i;//将a作为i的副本，避免i的其他位被修改
+
+// a &amp;= (0x7FF&lt;&lt;7);//取出bit7-bit17
+
+//a &gt;&gt;= 7;//
+
+// a += 17;//加17
+
+// i &amp;= ~(0x7FF&lt;&lt;7);//将i的bit7-bit17清零
+
+// i |= (a&lt;&lt;7);//将+17后的数写入bit7-bit17，其他位不变
+
+
+
+//给一个寄存器的bit7-bit17赋值937，同时给bit21-bit25赋值17
+
+i &amp;= ~((0x7FF&lt;&lt;7) | (0x1F&lt;&lt;21));//bit7-bit17、bit21-bit25清零
+
+i |= ((937&lt;&lt;7) | (17&lt;&lt;21));//bit7-bit17、bit21-bit25赋值
+</code></pre>
+
+<h2 id="三-位操作的宏定义">三、位操作的宏定义</h2>
+
+<pre><code>//用宏定义将32位数x的第n位(bit0为第1位)置位
+#define SET_BIT_N(x,n) (x | (1U&lt;&lt;(n-1)))
+
+//用宏定义将32位数x的第n位(bit0为第1位)清零
+#define CLEAR_BIT_N(x,n) (x &amp; (~(1U&lt;&lt;(n-1))))
+
+//用宏定义将32位数x的第n位到第m位(bit0为第1位)置位
+#define SET_BITS_N_M(x,n,m) (x | (((~0U)&gt;&gt;(32-(m-n+1)))&lt;&lt;(n-1)))
+
+//用宏定义将32位数x的第n位到第m位(bit0为第1位)清零
+#define CLEAR_BITS_N_M(x,n,m) (x &amp; (~(((~0U)&gt;&gt;(32-(m-n+1)))&lt;&lt;(n-1))))
+
+//用宏定义获取32位数x的第n位到第m位(bit0为第1位)的部分
+#define GET_BITS_N_M(x,n,m) ((x &amp; ~(~(0U)&lt;&lt;(m-n+1))&lt;&lt;(n-1))&gt;&gt;(n-1))
+</code></pre>
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://MHz-Xing.github.io/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://MHz-Xing.github.io/tags/tag" role="button">TAG </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://MHz-Xing.github.io/blog/2019-10/win-hugo-github%E6%90%AD%E5%BB%BA%E9%9D%99%E6%80%81blogmd%E6%A0%BC%E5%BC%8F/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>Win&#43;Hugo&#43;GitHub搭建静态Blog[MD格式]</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux_c%E8%AF%AD%E8%A8%80%E4%BA%8C-%E6%8C%87%E9%92%88/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>嵌入式Linux_C语言（二）--指针</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- 目录 - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%80-%e4%bd%8d%e8%bf%90%e7%ae%97%e5%9f%ba%e7%a1%80">
+												 一、位运算基础
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%bd%8d%e8%bf%90%e7%ae%97%e4%bd%bf%e7%94%a8%e8%af%b4%e6%98%8e">
+												 位运算使用说明：
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%ba%8c-%e4%bd%8d%e8%bf%90%e7%ae%97%e7%9a%84%e4%bd%bf%e7%94%a8">
+												 二、位运算的使用
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e4%bd%8d%e4%b8%8e%e8%bf%90%e7%ae%97">
+												 1、位与运算 &amp;
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e4%bd%8d%e6%88%96%e8%bf%90%e7%ae%97%e7%ac%a6">
+												 2、位或运算符 |
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e4%bd%8d%e5%bc%82%e6%88%96">
+												 3、位异或 ^
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#4-%e4%bd%8d%e9%9d%9e">
+												 4、位非~
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#5-%e4%bd%8d%e5%b7%a6%e7%a7%bb">
+												 5、位左移&lt;&lt;
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#6-%e4%bd%8d%e5%8f%b3%e7%a7%bb">
+												 6、位右移&gt;&gt;
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#7-%e5%b5%8c%e5%85%a5%e5%bc%8f%e5%bc%80%e5%8f%91%e4%b8%ad%e5%b8%b8%e7%94%a8%e4%bd%8d%e6%93%8d%e4%bd%9c">
+												 7、嵌入式开发中常用位操作
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%89-%e4%bd%8d%e6%93%8d%e4%bd%9c%e7%9a%84%e5%ae%8f%e5%ae%9a%e4%b9%89">
+												 三、位操作的宏定义
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+      <a href="//github.com/MHz-Xing " target="_blank" rel="noopener"><i class="fab fa-github mr-3" aria-hidden="true"></i></a>    
+    
+    
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+    <a href="//weibo.com/2462050587" target="_blank" rel="noopener"><i class="fab fa-weibo mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+    
+        <a href="//cli.im/text?1c3bfd70c3d1d9ab80ca5543243dc57f" target="_blank" rel="noopener"><i class="fab fa-weixin mr-3" aria-hidden="true"></i></a>
+    
+
+
+    
+        <a href="mailto:xingzhh@126.com"><i class="far fa-envelope mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span>  2016 - 2019 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne' target="_blank">AllinOne</a> Modefied by <a href='https://github.com/MHz-Xing' target="_blank">MHz-Xing</a>  </span>
+  </div>
+  
+
+</footer>
+
+
+    
+
+
+
+
+
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/main.js"></script>
+
+
+
+  
+  <script src="https://MHz-Xing.github.io/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+ 
+  <script src="https://MHz-Xing.github.io/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://MHz-Xing.github.io/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  </body>
+</html>

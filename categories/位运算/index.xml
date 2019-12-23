@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>”位运算” on Xing MHz</title>
+    <link>https://MHz-Xing.github.io/categories/%E4%BD%8D%E8%BF%90%E7%AE%97/</link>
+    <description>Recent content in ”位运算” on Xing MHz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Mon, 23 Dec 2019 20:43:04 +0800</lastBuildDate>
+    
+	<atom:link href="https://MHz-Xing.github.io/categories/%E4%BD%8D%E8%BF%90%E7%AE%97/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>嵌入式linux_C语言（一）--位运算的使用</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux_c%E8%AF%AD%E8%A8%80%E4%B8%80-%E4%BD%8D%E8%BF%90%E7%AE%97%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Mon, 23 Dec 2019 20:43:04 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux_c%E8%AF%AD%E8%A8%80%E4%B8%80-%E4%BD%8D%E8%BF%90%E7%AE%97%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+      <description>&lt;p&gt;ARM是内存与IO统一编址，SoC中有很多控制寄存器，通过对这些寄存器进行位运算对这些控制寄存器进行设置，进而控制外设功能。在修改寄存器某些位的过程中不能修改其他的位。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
