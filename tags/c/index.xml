@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>C语言 on Xing MHz</title>
-    <link>https://MHz-Xing.github.io/series/c%E8%AF%AD%E8%A8%80/</link>
-    <description>Recent content in C语言 on Xing MHz</description>
+    <title>C on Xing MHz</title>
+    <link>https://MHz-Xing.github.io/tags/c/</link>
+    <description>Recent content in C on Xing MHz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zn-Hans</language>
     <lastBuildDate>Mon, 23 Dec 2019 20:50:08 +0800</lastBuildDate>
     
-	<atom:link href="https://MHz-Xing.github.io/series/c%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://MHz-Xing.github.io/tags/c/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>嵌入式Linux_C语言（二）--指针</title>
-      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux_c%E8%AF%AD%E8%A8%80%E4%BA%8C-%E6%8C%87%E9%92%88/</link>
+      <title>嵌入式Linux-C语言（二）--指针</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%BA%8C-%E6%8C%87%E9%92%88/</link>
       <pubDate>Mon, 23 Dec 2019 20:50:08 +0800</pubDate>
       
-      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux_c%E8%AF%AD%E8%A8%80%E4%BA%8C-%E6%8C%87%E9%92%88/</guid>
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%BA%8C-%E6%8C%87%E9%92%88/</guid>
       <description>&lt;p&gt;指针是C语言中广泛使用的一种数据类型，是C语言的灵魂。指针提供了动态操控内存的机制，强化了对数据结构的支持，而且实现了访问硬件的功能。学习指针是学习C语言中最重要的一环，能否正确理解和使用指针是我们是否掌握C语言的一个标志。&lt;/p&gt;</description>
     </item>
     
     <item>
-      <title>嵌入式linux_C语言（一）--位运算的使用</title>
-      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux_c%E8%AF%AD%E8%A8%80%E4%B8%80-%E4%BD%8D%E8%BF%90%E7%AE%97%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+      <title>嵌入式linux-C语言（一）--位运算的使用</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%B8%80-%E4%BD%8D%E8%BF%90%E7%AE%97%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Mon, 23 Dec 2019 20:43:04 +0800</pubDate>
       
-      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux_c%E8%AF%AD%E8%A8%80%E4%B8%80-%E4%BD%8D%E8%BF%90%E7%AE%97%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%B8%80-%E4%BD%8D%E8%BF%90%E7%AE%97%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
       <description>&lt;p&gt;ARM是内存与IO统一编址，SoC中有很多控制寄存器，通过对这些寄存器进行位运算对这些控制寄存器进行设置，进而控制外设功能。在修改寄存器某些位的过程中不能修改其他的位。&lt;/p&gt;</description>
     </item>
     
