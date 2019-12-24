@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>安全问题 on Xing MHz</title>
+    <link>https://MHz-Xing.github.io/tags/%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/</link>
+    <description>Recent content in 安全问题 on Xing MHz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Tue, 24 Dec 2019 10:10:44 +0800</lastBuildDate>
+    
+	<atom:link href="https://MHz-Xing.github.io/tags/%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>嵌入式Linux-C语言（九）--C语言的安全问题和指针陷阱</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%B9%9D-c%E8%AF%AD%E8%A8%80%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E5%92%8C%E6%8C%87%E9%92%88%E9%99%B7%E9%98%B1/</link>
+      <pubDate>Tue, 24 Dec 2019 10:10:44 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%B9%9D-c%E8%AF%AD%E8%A8%80%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E5%92%8C%E6%8C%87%E9%92%88%E9%99%B7%E9%98%B1/</guid>
+      <description>&lt;p&gt;C语言是灵活度和自由度较大的编程语言，作为C语言核心的指针更是让C语言程序员可以越过安全的栅栏，对某些内存区域进行破坏性访问，引发安全风险。很多安全问题都能追根溯源到指针的误用。本文将从指针的角度解读C语言常见的安全问题和指针陷阱。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  <meta name="author" content="Xing MHz">
+  <meta name="description" content="一、C语言模块化编程
+
+所谓模块化编程，就是指一个程序包含多个源文件（.c 文件和 .h文件），每个模块即是一个.c文件和一个.h文件的结合，头文件(.h)中是对于该模块接口的声明。C语言模块化编程中对.c、.h文件的潜规则：">
+  
+  <meta property="og:title" content="嵌入式Linux-C语言（十一）--C语言模块化编程" />
+<meta property="og:description" content="一、C语言模块化编程
+
+所谓模块化编程，就是指一个程序包含多个源文件（.c 文件和 .h文件），每个模块即是一个.c文件和一个.h文件的结合，头文件(.h)中是对于该模块接口的声明。C语言模块化编程中对.c、.h文件的潜规则：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%8D%81%E4%B8%80-c%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/" />
+<meta property="article:published_time" content="2019-12-24T10:15:37+08:00" />
+<meta property="article:modified_time" content="2019-12-24T10:15:37+08:00" />
+
+
+
+  <title>
+  
+       嵌入式Linux-C语言（十一）--C语言模块化编程 | Xing MHz 
+  
+  </title>
+
+  <link rel="canonical" href="https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%8D%81%E4%B8%80-c%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/">
+
+  
+  
+
+  
+  <link href="https://MHz-Xing.github.io/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://MHz-Xing.github.io/css/font.css" rel="stylesheet"> 
+    
+  
+  <link href="https://MHz-Xing.github.io/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://MHz-Xing.github.io/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet"> 
+  <link href="https://MHz-Xing.github.io/css/vendors/mdb/style.min.css" rel="stylesheet"> 
+  <link href="https://MHz-Xing.github.io/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"
+  
+      href="https://MHz-Xing.github.io/img/xing.svg"
+  
+  >
+
+
+  
+  
+
+  <style type="text/css">
+      @media (min-width: 800px) and (max-width: 850px) {
+              .navbar:not(.top-nav-collapse) {
+                  background: #1C2331!important;
+              }
+          }
+  </style>
+
+
+  
+    
+    <link rel="stylesheet" href="https://MHz-Xing.github.io/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+    
+    <link rel="stylesheet" href="https://MHz-Xing.github.io/css/vendors/highlight/github-gist.css">
+  
+  
+  
+  <link href="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet"></head>
+
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://MHz-Xing.github.io/">
+          
+        <img class="smallavatar" src="https://MHz-Xing.github.io/img/xing.svg" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> Xing MHz</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://MHz-Xing.github.io/">主页</a>
+          </li>
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/blog/" >文章  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/picture/" >照片  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/about/" >档案馆  </a>
+            </li>
+          
+          
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+  
+ 
+      
+ 
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;" >  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+      
+
+        
+        <div class="carousel-item active">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides/IMG_0264.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+              
+              
+              
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides//IMG_0276.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides//IMG_0593.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+
+  
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://MHz-Xing.github.io/">
+          
+            <img class="pull-right avatar avatar-md" src="https://avatars1.githubusercontent.com/u/16077406?s=460&amp;v=4" alt="" >
+          
+        </a>
+      </div>
+      
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://MHz-Xing.github.io/">
+          <h1 class="mb-2 h1" style="font-weight: 300;" >
+            <strong>Xing MHz</strong>
+          </h1>
+        </a>
+        
+
+             
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+            
+              <a href="//github.com/MHz-Xing" target="_blank" rel="noopener"><i class="fab fa-github pr-1" aria-hidden="true"></i></a>    
+            
+            
+              <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin pr-1" aria-hidden="true"></i></a>
+            
+
+            
+
+            
+            <a href="//weibo.com/2462050587" target="_blank" rel="noopener"><i class="fab fa-weibo pr-1" aria-hidden="true"></i></a>
+            
+
+            
+
+            
+    
+            
+                <a href="//cli.im/text?1c3bfd70c3d1d9ab80ca5543243dc57f" target="_blank" rel="noopener"><i class="fab fa-weixin pr-1" aria-hidden="true"></i></a>
+            
+    
+        
+            
+                <a href="mailto:xingzhh@126.com"><i class="far fa-envelope pr-1" aria-hidden="true"></i></a>
+            
+    
+            
+
+            
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://MHz-Xing.github.io/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 编程技术 </a></li>
+      
+    
+    
+      
+        <li><a href="https://MHz-Xing.github.io/series/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>嵌入式Linux-C语言</a></li>
+      
+    
+  </ul>
+
+  <div class="px-4 post-heading">嵌入式Linux-C语言（十一）--C语言模块化编程</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Dec 24, 2019</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>5 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h2 id="一-c语言模块化编程">一、C语言模块化编程</h2>
+
+<p>所谓模块化编程，就是指一个程序包含多个源文件（.c 文件和 .h文件），每个模块即是一个.c文件和一个.h文件的结合，头文件(.h)中是对于该模块接口的声明。C语言模块化编程中对.c、.h文件的潜规则：</p>
+
+<p>1、.c 文件主要负责实现，也就是定义函数；.h 文件主要负责声明，比如函数声明、宏定义等，结构的定义、自定义数据类型一般也放在头文件中，不能在.h文件中定义变量。将一个功能模块的代码单独编写成一个.c文件,然后把该模块的接口函数放在.h文件中。</p>
+
+<p>定义变量和声明变量的区别在于定义会产生内存分配的操作，是汇编阶段的概念；而声明则只是告诉包含该声明的模块在连接阶段从其它模块寻找外部函数和变量。</p>
+
+<p>2、引入编译器自带的头文件（包括标准头文件）用尖括号，引入自定义头文件用双引号，例如：</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+#include &quot;myFile.h&quot;
+</code></pre>
+
+<p>头文件应当是幂等的。也就是说，多次包括头文件的效果和仅包括一次的效果完全相同。</p>
+
+<pre><code>#ifndef _STDIO_H
+#define _STDIO_H
+/* 声明部分 */
+#endif
+</code></pre>
+
+<p>3、模块提供给其它模块调用的外部函数及数据需在.h中文件中冠以extern关键字声明；模块内的函数和全局变量需在.c文件开头冠以static关键字声明。</p>
+
+<h2 id="二-嵌入式系统开发中的模块化编程">二、嵌入式系统开发中的模块化编程</h2>
+
+<p>嵌入式系统通常包括两类模块：</p>
+
+<p>（1）硬件驱动模块，一种特定硬件对应一个模块。</p>
+
+<p>（2）软件功能模块，其模块的划分应满足低偶合、高内聚的要求。模块之间联系越紧密，其耦合性就越强，模块的独立性则越差；模块内各元素（语名之间、程序段之间）联系的越紧密，内聚性就越高。</p>
+
+<h3 id="1-单任务系统">1、单任务系统</h3>
+
+<p>所谓&rdquo;单任务系统&rdquo;是指该系统不能支持多任务并发操作，宏观串行地执行一个任务。而多任务系统则可以宏观并行（微观上可能串行）地&rdquo;同时&rdquo;执行多个任务。</p>
+
+<h5 id="单任务程序典型架构">单任务程序典型架构</h5>
+
+<p>　　（1）从CPU复位时的指定地址开始执行；</p>
+
+<p>　　（2）跳转至汇编代码startup处执行；</p>
+
+<p>　　（3）跳转至用户主程序main执行，在main中完成：</p>
+
+<ul>
+<li>　　a.初试化各硬件设备；</li>
+<li>　　b.初始化各软件模块；</li>
+<li>　　c.进入死循环（无限循环），调用各模块的处理函数</li>
+</ul>
+
+<p>　　用户主程序和各模块的处理函数都以C语言完成。用户主程序最后都进入了一个死循环，其首选方案是：
+　　</p>
+
+<pre><code>while(1)
+{
+}
+</code></pre>
+
+<h3 id="2-多任务系统">2、多任务系统</h3>
+
+<p>多任务的并发执行通常依赖于一个多任务操作系统（OS），多任务OS的核心是系统调度器，它使用任务控制块（TCB）来管理任务调度功能。TCB包括任务的当前状态、优先级、要等待的事件或资源、任务程序码的起始地址、初始堆栈指针等信息。调度器在任务被激活时，要用到这些信息。此外，TCB还被用来存放任务的&rdquo;上下文&rdquo;（context)。任务的上下文就是当一个执行中的任务被停止时，所要保存的所有信息。通常，上下文就是计算机当前的状态，也即各个寄存器的内容。当发生任务切换时，当前运行的任务的上下文被存入TCB，并将要被执行的任务的上下文从它的TCB中取出，放入各个寄存器中。</p>
+
+<p>究竟选择多任务还是单任务方式，依赖于软件的体系是否庞大。例如，绝大多数手机程序都是多任务的，但也有一些小灵通的协议栈是单任务的，没有操作系统，它们的主程序轮流调用各个软件模块的处理程序，模拟多任务环境。</p>
+
+<h3 id="3-中断服务程序">3、中断服务程序</h3>
+
+<p>中断是嵌入式系统中重要的组成部分，但是在标准C中不包含中断。许多编译开发商在标准C上增加了对中断的支持，提供新的关键字用于标示中断服务程序(ISR)，类似于__interrupt、#program interrupt等。当一个函数被定义为ISR的时候，编译器会自动为该函数增加中断服务程序所需要的中断现场入栈和出栈代码。</p>
+
+<p>中断服务程序需要满足如下要求：</p>
+
+<p>　　(1)不能返回值；</p>
+
+<p>　　(2)不能向ISR传递参数；</p>
+
+<p>　　(3) ISR应该尽可能的短小精悍；</p>
+
+<p>　　(4) printf(char * lpFormatString,…)函数会带来重入和性能问题，不能在ISR中采用。</p>
+
+<h3 id="4-硬件驱动模块">4、硬件驱动模块</h3>
+
+<p>　　
+一个硬件驱动模块通常应包括如下函数：</p>
+
+<p><strong>（1）中断服务程序ISR</strong></p>
+
+<p><strong>（2）硬件初始化</strong></p>
+
+<p>A、修改寄存器，设置硬件参数（如UART应设置其波特率，AD/DA设备应设置其采样速率等）；</p>
+
+<p>B、将中断服务程序入口地址写入中断向量表：</p>
+
+<pre><code>/* 设置中断向量表 */
+m_myPtr = make_far_pointer(0l); /* 返回void far型指针void far * */
+m_myPtr += ITYPE_UART; /* ITYPE_UART： uart中断服务程序 */
+/* 相对于中断向量表首地址的偏移 */
+*m_myPtr = &amp;UART _Isr; /* UART _Isr：UART的中断服务程序 */
+</code></pre>
+
+<p><strong>（3）设置CPU针对该硬件的控制线</strong></p>
+
+<p>A、如果控制线可作PIO（可编程I/O）和控制信号用，则设置CPU内部对应寄存器使其作为控制信号；</p>
+
+<p>B、设置CPU内部的针对该设备的中断屏蔽位，设置中断方式（电平触发还是边缘触发）。</p>
+
+<p><strong>（4）提供一系列针对该设备的操作接口函数。</strong></p>
+
+<p>例如，对于LCD，其驱动模块应提供绘制像素、画线、绘制矩阵、显示字符点阵等函数；而对于实时钟，其驱动模块则需提供获取时间、设置时间等函数。</p>
+
+<p>本文介绍了C语言模块编程的主要思想，嵌入式系统开发中模块划分、多任务还是单任务选取、单任务程序典型架构、中断服务程序、硬件驱动模块设计等。</p>
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://MHz-Xing.github.io/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://MHz-Xing.github.io/tags/%E6%A8%A1%E5%9D%97%E5%8C%96" role="button">模块化 </a></li>
+      
+    
+      <li><a href="https://MHz-Xing.github.io/tags/%E5%87%BD%E6%95%B0" role="button">函数 </a></li>
+      
+    
+      <li><a href="https://MHz-Xing.github.io/tags/c" role="button">C </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%8D%81-%E9%9D%99%E6%80%81%E5%BA%93%E5%87%BD%E6%95%B0%E5%92%8C%E5%8A%A8%E6%80%81%E5%BA%93%E5%87%BD%E6%95%B0/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>嵌入式Linux-C语言（十）--静态库函数和动态库函数</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%8D%81%E4%BA%8C-%E5%8D%95%E9%93%BE%E8%A1%A8/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>嵌入式Linux-C语言（十二）--单链表</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- 目录 - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%80-c%e8%af%ad%e8%a8%80%e6%a8%a1%e5%9d%97%e5%8c%96%e7%bc%96%e7%a8%8b">
+												 一、C语言模块化编程
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%ba%8c-%e5%b5%8c%e5%85%a5%e5%bc%8f%e7%b3%bb%e7%bb%9f%e5%bc%80%e5%8f%91%e4%b8%ad%e7%9a%84%e6%a8%a1%e5%9d%97%e5%8c%96%e7%bc%96%e7%a8%8b">
+												 二、嵌入式系统开发中的模块化编程
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e5%8d%95%e4%bb%bb%e5%8a%a1%e7%b3%bb%e7%bb%9f">
+												 1、单任务系统
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e5%a4%9a%e4%bb%bb%e5%8a%a1%e7%b3%bb%e7%bb%9f">
+												 2、多任务系统
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e4%b8%ad%e6%96%ad%e6%9c%8d%e5%8a%a1%e7%a8%8b%e5%ba%8f">
+												 3、中断服务程序
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#4-%e7%a1%ac%e4%bb%b6%e9%a9%b1%e5%8a%a8%e6%a8%a1%e5%9d%97">
+												 4、硬件驱动模块
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+      <a href="//github.com/MHz-Xing " target="_blank" rel="noopener"><i class="fab fa-github mr-3" aria-hidden="true"></i></a>    
+    
+    
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+    <a href="//weibo.com/2462050587" target="_blank" rel="noopener"><i class="fab fa-weibo mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+    
+        <a href="//cli.im/text?1c3bfd70c3d1d9ab80ca5543243dc57f" target="_blank" rel="noopener"><i class="fab fa-weixin mr-3" aria-hidden="true"></i></a>
+    
+
+
+    
+        <a href="mailto:xingzhh@126.com"><i class="far fa-envelope mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span>  2016 - 2019 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne' target="_blank">AllinOne</a> Modefied by <a href='https://github.com/MHz-Xing' target="_blank">MHz-Xing</a>  </span>
+  </div>
+  
+
+</footer>
+
+
+    
+
+
+
+
+
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/main.js"></script>
+
+
+
+  
+  <script src="https://MHz-Xing.github.io/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+ 
+  <script src="https://MHz-Xing.github.io/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://MHz-Xing.github.io/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  </body>
+</html>

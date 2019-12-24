@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>生命周期 on Xing MHz</title>
+    <link>https://MHz-Xing.github.io/tags/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</link>
+    <description>Recent content in 生命周期 on Xing MHz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Tue, 24 Dec 2019 10:07:59 +0800</lastBuildDate>
+    
+	<atom:link href="https://MHz-Xing.github.io/tags/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>嵌入式Linux-C语言（八）--存储类型、作用域、生命周期、链接属性</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%85%AB-%E5%AD%98%E5%82%A8%E7%B1%BB%E5%9E%8B%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%93%BE%E6%8E%A5%E5%B1%9E%E6%80%A7/</link>
+      <pubDate>Tue, 24 Dec 2019 10:07:59 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%85%AB-%E5%AD%98%E5%82%A8%E7%B1%BB%E5%9E%8B%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%93%BE%E6%8E%A5%E5%B1%9E%E6%80%A7/</guid>
+      <description>&lt;h2 id=&#34;一-存储类型&#34;&gt;一、存储类型&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;C语言中，每个变量和函数都有两个属性：数据类型和数据的存储类型。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;变量的存储类型是指存储变量值的内存类型。变量的存储类型决定变量何时创建、何时销毁以及它的值将保持多久。计算机中有三个地方可以用于存储变量：普通内存，运行时堆和栈，硬件寄存器。变量的存储类型取决于声明变量的位置。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>数组 on Xing MHz</title>
+    <link>https://MHz-Xing.github.io/tags/%E6%95%B0%E7%BB%84/</link>
+    <description>Recent content in 数组 on Xing MHz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Tue, 24 Dec 2019 09:47:47 +0800</lastBuildDate>
+    
+	<atom:link href="https://MHz-Xing.github.io/tags/%E6%95%B0%E7%BB%84/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>嵌入式Linux-C语言（四）--指针与数组</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%9B%9B-%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/</link>
+      <pubDate>Tue, 24 Dec 2019 09:47:47 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%9B%9B-%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/</guid>
+      <description>&lt;p&gt;数组是C语言内建的数据结构，彻底理解数组及其用法是开发高效应用程序的基础。数组和指针紧密关联，但又不是完全可以互换。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

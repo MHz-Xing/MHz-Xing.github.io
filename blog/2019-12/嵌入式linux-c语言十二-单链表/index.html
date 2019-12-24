@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  <meta name="author" content="Xing MHz">
+  <meta name="description" content="一、单链表简介
+
+1、单链表的结构
+
+单链表是一种链式存取的数据结构，用一组地址任意的存储单元存放线性表中的数据元素。
+
+链表中的数据是以节点来表示的，每个节点由两部分构成：一个是数据域，存储数据值，另一个是指针域，存储指向下一个节点的指针。">
+  
+  <meta property="og:title" content="嵌入式Linux-C语言（十二）--单链表" />
+<meta property="og:description" content="一、单链表简介
+
+1、单链表的结构
+
+单链表是一种链式存取的数据结构，用一组地址任意的存储单元存放线性表中的数据元素。
+
+链表中的数据是以节点来表示的，每个节点由两部分构成：一个是数据域，存储数据值，另一个是指针域，存储指向下一个节点的指针。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%8D%81%E4%BA%8C-%E5%8D%95%E9%93%BE%E8%A1%A8/" />
+<meta property="article:published_time" content="2019-12-24T10:17:54+08:00" />
+<meta property="article:modified_time" content="2019-12-24T10:17:54+08:00" />
+
+
+
+  <title>
+  
+       嵌入式Linux-C语言（十二）--单链表 | Xing MHz 
+  
+  </title>
+
+  <link rel="canonical" href="https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%8D%81%E4%BA%8C-%E5%8D%95%E9%93%BE%E8%A1%A8/">
+
+  
+  
+
+  
+  <link href="https://MHz-Xing.github.io/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://MHz-Xing.github.io/css/font.css" rel="stylesheet"> 
+    
+  
+  <link href="https://MHz-Xing.github.io/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://MHz-Xing.github.io/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet"> 
+  <link href="https://MHz-Xing.github.io/css/vendors/mdb/style.min.css" rel="stylesheet"> 
+  <link href="https://MHz-Xing.github.io/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"
+  
+      href="https://MHz-Xing.github.io/img/xing.svg"
+  
+  >
+
+
+  
+  
+
+  <style type="text/css">
+      @media (min-width: 800px) and (max-width: 850px) {
+              .navbar:not(.top-nav-collapse) {
+                  background: #1C2331!important;
+              }
+          }
+  </style>
+
+
+  
+    
+    <link rel="stylesheet" href="https://MHz-Xing.github.io/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+    
+    <link rel="stylesheet" href="https://MHz-Xing.github.io/css/vendors/highlight/github-gist.css">
+  
+  
+  
+  <link href="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet"></head>
+
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://MHz-Xing.github.io/">
+          
+        <img class="smallavatar" src="https://MHz-Xing.github.io/img/xing.svg" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> Xing MHz</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://MHz-Xing.github.io/">主页</a>
+          </li>
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/blog/" >文章  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/picture/" >照片  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/about/" >档案馆  </a>
+            </li>
+          
+          
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+  
+ 
+      
+ 
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;" >  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+      
+
+        
+        <div class="carousel-item active">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides/IMG_0264.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+              
+              
+              
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides//IMG_0276.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides//IMG_0593.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+
+  
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://MHz-Xing.github.io/">
+          
+            <img class="pull-right avatar avatar-md" src="https://avatars1.githubusercontent.com/u/16077406?s=460&amp;v=4" alt="" >
+          
+        </a>
+      </div>
+      
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://MHz-Xing.github.io/">
+          <h1 class="mb-2 h1" style="font-weight: 300;" >
+            <strong>Xing MHz</strong>
+          </h1>
+        </a>
+        
+
+             
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+            
+              <a href="//github.com/MHz-Xing" target="_blank" rel="noopener"><i class="fab fa-github pr-1" aria-hidden="true"></i></a>    
+            
+            
+              <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin pr-1" aria-hidden="true"></i></a>
+            
+
+            
+
+            
+            <a href="//weibo.com/2462050587" target="_blank" rel="noopener"><i class="fab fa-weibo pr-1" aria-hidden="true"></i></a>
+            
+
+            
+
+            
+    
+            
+                <a href="//cli.im/text?1c3bfd70c3d1d9ab80ca5543243dc57f" target="_blank" rel="noopener"><i class="fab fa-weixin pr-1" aria-hidden="true"></i></a>
+            
+    
+        
+            
+                <a href="mailto:xingzhh@126.com"><i class="far fa-envelope pr-1" aria-hidden="true"></i></a>
+            
+    
+            
+
+            
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://MHz-Xing.github.io/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 编程技术 </a></li>
+      
+    
+    
+      
+        <li><a href="https://MHz-Xing.github.io/series/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>嵌入式Linux-C语言</a></li>
+      
+    
+  </ul>
+
+  <div class="px-4 post-heading">嵌入式Linux-C语言（十二）--单链表</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Dec 24, 2019</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>4 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h2 id="一-单链表简介">一、单链表简介</h2>
+
+<h3 id="1-单链表的结构">1、单链表的结构</h3>
+
+<p>单链表是一种链式存取的数据结构，用一组地址任意的存储单元存放线性表中的数据元素。</p>
+
+<p>链表中的数据是以节点来表示的，每个节点由两部分构成：一个是数据域，存储数据值，另一个是指针域，存储指向下一个节点的指针。</p>
+
+<p><img src="https://MHz-Xing.github.io/images/blog/C/12-1.png" alt="12-1" /></p>
+
+<h3 id="2-单链表的节点">2、单链表的节点</h3>
+
+<p>单链表节点的数据结构如下：</p>
+
+<pre><code>typedef struct data
+{
+    unsigned int id;//学生身份ID
+    char name[LENGTH];//学生姓名
+    char subject[LENGTH];//科目
+    unsigned int score;//分数
+}DATA,*PDATA;
+
+
+typedef struct node
+{
+    unsigned int num;//节点序号，头节点则保存链表的节点数量
+    DATA *data;//数据域
+    struct node *next;//指针域
+}SNode,*PNode;
+</code></pre>
+
+<h3 id="3-头指针与头结点的区别">3、头指针与头结点的区别</h3>
+
+<p>头指针与头结点的区别：</p>
+
+<p><img src="https://MHz-Xing.github.io/images/blog/C/12-2.png" alt="12-2" /></p>
+
+<h2 id="二-单链表的操作">二、单链表的操作</h2>
+
+<h3 id="1-单链表的创建">1、单链表的创建</h3>
+
+<p>头结点的创建：</p>
+
+<p><strong>//初始化单链表，创建头结点</strong></p>
+
+<pre><code>SList slist_init(void)
+{
+    SList head = (Node *)malloc(sizeof(Node));
+    if(NULL == head)
+    {
+        fprintf(stderr, &quot;slist_init function malloc failure.\n&quot;);
+        return NULL;
+    }
+    head-&gt;next = NULL;
+    return head;
+}
+</code></pre>
+
+<p><strong>采用尾部插入节点的方式创建单链表：</strong></p>
+
+<p><img src="https://MHz-Xing.github.io/images/blog/C/12-3.png" alt="12-3" /></p>
+
+<p><strong>//根据创建的头结点创建有num个节点的单链表（头结点不算）</strong></p>
+
+<pre><code>int slist_create(SList head, unsigned int num)
+{
+    SList p,r;
+    r = head;
+    int i;
+    for(i = 0; i &lt; num; i++)
+    {
+        p = (Node *)malloc(sizeof(Node));//创建新节点
+        if(NULL == p)
+        {
+            fprintf(stderr, &quot;slist_create function p malloc failed.\n&quot;);
+            return ERROR;
+        }
+        
+        p-&gt;num = i+1;//将各个节点的序号写入节点成员num
+        p-&gt;data.id = 100;
+        strcpy(p-&gt;data.name, &quot;scorpio&quot;);
+        strcpy(p-&gt;data.subject, &quot;English&quot;);
+        p-&gt;data.score = 100;
+        r-&gt;next = p;
+        r = p;
+    }
+    r-&gt;next = NULL;
+    head-&gt;num = slist_size(head);//将创建链表的大小写入头结点num成员
+    return OK;
+}
+</code></pre>
+
+<h3 id="2-单链表的销毁">2、单链表的销毁</h3>
+
+<p><strong>//销毁单链表</strong></p>
+
+<pre><code>void slist_destroy(SList list)
+{
+    SList p;
+    while(list)
+    {
+        p = list-&gt;next;
+        free(list);
+        list = p;
+    }
+}
+</code></pre>
+
+<h3 id="3-单链表的节点插入操作">3、单链表的节点插入操作</h3>
+
+<p><img src="https://MHz-Xing.github.io/images/blog/C/12-4.png" alt="12-4" /></p>
+
+<pre><code>void slist_insert(SList list, unsigned int i,PDATA data)
+{
+    if(slist_size(list) &lt; i)
+    {
+        fprintf(stdout, &quot;slist_insert function failed.The list size is too samll.There is no element %u.\n&quot;, i);
+        return ;
+    }
+
+    //创建一个节点
+    SList p = (Node *)malloc(sizeof(Node));
+    
+    //利用传入的data结构体的数据对节点的数据域进行初始化
+    p-&gt;data.id = data-&gt;id;
+    strcpy(p-&gt;data.name, data-&gt;name);
+    strcpy(p-&gt;data.subject, data-&gt;subject);
+    p-&gt;data.score = data-&gt;score;
+    
+    **//找到节点i**
+    SList r = list-&gt;next;
+    if(NULL == r-&gt;next)//链表为空时，直接插入
+    {
+        //插入节点到链表
+        p-&gt;next = r-&gt;next;
+        r-&gt;next = p;
+    }
+    else//链表不为空时，先查找插入的位置
+    {
+        while(i != r-&gt;num)
+        {
+            r = r-&gt;next;
+        }
+        //插入节点到链表
+        p-&gt;next = r-&gt;next;
+        r-&gt;next = p;
+    }
+    
+    //顺延链表节点i后的节点的序号
+    int n = i + 1;
+    r = r-&gt;next;
+    while(r-&gt;next)
+    {
+        r-&gt;num = n++;
+        r = r-&gt;next;
+    }
+    r-&gt;num = n;//尾节点的序号
+    list-&gt;num = slist_size(list);//将创建链表的大小写入头结点num成员
+}
+</code></pre>
+
+<h3 id="4-单链表的节点删除操作">4、单链表的节点删除操作</h3>
+
+<p><img src="https://MHz-Xing.github.io/images/blog/C/12-5.png" alt="12-5" /></p>
+
+<pre><code>void slist_delete(SList list, unsigned int i)
+{
+    if(slist_size(list) &lt; i)
+    {
+        fprintf(stdout, &quot;slist_insert function failed.The list size is too samll.There is no element %u.\n&quot;, i);
+        return ;
+    }
+
+    SList r = list-&gt;next;
+    if(NULL == r-&gt;next)//链表为空时，不能删除
+    {
+        fprintf(stderr, &quot;The list is empty.There is no element %u.\n&quot;, i);
+        return ;
+    }
+    else//链表不为空时，先查找插入的位置
+    {
+        while(i != r-&gt;num)
+        {
+        r = r-&gt;next;
+        }
+
+        //从链表中删除节点
+        r-&gt;next = r-&gt;next-&gt;next;
+    }
+
+    //顺延链表节点i后的节点的序号
+
+    int n = i;
+
+    while(r-&gt;next)
+    {
+        r-&gt;num = n++;
+        r = r-&gt;next;
+    }
+    r-&gt;num = n;//尾节点的序号
+    list-&gt;num = slist_size(list);//将创建链表的大小写入头结点num成员
+}
+</code></pre>
+
+<h3 id="5-获取单链表的长度">5、获取单链表的长度</h3>
+
+<p><strong>//计算单链表的长度，头节点不计算在长度之内</strong></p>
+
+<pre><code>unsigned int  slist_size(SList list)
+{
+    unsigned int count;
+    SList p = list-&gt;next;
+    while(p)
+    {
+        p = p-&gt;next;
+        count++;
+    }
+    return count;
+}
+</code></pre>
+
+<h3 id="6-判断单链表是否为空">6、判断单链表是否为空</h3>
+
+<p><strong>//判断单链表是否为空</strong></p>
+
+<pre><code>int slist_is_empty(SList list)
+{
+    if(list)
+    {
+        fprintf(stdout, &quot;list is no empty.\n&quot;);
+        return 0;
+    }
+    else
+    {
+        fprintf(stdout, &quot;list is empty.\n&quot;);
+        return 1;
+    }
+}
+</code></pre>
+
+<h3 id="7-遍历单链表">7、遍历单链表</h3>
+
+<p><strong>//遍历单链表</strong></p>
+
+<pre><code>void slist_traverse(SList list)
+{
+    fprintf(stdout, &quot;list size is %u\n&quot;, list-&gt;num);
+    SList p = list-&gt;next;//跳过头结点
+    while(p)
+    {
+        fprintf(stdout, &quot;id = %u, name = %s, subject = %s, score = %u\n&quot;, p-&gt;data.id, p-&gt;data.name, p-&gt;data.subject, p-&gt;data.score);
+        p = p-&gt;next;
+    }
+}
+</code></pre>
+
+<h3 id="8-单链表的翻转-倒序-逆序">8、单链表的翻转（倒序、逆序）</h3>
+
+<p>（1）定义当前节点 current，初始值为第一个节点，current =list-&gt;next;</p>
+
+<p>（2）定义当前结点的后继节点pnext， pnext = current-&gt;next;</p>
+
+<p>（3）将当前第一个节点与后继节点断开，作为尾节点，current-&gt;next = NULL；</p>
+
+<p>（4）只要 pnext 存在，表明至少有两个节点，进行逆序，执行以下循环：</p>
+
+<ul>
+<li><p>A、定义新节点prev，prev是 pnext的后继节点，prev = pnext-&gt;next;</p></li>
+
+<li><p>B、把pnext的后继指向current, pnext-&gt;next = current;</p></li>
+
+<li><p>C、此时，pnext 实际上已经到了current 前一位成为新的current，所以这个时候 current 结点实际上成为新的 pnext，current = pnext;</p></li>
+
+<li><p>D、此时，新的 current 就是 pnext，current = pnext;</p></li>
+
+<li><p>E、而新的 pnext 就是 prev，pnext = prev;</p></li>
+</ul>
+
+<p>（5）最后将头结点与current重新连上即可，list-&gt;next = current;</p>
+
+<pre><code>void slist_reverse(SList list)
+{
+    if(slist_is_empty(list))
+    {
+        fprintf(stdout, &quot;The list is empty.No reverse.\n&quot;);
+        return ;
+    }
+    
+    SList prev, current, pnext;
+    current = list-&gt;next;//跳过头节点，当前节点为第一个节点
+    pnext = current-&gt;next;//当前节点的下一个节点
+    current-&gt;next = NULL;//当前节点断开后续连接，作为尾节点
+    while(pnext)
+    {
+        prev = pnext-&gt;next;//将当前节点的下一个节点作为当前节点的前一个节点
+        pnext-&gt;next = current;//当前节点的前一个节点的指针域指向当前节点
+        current = pnext;//将下一个节点作为当前节点
+        pnext = prev;//前一个节点作为下一个节点
+    }
+    list-&gt;next = current;//头结点指针域指向当前节点，完成逆序
+    
+    //重新给逆序后的各节点赋值新的序号
+    int i = 1;
+    while(current)
+    {
+        current-&gt;num = i++;
+        current = current-&gt;next;
+    }
+}
+</code></pre>
+
+<p>参考博文：</p>
+
+<p><a href="http://blog.csdn.net/coder_pig/article/details/50234425">小猪的数据结构辅助教程——2.2 线性表中的单链表 （CSDN coder-pig）</a></p>
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://MHz-Xing.github.io/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://MHz-Xing.github.io/tags/%E6%8C%87%E9%92%88" role="button">指针 </a></li>
+      
+    
+      <li><a href="https://MHz-Xing.github.io/tags/%E9%93%BE%E8%A1%A8" role="button">链表 </a></li>
+      
+    
+      <li><a href="https://MHz-Xing.github.io/tags/c" role="button">C </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%8D%81%E4%B8%80-c%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>嵌入式Linux-C语言（十一）--C语言模块化编程</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%8D%81%E4%B8%89-%E5%8F%8C%E9%93%BE%E8%A1%A8/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>嵌入式Linux-C语言（十三）--双链表</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- 目录 - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%80-%e5%8d%95%e9%93%be%e8%a1%a8%e7%ae%80%e4%bb%8b">
+												 一、单链表简介
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e5%8d%95%e9%93%be%e8%a1%a8%e7%9a%84%e7%bb%93%e6%9e%84">
+												 1、单链表的结构
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e5%8d%95%e9%93%be%e8%a1%a8%e7%9a%84%e8%8a%82%e7%82%b9">
+												 2、单链表的节点
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e5%a4%b4%e6%8c%87%e9%92%88%e4%b8%8e%e5%a4%b4%e7%bb%93%e7%82%b9%e7%9a%84%e5%8c%ba%e5%88%ab">
+												 3、头指针与头结点的区别
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%ba%8c-%e5%8d%95%e9%93%be%e8%a1%a8%e7%9a%84%e6%93%8d%e4%bd%9c">
+												 二、单链表的操作
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e5%8d%95%e9%93%be%e8%a1%a8%e7%9a%84%e5%88%9b%e5%bb%ba">
+												 1、单链表的创建
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e5%8d%95%e9%93%be%e8%a1%a8%e7%9a%84%e9%94%80%e6%af%81">
+												 2、单链表的销毁
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e5%8d%95%e9%93%be%e8%a1%a8%e7%9a%84%e8%8a%82%e7%82%b9%e6%8f%92%e5%85%a5%e6%93%8d%e4%bd%9c">
+												 3、单链表的节点插入操作
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#4-%e5%8d%95%e9%93%be%e8%a1%a8%e7%9a%84%e8%8a%82%e7%82%b9%e5%88%a0%e9%99%a4%e6%93%8d%e4%bd%9c">
+												 4、单链表的节点删除操作
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#5-%e8%8e%b7%e5%8f%96%e5%8d%95%e9%93%be%e8%a1%a8%e7%9a%84%e9%95%bf%e5%ba%a6">
+												 5、获取单链表的长度
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#6-%e5%88%a4%e6%96%ad%e5%8d%95%e9%93%be%e8%a1%a8%e6%98%af%e5%90%a6%e4%b8%ba%e7%a9%ba">
+												 6、判断单链表是否为空
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#7-%e9%81%8d%e5%8e%86%e5%8d%95%e9%93%be%e8%a1%a8">
+												 7、遍历单链表
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#8-%e5%8d%95%e9%93%be%e8%a1%a8%e7%9a%84%e7%bf%bb%e8%bd%ac-%e5%80%92%e5%ba%8f-%e9%80%86%e5%ba%8f">
+												 8、单链表的翻转（倒序、逆序）
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+      <a href="//github.com/MHz-Xing " target="_blank" rel="noopener"><i class="fab fa-github mr-3" aria-hidden="true"></i></a>    
+    
+    
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+    <a href="//weibo.com/2462050587" target="_blank" rel="noopener"><i class="fab fa-weibo mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+    
+        <a href="//cli.im/text?1c3bfd70c3d1d9ab80ca5543243dc57f" target="_blank" rel="noopener"><i class="fab fa-weixin mr-3" aria-hidden="true"></i></a>
+    
+
+
+    
+        <a href="mailto:xingzhh@126.com"><i class="far fa-envelope mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span>  2016 - 2019 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne' target="_blank">AllinOne</a> Modefied by <a href='https://github.com/MHz-Xing' target="_blank">MHz-Xing</a>  </span>
+  </div>
+  
+
+</footer>
+
+
+    
+
+
+
+
+
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/main.js"></script>
+
+
+
+  
+  <script src="https://MHz-Xing.github.io/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+ 
+  <script src="https://MHz-Xing.github.io/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://MHz-Xing.github.io/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  </body>
+</html>

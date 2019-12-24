@@ -6,10 +6,78 @@
     <description>Recent content in 指针 on Xing MHz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zn-Hans</language>
-    <lastBuildDate>Mon, 23 Dec 2019 20:50:08 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 24 Dec 2019 10:21:20 +0800</lastBuildDate>
     
 	<atom:link href="https://MHz-Xing.github.io/tags/%E6%8C%87%E9%92%88/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>嵌入式Linux-C语言（十三）--双链表</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%8D%81%E4%B8%89-%E5%8F%8C%E9%93%BE%E8%A1%A8/</link>
+      <pubDate>Tue, 24 Dec 2019 10:21:20 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%8D%81%E4%B8%89-%E5%8F%8C%E9%93%BE%E8%A1%A8/</guid>
+      <description>&lt;h2 id=&#34;一-双链表简介&#34;&gt;一、双链表简介&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-双链表的结构&#34;&gt;1、双链表的结构&lt;/h3&gt;
+
+&lt;p&gt;双链表是链表的一种，由节点组成，每个数据结点中都有两个指针，分别指向直接后继和直接前驱。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>嵌入式Linux-C语言（十二）--单链表</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%8D%81%E4%BA%8C-%E5%8D%95%E9%93%BE%E8%A1%A8/</link>
+      <pubDate>Tue, 24 Dec 2019 10:17:54 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%8D%81%E4%BA%8C-%E5%8D%95%E9%93%BE%E8%A1%A8/</guid>
+      <description>&lt;h2 id=&#34;一-单链表简介&#34;&gt;一、单链表简介&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-单链表的结构&#34;&gt;1、单链表的结构&lt;/h3&gt;
+
+&lt;p&gt;单链表是一种链式存取的数据结构，用一组地址任意的存储单元存放线性表中的数据元素。&lt;/p&gt;
+
+&lt;p&gt;链表中的数据是以节点来表示的，每个节点由两部分构成：一个是数据域，存储数据值，另一个是指针域，存储指向下一个节点的指针。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>嵌入式Linux-C语言（九）--C语言的安全问题和指针陷阱</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%B9%9D-c%E8%AF%AD%E8%A8%80%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E5%92%8C%E6%8C%87%E9%92%88%E9%99%B7%E9%98%B1/</link>
+      <pubDate>Tue, 24 Dec 2019 10:10:44 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%B9%9D-c%E8%AF%AD%E8%A8%80%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E5%92%8C%E6%8C%87%E9%92%88%E9%99%B7%E9%98%B1/</guid>
+      <description>&lt;p&gt;C语言是灵活度和自由度较大的编程语言，作为C语言核心的指针更是让C语言程序员可以越过安全的栅栏，对某些内存区域进行破坏性访问，引发安全风险。很多安全问题都能追根溯源到指针的误用。本文将从指针的角度解读C语言常见的安全问题和指针陷阱。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>嵌入式Linux-C语言（五）--指针与字符串</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%BA%94-%E6%8C%87%E9%92%88%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <pubDate>Tue, 24 Dec 2019 09:58:20 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%BA%94-%E6%8C%87%E9%92%88%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <description>&lt;h2 id=&#34;一-字符串简介&#34;&gt;一、字符串简介&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-字符串声明&#34;&gt;1、字符串声明&lt;/h3&gt;
+
+&lt;p&gt;声明字符串的方式有三种：字面量、字符数组、字符指针。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>嵌入式Linux-C语言（四）--指针与数组</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%9B%9B-%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/</link>
+      <pubDate>Tue, 24 Dec 2019 09:47:47 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%9B%9B-%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84/</guid>
+      <description>&lt;p&gt;数组是C语言内建的数据结构，彻底理解数组及其用法是开发高效应用程序的基础。数组和指针紧密关联，但又不是完全可以互换。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>嵌入式Linux-C语言（三）--指针与函数</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%B8%89-%E6%8C%87%E9%92%88%E4%B8%8E%E5%87%BD%E6%95%B0/</link>
+      <pubDate>Tue, 24 Dec 2019 09:38:52 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%B8%89-%E6%8C%87%E9%92%88%E4%B8%8E%E5%87%BD%E6%95%B0/</guid>
+      <description>&lt;p&gt;指针对函数的功能有巨大的贡献，指针能够将数据传递给函数，并且允许函数对数据进行修改。指针对于函数的作用主要有两方面：将指针传递给函数和声明函数指针。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>嵌入式Linux-C语言（二）--指针</title>
@@ -21,7 +89,7 @@
     </item>
     
     <item>
-      <title>嵌入式linux-C语言（一）--位运算的使用</title>
+      <title>嵌入式Linux-C语言（一）--位运算的使用</title>
       <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%B8%80-%E4%BD%8D%E8%BF%90%E7%AE%97%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Mon, 23 Dec 2019 20:43:04 +0800</pubDate>
       

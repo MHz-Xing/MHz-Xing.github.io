@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  <meta name="author" content="Xing MHz">
+  <meta name="description" content="一、内存字节对齐简介
+
+1、内存字节对齐
+
+计算机中内存空间都是按照字节划分的，从理论上讲对任何类型的变量的访问可以从任何地址开始，但是在程序实际编译过程中，编译器会对数据类型在编译过程中进行优化对齐，编译器会将各种类型数据按照一定的规则在空间上排列，而不是顺序的排放，这就是内存字节对齐。">
+  
+  <meta property="og:title" content="嵌入式Linux-C语言（六）--内存字节对齐" />
+<meta property="og:description" content="一、内存字节对齐简介
+
+1、内存字节对齐
+
+计算机中内存空间都是按照字节划分的，从理论上讲对任何类型的变量的访问可以从任何地址开始，但是在程序实际编译过程中，编译器会对数据类型在编译过程中进行优化对齐，编译器会将各种类型数据按照一定的规则在空间上排列，而不是顺序的排放，这就是内存字节对齐。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%85%AD-%E5%86%85%E5%AD%98%E5%AD%97%E8%8A%82%E5%AF%B9%E9%BD%90/" />
+<meta property="article:published_time" content="2019-12-24T10:02:40+08:00" />
+<meta property="article:modified_time" content="2019-12-24T10:02:40+08:00" />
+
+
+
+  <title>
+  
+       嵌入式Linux-C语言（六）--内存字节对齐 | Xing MHz 
+  
+  </title>
+
+  <link rel="canonical" href="https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%85%AD-%E5%86%85%E5%AD%98%E5%AD%97%E8%8A%82%E5%AF%B9%E9%BD%90/">
+
+  
+  
+
+  
+  <link href="https://MHz-Xing.github.io/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://MHz-Xing.github.io/css/font.css" rel="stylesheet"> 
+    
+  
+  <link href="https://MHz-Xing.github.io/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://MHz-Xing.github.io/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet"> 
+  <link href="https://MHz-Xing.github.io/css/vendors/mdb/style.min.css" rel="stylesheet"> 
+  <link href="https://MHz-Xing.github.io/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"
+  
+      href="https://MHz-Xing.github.io/img/xing.svg"
+  
+  >
+
+
+  
+  
+
+  <style type="text/css">
+      @media (min-width: 800px) and (max-width: 850px) {
+              .navbar:not(.top-nav-collapse) {
+                  background: #1C2331!important;
+              }
+          }
+  </style>
+
+
+  
+    
+    <link rel="stylesheet" href="https://MHz-Xing.github.io/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+    
+    <link rel="stylesheet" href="https://MHz-Xing.github.io/css/vendors/highlight/github-gist.css">
+  
+  
+  
+  <link href="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet"></head>
+
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://MHz-Xing.github.io/">
+          
+        <img class="smallavatar" src="https://MHz-Xing.github.io/img/xing.svg" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> Xing MHz</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://MHz-Xing.github.io/">主页</a>
+          </li>
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/blog/" >文章  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/picture/" >照片  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/about/" >档案馆  </a>
+            </li>
+          
+          
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+  
+ 
+      
+ 
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;" >  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+      
+
+        
+        <div class="carousel-item active">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides/IMG_0264.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+              
+              
+              
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides//IMG_0276.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides//IMG_0593.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+
+  
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://MHz-Xing.github.io/">
+          
+            <img class="pull-right avatar avatar-md" src="https://avatars1.githubusercontent.com/u/16077406?s=460&amp;v=4" alt="" >
+          
+        </a>
+      </div>
+      
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://MHz-Xing.github.io/">
+          <h1 class="mb-2 h1" style="font-weight: 300;" >
+            <strong>Xing MHz</strong>
+          </h1>
+        </a>
+        
+
+             
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+            
+              <a href="//github.com/MHz-Xing" target="_blank" rel="noopener"><i class="fab fa-github pr-1" aria-hidden="true"></i></a>    
+            
+            
+              <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin pr-1" aria-hidden="true"></i></a>
+            
+
+            
+
+            
+            <a href="//weibo.com/2462050587" target="_blank" rel="noopener"><i class="fab fa-weibo pr-1" aria-hidden="true"></i></a>
+            
+
+            
+
+            
+    
+            
+                <a href="//cli.im/text?1c3bfd70c3d1d9ab80ca5543243dc57f" target="_blank" rel="noopener"><i class="fab fa-weixin pr-1" aria-hidden="true"></i></a>
+            
+    
+        
+            
+                <a href="mailto:xingzhh@126.com"><i class="far fa-envelope pr-1" aria-hidden="true"></i></a>
+            
+    
+            
+
+            
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://MHz-Xing.github.io/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 编程技术 </a></li>
+      
+    
+    
+      
+        <li><a href="https://MHz-Xing.github.io/series/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>嵌入式Linux-C语言</a></li>
+      
+    
+  </ul>
+
+  <div class="px-4 post-heading">嵌入式Linux-C语言（六）--内存字节对齐</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Dec 24, 2019</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>6 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h2 id="一-内存字节对齐简介">一、内存字节对齐简介</h2>
+
+<h3 id="1-内存字节对齐">1、内存字节对齐</h3>
+
+<p>计算机中内存空间都是按照字节划分的，从理论上讲对任何类型的变量的访问可以从任何地址开始，但是在程序实际编译过程中，编译器会对数据类型在编译过程中进行优化对齐，编译器会将各种类型数据按照一定的规则在空间上排列，而不是顺序的排放，这就是内存字节对齐。</p>
+
+<h3 id="2-内存字节对齐原因">2、内存字节对齐原因</h3>
+
+<p>不同硬件平台对存储空间的处理是不同的。一些平台对某些特定类型的数据只能从某些特定地址开始存取。比如某些架构的CPU在访问一个没有进行对齐的变量的时候会发生错误,那么在这种架构下编程必须保证字节对齐。其他平台可能没有这种情况，但是最常见的是如果不按照适合其平台要求对数据存放进行对齐，会在存取效率上带来损失。比如有些平台每次读都是从偶地址开始，如果一个int型（假设为32位系统）如果存放在偶地址开始的地方，那么一个读周期就可以读出这32bit，而如果存放在奇地址开始的地方，就需要2个读周期，并对两次读出的结果的高低字节进行拼凑才能得到该32bit数据，这样数据读取效率就会很差。</p>
+
+<h2 id="二-内存字节对齐的规则">二、内存字节对齐的规则</h2>
+
+<h3 id="1-数据类型自然边界对齐">1、数据类型自然边界对齐</h3>
+
+<p>各种数据类型的自然边界对齐值如下：</p>
+
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>对齐值</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>char</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>short</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>int</td>
+<td>4</td>
+</tr>
+
+<tr>
+<td>long</td>
+<td>4（8,64位）</td>
+</tr>
+
+<tr>
+<td>float</td>
+<td>4</td>
+</tr>
+
+<tr>
+<td>double</td>
+<td>8</td>
+</tr>
+
+<tr>
+<td>void *</td>
+<td>4（8,64位）</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="2-结构体-类的自身对齐">2、结构体、类的自身对齐</h3>
+
+<p>为结构体分配内存时，分配的内存大小至少是各个字段的长度和。通常，分配的结构体的长度会大于结构体各个字段的长度和，因为结构体需要对齐，即结构体各字段之间需要填充。</p>
+
+<p>缺省情况下，编译器为结构体的每个成员按其自然边界对齐方式分配空间，按照每个成员被声明的顺序在内存中顺序存储，第一个成员的地址和整个结构体的地址相同。结构体整体的默认字节对齐值是结构体中的所有成员中对齐参数最大的一个的值，结构体长度的计算必须取所用过的所有对齐参数的整数倍。</p>
+
+<p>结构体中成员的对齐方式取决于指定对齐方式对齐值和成员自身自然边界对齐值两者中较小的值。</p>
+
+<p>结构体整体对齐方式取决于结构体中所有成员的自然边界对齐值的最大值和指定对齐值两者中最小的值。</p>
+
+<h3 id="3-编译器指定对齐">3、编译器指定对齐</h3>
+
+<p>内存字节对齐是GCC编译器对C语言进行的扩展。在缺省情况下，C编译器为每一个变量或是数据单元按其自然边界对齐条件分配空间。同时GCC编译器规定了两种内存字节对齐的方法：</p>
+
+<p><strong>A、伪指令方式</strong></p>
+
+<pre><code>#pragma pack(n)  //n的取值可以为1、2、4、8,在编译过程中按照n个字节对齐
+
+#pragma pack()    //取消指定对齐，按照编译器的优化对齐方式对齐
+</code></pre>
+
+<p>GCC编译器不建议使用#pragma进行内存字节对齐，而且#pragma最多只能支持8字节的对齐。如果n大于8则编译器会报警告，编译器将会按8字节对齐。</p>
+
+<p>warning: alignment must be a small power of two, not 9 [-Wpragmas]</p>
+
+<p><strong>B、属性设置方式</strong></p>
+
+<pre><code>__attribute__ ((packed)); //取消结构在编译过程中的优化对齐。
+
+__attribute__ ((aligned (n)));
+ //让所作用的结构体、类的成员对齐在n字节自然边界上,如果结构中有成员的长度大于n，则按照机器字长来对齐。n=1,2,4,8,16…
+</code></pre>
+
+<p>GCC推荐使用方式</p>
+
+<p><strong>C、两种对齐方式的区别</strong></p>
+
+<p>#pragma pack(n) 对齐方式告诉编译器结构体或类内部的成员变量相对于第一个变量的地址的偏移量的对齐方式，缺省情况下，编译器按照自然边界对齐，当变量所需的自然对齐边界比n大时，按照n对齐，当变量所需的自然对齐边界比n小时，按照自然边界对齐。n最大只能为8。</p>
+
+<p><strong>attribute</strong>((aligned(m)))对齐方式告诉编译器一个结构体或者类或者联合或者类型的变量(对象)分配地址空间时的地址对齐方式。如果<strong>attribute</strong>((aligned(m)))作用于一个类型，那么该类型的变量在分配地址空间时，其存放的地址一定按照m字节对齐(m必须是2的幂次方)；如果类型中的成员的自然边界对齐值大于m，则按照机器字长对齐。类型占用的空间，即大小,是m的整数倍，以保证在申请连续存储空间的时候，每一个元素的地址也是按照m字节对齐。</p>
+
+<p>实例对比如下：</p>
+
+<pre><code>struct test{
+    char a;
+    int b;
+    short c;
+    char *p;
+    double d;
+}__attribute__((aligned(4)));//实际有效指定对齐值为8字节（机器字长）
+
+sizeof(struct test);//32字节
+
+
+#pragma pack(4)
+
+struct test{
+    char a;
+    int b;
+    short c;
+    char *p;
+    double d;
+};//指定对齐值小于结构体中成员的自然边界对齐值8字节，有效对齐值为4字节
+
+#pragma pack()
+
+sizeof(struct test);//28字节
+</code></pre>
+
+<h2 id="三-内存字节对齐实例">三、内存字节对齐实例</h2>
+
+<p>环境：Ubuntu x64，GCC 4.6.3</p>
+
+<p>代码示例：</p>
+
+<p><strong>1字节对齐：</strong></p>
+
+<pre><code>#pragma pack(1)
+
+struct test{
+    char a;
+    int b;
+    short c;
+};
+
+#pragma pack()
+
+sizeof(struct test);//7字节
+</code></pre>
+
+<p>结构体成员中数据类型对齐的最大值为4字节，指定对齐值为1字节，结构体整体对齐值为1字节</p>
+
+<p><strong>2字节对齐：</strong></p>
+
+<pre><code>#pragma pack(2)
+
+struct test{
+    char a;
+    int b;
+    short c;
+};
+
+#pragma pack()
+
+sizeof(struct test);//8字节
+</code></pre>
+
+<p>结构体成员中数据类型对齐的最大值为4字节，指定对齐值为2字节，结构体整体对齐值为2字节</p>
+
+<p><strong>4字节对齐：</strong></p>
+
+<pre><code>#pragma pack(4)
+
+struct test{
+    char a;
+    int b;
+    short c;
+};
+
+#pragma pack()
+
+sizeof(struct test);//12字节
+</code></pre>
+
+<p>结构体成员中数据类型对齐的最大值为4字节，指定对齐值为4字节，结构体整体对齐值为4字节</p>
+
+<p><strong>8字节对齐：</strong></p>
+
+<pre><code>#pragma pack(8)
+
+struct test{
+    char a;
+    int b;
+    short c;
+};
+
+#pragma pack()
+
+sizeof(struct test);//12字节
+</code></pre>
+
+<p>结构体成员中数据类型对齐的最大值为4字节，指定对齐值为8字节，结构体整体对齐值为4字节</p>
+
+<p><strong>12字节对齐：</strong></p>
+
+<pre><code>#pragma pack(12)
+
+struct test{
+    char a;
+    int b;
+    short c;
+    double d;
+};
+
+sizeof(struct test);//24字节
+</code></pre>
+
+<p>结构体成员中数据类型对齐的最大值为8字节，指定对齐值为8字节，结构体整体对齐值为8字节</p>
+
+<pre><code>struct test{
+    char a;
+    int b;
+    short c;
+    double d;
+}__attribute__((aligned(2)));
+
+sizeof(struct test);//24字节
+</code></pre>
+
+<p>结构体成员中数据类型对齐的最大值为8字节，有效指定对齐值为8字节（指定对齐值为2字节，小于结构体中成员的最大自然边界对齐值8字节，对齐值为机器字长8字节），结构体整体对齐值为8字节</p>
+
+<pre><code>struct test{
+    char a;
+    int b;
+    short c;
+    char *p;
+    double d;
+}__attribute__((aligned(2)));
+
+sizeof(struct test);//32字节
+</code></pre>
+
+<p>结构体成员中数据类型对齐的最大值为8字节，有效指定对齐值为8字节（指定对齐值为2字节，小于结构体中成员的最大自然边界对齐值8字节，对齐值为机器字长8字节），结构体整体对齐值为8字节</p>
+
+<pre><code>struct test{
+    char a;
+    int b;
+    short c;
+    char vector[10];
+    char *p;
+    double d;
+}__attribute__((aligned(16)));
+
+sizeof(struct test);//48字节
+</code></pre>
+
+<h2 id="四-内存字节对齐的应用场合">四、内存字节对齐的应用场合</h2>
+
+<p>在设计不同CPU下的通信协议时，或者编写硬件驱动程序时寄存器的结构都需要按一字节对齐。</p>
+
+<h2 id="五-arm平台的内存字节对齐">五、ARM平台的内存字节对齐</h2>
+
+<p>在ARM中，有ARM和Thumb两种指令。</p>
+
+<p><strong>ARM指令</strong>：每执行一条指令，PC的值加4个字节（32bits）。一次访问4字节内容，该字节的起始地址必须是4字节对齐的位置上，即地址的低两位为bits[0b00],也就是说地址必须是4的倍数。</p>
+
+<p><strong>Thumb指令</strong>：每执行一条指令，PC的值加2个字节（16bits）。一次访问2字节内容，该字节的起始地址必须是2字节对齐的位置上，即地址的低两位为bits[0b0],也就是说地址必须是2的倍数。</p>
+
+<p>ARM汇编程序设计中的字节对齐</p>
+
+<p><strong>.align n</strong></p>
+
+<p>.align的作用在于对指令或者数据的存放地址进行对齐，有些CPU架构要求固定的指令长度并且存放地址相对于2的幂指数取整，否则程序无法正常运行</p>
+
+<p>ARM汇编器并不直接使用.align提供的参数作为对齐目标，而是使用2^n的值，比如这里的参数为4，那么圆整对象为2^4 = 16。缺省为4。</p>
+
+<p>参考博文：</p>
+
+<p>内存中的字节对齐（CSDN susan19890313）</p>
+
+<p>C语言字节对齐 （CSDN 21aspnet）</p>
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://MHz-Xing.github.io/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://MHz-Xing.github.io/tags/%E5%86%85%E5%AD%98" role="button">内存 </a></li>
+      
+    
+      <li><a href="https://MHz-Xing.github.io/tags/%E5%AD%97%E8%8A%82%E5%BA%8F" role="button">字节序 </a></li>
+      
+    
+      <li><a href="https://MHz-Xing.github.io/tags/c" role="button">C </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%BA%94-%E6%8C%87%E9%92%88%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>嵌入式Linux-C语言（五）--指针与字符串</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%B8%83-%E7%BB%93%E6%9E%84%E4%BD%93/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>嵌入式Linux-C语言（七）--结构体</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- 目录 - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%80-%e5%86%85%e5%ad%98%e5%ad%97%e8%8a%82%e5%af%b9%e9%bd%90%e7%ae%80%e4%bb%8b">
+												 一、内存字节对齐简介
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e5%86%85%e5%ad%98%e5%ad%97%e8%8a%82%e5%af%b9%e9%bd%90">
+												 1、内存字节对齐
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e5%86%85%e5%ad%98%e5%ad%97%e8%8a%82%e5%af%b9%e9%bd%90%e5%8e%9f%e5%9b%a0">
+												 2、内存字节对齐原因
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%ba%8c-%e5%86%85%e5%ad%98%e5%ad%97%e8%8a%82%e5%af%b9%e9%bd%90%e7%9a%84%e8%a7%84%e5%88%99">
+												 二、内存字节对齐的规则
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b%e8%87%aa%e7%84%b6%e8%be%b9%e7%95%8c%e5%af%b9%e9%bd%90">
+												 1、数据类型自然边界对齐
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e7%bb%93%e6%9e%84%e4%bd%93-%e7%b1%bb%e7%9a%84%e8%87%aa%e8%ba%ab%e5%af%b9%e9%bd%90">
+												 2、结构体、类的自身对齐
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e7%bc%96%e8%af%91%e5%99%a8%e6%8c%87%e5%ae%9a%e5%af%b9%e9%bd%90">
+												 3、编译器指定对齐
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%89-%e5%86%85%e5%ad%98%e5%ad%97%e8%8a%82%e5%af%b9%e9%bd%90%e5%ae%9e%e4%be%8b">
+												 三、内存字节对齐实例
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%9b%9b-%e5%86%85%e5%ad%98%e5%ad%97%e8%8a%82%e5%af%b9%e9%bd%90%e7%9a%84%e5%ba%94%e7%94%a8%e5%9c%ba%e5%90%88">
+												 四、内存字节对齐的应用场合
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%ba%94-arm%e5%b9%b3%e5%8f%b0%e7%9a%84%e5%86%85%e5%ad%98%e5%ad%97%e8%8a%82%e5%af%b9%e9%bd%90">
+												 五、ARM平台的内存字节对齐
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+      <a href="//github.com/MHz-Xing " target="_blank" rel="noopener"><i class="fab fa-github mr-3" aria-hidden="true"></i></a>    
+    
+    
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+    <a href="//weibo.com/2462050587" target="_blank" rel="noopener"><i class="fab fa-weibo mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+    
+        <a href="//cli.im/text?1c3bfd70c3d1d9ab80ca5543243dc57f" target="_blank" rel="noopener"><i class="fab fa-weixin mr-3" aria-hidden="true"></i></a>
+    
+
+
+    
+        <a href="mailto:xingzhh@126.com"><i class="far fa-envelope mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span>  2016 - 2019 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne' target="_blank">AllinOne</a> Modefied by <a href='https://github.com/MHz-Xing' target="_blank">MHz-Xing</a>  </span>
+  </div>
+  
+
+</footer>
+
+
+    
+
+
+
+
+
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/main.js"></script>
+
+
+
+  
+  <script src="https://MHz-Xing.github.io/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+ 
+  <script src="https://MHz-Xing.github.io/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://MHz-Xing.github.io/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  </body>
+</html>

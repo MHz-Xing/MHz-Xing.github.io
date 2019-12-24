@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>链表 on Xing MHz</title>
+    <link>https://MHz-Xing.github.io/tags/%E9%93%BE%E8%A1%A8/</link>
+    <description>Recent content in 链表 on Xing MHz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Tue, 24 Dec 2019 10:21:20 +0800</lastBuildDate>
+    
+	<atom:link href="https://MHz-Xing.github.io/tags/%E9%93%BE%E8%A1%A8/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>嵌入式Linux-C语言（十三）--双链表</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%8D%81%E4%B8%89-%E5%8F%8C%E9%93%BE%E8%A1%A8/</link>
+      <pubDate>Tue, 24 Dec 2019 10:21:20 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%8D%81%E4%B8%89-%E5%8F%8C%E9%93%BE%E8%A1%A8/</guid>
+      <description>&lt;h2 id=&#34;一-双链表简介&#34;&gt;一、双链表简介&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-双链表的结构&#34;&gt;1、双链表的结构&lt;/h3&gt;
+
+&lt;p&gt;双链表是链表的一种，由节点组成，每个数据结点中都有两个指针，分别指向直接后继和直接前驱。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>嵌入式Linux-C语言（十二）--单链表</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%8D%81%E4%BA%8C-%E5%8D%95%E9%93%BE%E8%A1%A8/</link>
+      <pubDate>Tue, 24 Dec 2019 10:17:54 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%8D%81%E4%BA%8C-%E5%8D%95%E9%93%BE%E8%A1%A8/</guid>
+      <description>&lt;h2 id=&#34;一-单链表简介&#34;&gt;一、单链表简介&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-单链表的结构&#34;&gt;1、单链表的结构&lt;/h3&gt;
+
+&lt;p&gt;单链表是一种链式存取的数据结构，用一组地址任意的存储单元存放线性表中的数据元素。&lt;/p&gt;
+
+&lt;p&gt;链表中的数据是以节点来表示的，每个节点由两部分构成：一个是数据域，存储数据值，另一个是指针域，存储指向下一个节点的指针。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

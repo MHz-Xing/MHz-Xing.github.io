@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  <meta name="author" content="Xing MHz">
+  <meta name="description" content="一、存储类型
+
+C语言中，每个变量和函数都有两个属性：数据类型和数据的存储类型。
+
+变量的存储类型是指存储变量值的内存类型。变量的存储类型决定变量何时创建、何时销毁以及它的值将保持多久。计算机中有三个地方可以用于存储变量：普通内存，运行时堆和栈，硬件寄存器。变量的存储类型取决于声明变量的位置。">
+  
+  <meta property="og:title" content="嵌入式Linux-C语言（八）--存储类型、作用域、生命周期、链接属性" />
+<meta property="og:description" content="一、存储类型
+
+C语言中，每个变量和函数都有两个属性：数据类型和数据的存储类型。
+
+变量的存储类型是指存储变量值的内存类型。变量的存储类型决定变量何时创建、何时销毁以及它的值将保持多久。计算机中有三个地方可以用于存储变量：普通内存，运行时堆和栈，硬件寄存器。变量的存储类型取决于声明变量的位置。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%85%AB-%E5%AD%98%E5%82%A8%E7%B1%BB%E5%9E%8B%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%93%BE%E6%8E%A5%E5%B1%9E%E6%80%A7/" />
+<meta property="article:published_time" content="2019-12-24T10:07:59+08:00" />
+<meta property="article:modified_time" content="2019-12-24T10:07:59+08:00" />
+
+
+
+  <title>
+  
+       嵌入式Linux-C语言（八）--存储类型、作用域、生命周期、链接属性 | Xing MHz 
+  
+  </title>
+
+  <link rel="canonical" href="https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E5%85%AB-%E5%AD%98%E5%82%A8%E7%B1%BB%E5%9E%8B%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%93%BE%E6%8E%A5%E5%B1%9E%E6%80%A7/">
+
+  
+  
+
+  
+  <link href="https://MHz-Xing.github.io/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://MHz-Xing.github.io/css/font.css" rel="stylesheet"> 
+    
+  
+  <link href="https://MHz-Xing.github.io/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://MHz-Xing.github.io/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet"> 
+  <link href="https://MHz-Xing.github.io/css/vendors/mdb/style.min.css" rel="stylesheet"> 
+  <link href="https://MHz-Xing.github.io/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"
+  
+      href="https://MHz-Xing.github.io/img/xing.svg"
+  
+  >
+
+
+  
+  
+
+  <style type="text/css">
+      @media (min-width: 800px) and (max-width: 850px) {
+              .navbar:not(.top-nav-collapse) {
+                  background: #1C2331!important;
+              }
+          }
+  </style>
+
+
+  
+    
+    <link rel="stylesheet" href="https://MHz-Xing.github.io/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+    
+    <link rel="stylesheet" href="https://MHz-Xing.github.io/css/vendors/highlight/github-gist.css">
+  
+  
+  
+  <link href="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet"></head>
+
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://MHz-Xing.github.io/">
+          
+        <img class="smallavatar" src="https://MHz-Xing.github.io/img/xing.svg" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> Xing MHz</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://MHz-Xing.github.io/">主页</a>
+          </li>
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/blog/" >文章  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/picture/" >照片  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/about/" >档案馆  </a>
+            </li>
+          
+          
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+  
+ 
+      
+ 
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;" >  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+      
+
+        
+        <div class="carousel-item active">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides/IMG_0264.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+              
+              
+              
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides//IMG_0276.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides//IMG_0593.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+
+  
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://MHz-Xing.github.io/">
+          
+            <img class="pull-right avatar avatar-md" src="https://avatars1.githubusercontent.com/u/16077406?s=460&amp;v=4" alt="" >
+          
+        </a>
+      </div>
+      
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://MHz-Xing.github.io/">
+          <h1 class="mb-2 h1" style="font-weight: 300;" >
+            <strong>Xing MHz</strong>
+          </h1>
+        </a>
+        
+
+             
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+            
+              <a href="//github.com/MHz-Xing" target="_blank" rel="noopener"><i class="fab fa-github pr-1" aria-hidden="true"></i></a>    
+            
+            
+              <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin pr-1" aria-hidden="true"></i></a>
+            
+
+            
+
+            
+            <a href="//weibo.com/2462050587" target="_blank" rel="noopener"><i class="fab fa-weibo pr-1" aria-hidden="true"></i></a>
+            
+
+            
+
+            
+    
+            
+                <a href="//cli.im/text?1c3bfd70c3d1d9ab80ca5543243dc57f" target="_blank" rel="noopener"><i class="fab fa-weixin pr-1" aria-hidden="true"></i></a>
+            
+    
+        
+            
+                <a href="mailto:xingzhh@126.com"><i class="far fa-envelope pr-1" aria-hidden="true"></i></a>
+            
+    
+            
+
+            
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://MHz-Xing.github.io/categories/%E7%BC%96%E7%A8%8B%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 编程技术 </a></li>
+      
+    
+    
+      
+        <li><a href="https://MHz-Xing.github.io/series/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>嵌入式Linux-C语言</a></li>
+      
+    
+  </ul>
+
+  <div class="px-4 post-heading">嵌入式Linux-C语言（八）--存储类型、作用域、生命周期、链接属性</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Dec 24, 2019</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>14 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <h2 id="一-存储类型">一、存储类型</h2>
+
+<p><strong>C语言中，每个变量和函数都有两个属性：数据类型和数据的存储类型。</strong></p>
+
+<p>变量的存储类型是指存储变量值的内存类型。变量的存储类型决定变量何时创建、何时销毁以及它的值将保持多久。计算机中有三个地方可以用于存储变量：普通内存，运行时堆和栈，硬件寄存器。变量的存储类型取决于声明变量的位置。</p>
+
+<p>C语言存储类别说明符：</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">说 明 符</th>
+<th>用 法</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">auto</td>
+<td>只在代码块内变量声明中被允许, 表示变量具有本地生存期</td>
+</tr>
+
+<tr>
+<td align="center">extern</td>
+<td>出现在顶层或块的外部，函数与变量声明中，表示声明的对象具有静态生存期, 链接器知道其名字</td>
+</tr>
+
+<tr>
+<td align="center">static</td>
+<td>可以放在函数与变量声明中,在函数定义时,只用于指定函数名,而不将函数导出到链接器,在函数声明中,表示其后边会有定义声明的函数。在数据声明中,总是表示定义的声明不导出到链接器</td>
+</tr>
+
+<tr>
+<td align="center">register</td>
+<td>要使变量尽量存储于寄存器，只能声明自动变量</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="1-静态变量">1、静态变量</h3>
+
+<p>在代码块之外声明的变量存储于静态内存中，不属于堆和栈的内存，这类变量称为静态(static)变量。静态变量在程序运行之前创建，是在将可执行文件加载到内存的时候创建，其在程序的整个执行期间始终存在。</p>
+
+<p>extern：用于声明全局变量、函数，主要用于在一个文件中定义全局变量、函数，而在另一个文件中引用全局变量、函数。一般来说，函数声明一般放在一个头文件中，供其他文件引用。</p>
+
+<p>static：两种用法含义截然不同</p>
+
+<p>A、修饰局部变量，静态局部变量。静态局部变量和非静态局部变量区别在于存储类不同。非静态局部变量存储在栈上，静态局部变量分配在数据段或bss段静态内存中。静态局部变量的生命周期和全局变量相同，但作用域和链接属性不同，静态局部变量的作用域为代码块作用域，链接属性为无链接；全局变量的作用域为文件作用域，链接属性为外链接。</p>
+
+<p>B、修饰全局变量，静态全局变量。静态全局变量和非静态全局变量的区别在于链接属性不同，静态全局变量为内链接，非静态全局变量为外链接。</p>
+
+<h3 id="2-自动变量">2、自动变量</h3>
+
+<p>在代码块内部声明的变量的缺省存储类型是自动的 (automatic)，存储于栈中，称为自动变量。关键字auto就是用于修饰这种存储类型的，代码块中的变量缺省情况下就是自动变量。在程序执行到声明自动变量的代码块时，自动变量才被创建，当程序的执行流离开代码块时，代码块内创建的自动变量便自行销毁。在代码块内部声明的变量，如果给它加上static，可以使它的存储类型从自动变为静态变量。但是，修改变量的存储类型并不表示修改改变量的作用域，变量的作用域仍然是代码块内部。函数的形式参数不能声明为静态，因为实参总是在堆栈中传递给函数。</p>
+
+<p>函数的形式参数不能声明为静态，因为函数的参数传递是通过堆栈进行的，用于支持递归。</p>
+
+<p><strong>auto：</strong></p>
+
+<p>修饰局部变量表示自动局部变量，自动局部变量分配在栈上，默认定义的普通局部变量。</p>
+
+<h3 id="3-寄存器存储">3、寄存器存储</h3>
+
+<p>要使变量存储于寄存器声明自动变量时需要关键字：register。</p>
+
+<p>register：</p>
+
+<p>register修饰的变量编译器会尽量分配在寄存器上，不保证一定会分配在寄存器中，一般的变量分配在内存中。register修饰的变量读写效率较高，用于高频次访问的变量。</p>
+
+<p>C语言程序运行时有一定要求，C语言程序无法直接在内存中运行，需要外部一定的协助，协助的代码叫加载运行代码，主要作用是给全局变量赋值、清除bss段。裸机程序开发中需要。</p>
+
+<h2 id="二-作用域">二、作用域</h2>
+
+<p>作用域是指允许对标识符进行访问的位置范围。</p>
+
+<blockquote>
+<p>C99规定，C语言的作用域共有 4 种类型：文件作用域、代码块作用域、函数作用域、函数原型作用域。编译器通过变量声明的位置来确定作用域。</p>
+</blockquote>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>位置</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>文件作用域(file)</td>
+<td>在所有代码块和参数列表之外</td>
+<td>整个文件内都可以访问</td>
+</tr>
+
+<tr>
+<td>代码块作用域 ( block)</td>
+<td>在“代码块”或者“函数的参数列表”内部</td>
+<td>只有所在的代码块内可以访问</td>
+</tr>
+
+<tr>
+<td>函数作用域 (function)</td>
+<td>函数体内</td>
+<td>具有此作用域的只有一种语句：只有goto语句要使用的“语句标签”。简化为一条规则：一个函数中的语句标签（label）必须唯一。</td>
+</tr>
+
+<tr>
+<td>函数原型作用域 (function prototype)</td>
+<td>声明的函数原型的参数列表中（注意与“函数定义”不同）</td>
+<td>由于函数原型的参数名称可以省略，即使不省略，也不要求和“函数定义”中的形参列表中名称相同。</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="1-文件作用域">1、文件作用域</h3>
+
+<p>代码块之外声明的标识符具有文件作用域，文件作用域的范围是从标识符声明处一直到文件的结束。如果声明在头文件中，并且头文件被其他文件用#include 所包含，标识符的作用域也会相应的扩大到包含文件的结束。</p>
+
+<h3 id="2-代码块作用域">2、代码块作用域</h3>
+
+<p>一对花括号之间的所有语句称为代码块作用域。在代码块开始位置声明的标识符具有代码块作用域。在一个代码块作用域开始定义的变量可以被该代码块内的所有语句使用。</p>
+
+<p>如果代码块之间有嵌套，那么内层代码块的标识符就会把外层代码块的同名标识符掩藏，对内层代码块标识符的修改不会影响外层代码块的同名标识符；内层代码块可以使用外层代码块的标识符。</p>
+
+<p>对于非嵌套的两个代码块，两个代码块之间没有交集，那么一个代码块内的语句不能使用另一个代码块内的变量。</p>
+
+<p>函数定义中的参数是代码块作用域。</p>
+
+<h3 id="3-函数作用域">3、函数作用域</h3>
+
+<p>只适用于goto语句的语句标签。函数作用域只适用于语句标签，语句标签用于goto语句。一个函数作用域内的语句标签必须唯一</p>
+
+<h3 id="4-函数原型作用域">4、函数原型作用域</h3>
+
+<p>在函数原型中声明的参数名具有函数原型作用域。</p>
+
+<h3 id="5-标识符的命名空间">5、标识符的命名空间</h3>
+
+<p>命名空间是为了解决在相同作用域内如何区分相同的标识符。</p>
+
+<p>A、只有在相同作用域的情况下才能使用到命名空间去区分标识符，在嵌套的作用域、不同的作用域区分标识符都不会用到命名空间的概念。</p>
+
+<p>B、在相同的作用域内，如果命名空间不同，标识符可以使用相同的名称。否则，即如果命名空间不同，编译器会报错，提示重复定义。</p>
+
+<p>C99规定C语言命名空间可以分为四种：</p>
+
+<ul>
+<li><p>A、所有的标签（label）都属于同一个命名空间。
+在同一个函数内，标签不能相同。</p>
+
+<p>在同一个函数内，标签可以和其他变量名称相同。因为它们所属的命名空间不同。</p></li>
+
+<li><p>B、struct、enum和union的名称属于同一个命名空间</p>
+
+<p>C99中将struct、enum和union的名称称之为tag，所有的tag属于同一个命名空间。 也就是说，如果你已经声明struct A { int a }; 就不能在声明 union A{ int a };</p></li>
+
+<li><p>C、struct和union的成员各自属于一个命名空间，而且是相互独立的</p>
+
+<p>例如：如果你已经声明struct A { int a }; 其成员的名称为a，你仍然可以声明 struct B{ int a };或者union B{ int a };</p></li>
+</ul>
+
+<p>struct和union的成员各自成为一个命名空间，是因为它们的成员访问时，需要通过 &ldquo;.&ldquo;或&rdquo;-&gt;&ldquo;运算符，而不会单独使用，所以编译器可以将它们与其他的标识符区分开。由于枚举类型enum的成员可以单独使用，所以枚举类型的成员不在这一名称空间内。</p>
+
+<ul>
+<li><p>D、其他所有的标识符，属于同一个名称空间。</p>
+
+<p>包括变量名、函数名、函数参数，宏定义、typedef的类型名、enum的成员 等等。</p></li>
+</ul>
+
+<h3 id="6-重名标识符的处理">6、重名标识符的处理</h3>
+
+<p>如果标识符出现重名的情况，宏定义覆盖所有其它标识符，这是因为它在预处理阶段而不是编译阶段处理。除了宏定义之外其它类别的标识符，处理规则是：内层作用域会隐藏掉外层作用域的标识符。</p>
+
+<p>同名变量的掩蔽规则：</p>
+
+<p>两个同名变量的作用域没有重叠，则两个同名变量互不影响。</p>
+
+<p>两个重名变量的作用域有重叠，则作用域小的变量掩蔽掉作用域大的变量，遵循就近原则。</p>
+
+<p>C89标准的编译器中，所有的局部变量必须先定义在函数的前面，在C99标准的编译器中可以允许在代码块内任意位置定义局部变量，但也必须先定义再使用。</p>
+
+<h2 id="三-生命周期">三、生命周期</h2>
+
+<p>变量的生命周期是指程序运行期间，变量从分配到地址到地址被释放的过程。根据变量的存储类型可以将变量的生命周期分为：<strong>静态生存期、自动生存期、动态分配生存期</strong><strong>。</strong></p>
+
+<h3 id="1-静态生存期">1、静态生存期</h3>
+
+<p>属于文件作用域（即external或internal链接属性）、以及被static修饰的变量，具有static静态生存期。静态生存期的变量存储在静态内存中。静态存储的变量，在程序运行之前就已经创建，在程序整个执行期间一直存在，如果声明时没有被显式的初始化，就会被自动初始化为<strong>0</strong>。</p>
+
+<p>静态变量当然是属于静态存储方式，但是属于静态存储方式的变量不一定就是静态变量，例如外部变量虽属于静态存储方式，但不一定是静态变量，必须由static加以定义后才能成为静态变量。</p>
+
+<p>const常量、字符串常量存储在代码段或只读数据段，取决于平台。</p>
+
+<h3 id="2-自动生存期">2、自动生存期</h3>
+
+<p>链接属性为none，并且没有static修饰的变量，具有automatic自动生存期。</p>
+
+<p>自动生存期的变量存储于栈或寄存器中。其中在代码块内部声明的变量，在C语言书籍中也被称为“自动变量”，使用auto修饰符，默认可以省略。对于自动存储的变量当程序执行到含有自动变量的代码段时，自动变量才被创建，并且不会被自动初始化，代码段执行结束，自动变量就自动销毁，释放掉内存。如果代码段被反复执行，那么自动变量就会反复被创建和销毁。注意这一点和静态变量不同，静态变量只创建一次，到程序结束才销毁。</p>
+
+<h3 id="3-动态分配生存期">3、动态分配生存期</h3>
+
+<p>使用malloc函数，在进程的堆空间分配内存的变量。</p>
+
+<p>动态分配生存期的变量存储于堆中，也不会被自动初始化，使用free函数释放内存。</p>
+
+<h2 id="四-链接属性">四、链接属性</h2>
+
+<p>链接属性是为了说明在不同文件中出现的相同标识符应该如何处理。</p>
+
+<p>完整、大型、商业的C语言工程由多个c文件和h文件组成的。编译时将文件编译成.o的二进制文件，通过链接将多个.o文件链接成一个可执行程序。编译时以文件为单位，链接时以工程为单位。</p>
+
+<p>各个源文件被编译后，所有的目标文件和从函数库中引用的函数（一般是归档库文件，*.a类型)经过链接器链接，形成一定格式的可执行程序，如elf格式。如果相同的标示符出现在几个不同个源文件中，他们是否表示同一个实体。这由标示符的链接属(linkage)决定。标示符的作用域和链接属性相关，作用域是由链接属性决定的，但二者并不相同。比如，内部属性的静态全局变量，在代码块内有同样名称的标示符，这时静态变量无效，起作用的是代码块内的局部变量。虽然静态全局变量具有内部链接属性，但当名字冲突时，起作用的是局部变量。</p>
+
+<p>C99规定C语言的链接属性分为三种：external（外部链接）， internal（内部链接）， none（无链接）。</p>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+<th>默认（即不使用extern和static）</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>外部链接external</td>
+<td>同一个标识符，即使在不同的文件中，也表示同一个实体.</td>
+<td>①具有文件作用域的变量和函数。②代码块作用域内部的函数声明</td>
+</tr>
+
+<tr>
+<td>内部链接internal</td>
+<td>同一个标识符，仅仅在同一个文件中才表示同一个实体。</td>
+<td>如果不使用static，那么默认没有内部链接属性的标识符。只有被static修饰的具有文件作用域的标识符，才具有internal链接属性</td>
+</tr>
+
+<tr>
+<td>无链接none</td>
+<td>表示不同的实体</td>
+<td>所有其他的标识符。如：函数的参数、代码块作用域的变量、标签等</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="1-外部链接">1、外部链接</h3>
+
+<p>表示位于不同的源文件的相同标识符表示同一个实体。</p>
+
+<p>链接属性为external的标识符不论声明多少次，位于几个原文件内均表示同一实体。函数和全局变量属于外链接。</p>
+
+<h3 id="2-内部链接">2、内部链接</h3>
+
+<p>表示只有位于相同源文件的相同标识符表示同一个实体，不同源文件的相同标识符表示不同的实体。</p>
+
+<p>链接属性为internal的标识符在同一个源文件内的所有声明均指向同一个实体，但位于不同源文件的多个声明则分属不同的实体。在单个文件内部进行链接，static修饰的全局变量和函数属于内链接。</p>
+
+<h3 id="3-无链接">3、无链接</h3>
+
+<p>链接属性为none的标识符不论在那个文件内都是独立的个体。</p>
+
+<p>没有链接的标示符，总是被当做单独的个体，也就是说该标示符的多个声明被当做不同的实体。所有局部变量属于无链接，宏和inline函数链接属性为无链接。</p>
+
+<p>在文件作用域内声明的变量或是函数，在缺省的条件下链接属性为external，其余的为none。</p>
+
+<h2 id="五-相互关系">五、相互关系</h2>
+
+<p>标识符的存储类型、作用域、生命周期、链接属性是相互关联的，存储类决定生命周期，链接属性决定作用域。</p>
+
+<table>
+<thead>
+<tr>
+<th>作用域</th>
+<th>声明位置</th>
+<th>链接属性</th>
+<th>存储类型</th>
+<th>默认初始化值</th>
+<th>使用static修饰</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>文件作用域</td>
+<td>在所有代码块和参数列表之外</td>
+<td>external</td>
+<td>静态存储</td>
+<td>0</td>
+<td>Internal 静态存储</td>
+</tr>
+
+<tr>
+<td>代码块作用域</td>
+<td>在代码块或函数的参数列表内部</td>
+<td>none</td>
+<td>栈存储</td>
+<td>形式参数调用时被初始化；代码块内部不自动初始化</td>
+<td>None 静态存储</td>
+</tr>
+
+<tr>
+<td>函数作用域</td>
+<td>函数体内</td>
+<td>-</td>
+<td>-</td>
+<td>标签，不需要初始化</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td>函数原型作用域</td>
+<td>声明的函数原型的参数列表中（注意与“函数定义”不同）</td>
+<td>-</td>
+<td>-</td>
+<td>不需要初始化</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="1-extern关键字">1、extern关键字</h3>
+
+<p>extern用来为一个标识符指定external链接属性。如果使用extern关键字声明某一个变量，说明变量是在别处定义的，可能位于别的文件也可能位于当前文件。</p>
+
+<p>如果一个标识符在声明为extern前已经进行了声明，则链接属性由第一个声明决定（第一个声明的链接属性为external或internal时）。</p>
+
+<h3 id="2-static关键字">2、static关键字</h3>
+
+<p>对于在代码块内部声明的变量，存储类型为自动变量，作用域为代码块作用域，链接属性为无链接，生命周期为自动生存周期。当static用于代码块内部的变量声明时，会将变量的存储类型从自动变量修改为静态变量，作用域仍然为代码块作用域，生命周期从自动生存期修改为静态生存周期，链接属性仍然为无链接。</p>
+
+<p>对于在代码块外声明的全局变量，存储类型为静态变量，作用域为文件作用域，链接属性为外链接，生命周期为静态生存期。当static用于代码块外部的全局变量声明时，会将变量的链接属性从外链接修改为内链接，存储类型仍然为静态变量，生命周期仍然为静态生存周期，作用域仍然为文件作用域，但作用域将限定为本文件，不能被其它源文件使用。</p>
+
+<p>对于在代码块外的函数定义，作用域为文件作用域，链接属性为外链接。当static用于代码块外的函数声明时，会将函数的链接属性从外链接修改为内链接，作用域仍然为文件作用域，但作用域将限定为本文件，不能被其它源文件使用。</p>
+
+<p>对于在代码块内或代码块外部都有可能出现的情况，例如函数：函数声明的标识符为静态存储的，但是对于其形参是存储于堆栈中的，形参声明的变量作用域为原型作用域。对于存储于堆栈中的变量，即自动变量可以用register关键字使变量存储于机器硬件寄存器中。在代码块内部声明的自动变量可以通过static关键字修改为静态变量。</p>
+
+<h3 id="3-属性修改的一般原则">3、属性修改的一般原则</h3>
+
+<p>生命周期、存数类型都是针对变量， 因为在程序运行期间，只有变量才需要分配内存和释放内存，其他的诸如函数等都不需要。</p>
+
+<p>修改变量的存储类型（如用static将自动变量变为静态变量），并不会修改变量的作用域，变量的作用域仍然有其声明的位置决定，</p>
+
+<p>函数的形式参数，如果使用修饰符，只能使用register修饰，表示运行时参数存储在寄存器上。注意：形式参数是不能用auto修饰的。</p>
+
+<h2 id="六-c语言工程中标识符的使用原则">六、C语言工程中标识符的使用原则</h2>
+
+<h3 id="1-函数的定义与声明">1、函数的定义与声明</h3>
+
+<p>在.h文件中声明的函数,如果在其对应的.c文件中有定义,那么我们在声明这个函数时,不使用extern修饰符, 如果反之,则必须显示使用extern修饰符。显示声明表示是引用外部函数，隐式声明是自己声明并定义的函数。</p>
+
+<h3 id="2-全局变量的定义与声明">2、全局变量的定义与声明</h3>
+
+<p>全局变量应该定义c文件中并且在h文件中声明，不要定义在头文件中。</p>
+
+<p>C语言的所有文件之中，只能有一个定义声明。顶层声明中，存在初始化语句是表示这个声明是定义声明，其他声明是引用声明。</p>
+
+<p>所有引用声明要显示用存储类型关键字extern声明，而每个外部变量的唯一定义声明中省略存储类说明符。</p>
+
+<p>所有全局变量全部以g_开头，并且尽可能声明成static类型。
+尽量杜绝跨文件访问全局变量。如果的确需要在多个文件内访问同一变量,应由该变量定义所在文件内提供GET/PUT函数实现.
+    全局变量必须要有一个初始值，全局变量尽量放在一个专门的函数内初始化.
+如调用的函数少于三个，请考虑改为局部变量实现。</p>
+
+<p>数组的引用声明：</p>
+
+<pre><code>extern int G_glob[100];
+extern int G_glob[];
+</code></pre>
+
+<h3 id="3-模块化编程">3、模块化编程</h3>
+
+<p>为了实现编程的模块化，一般会按功能模块对函数进行封装，封装成为.h和.c文件。</p>
+
+<p>.h文件是头文件，内含函数声明、宏定义、结构体定义等内容。</p>
+
+<p>.cpp文件是程序文件，内含函数实现，变量定义等内容。</p>
+
+<p>为了防止对头文件的重复包含，一般采用宏定义：</p>
+
+<pre><code>#ifndef XXX
+#define XXX
+函数声明
+#endif
+</code></pre>
+
+<p>参考博文：</p>
+
+<p><a href="http://blog.csdn.net/daheiantian/article/details/6219590">C语言中标识符的作用域、命名空间、链接属性、生命周期、存储类型（上） （CSDN daheiantian）</a></p>
+
+<p><a href="http://blog.csdn.net/daheiantian/article/details/6222216">C语言中标识符的作用域、命名空间、链接属性、生命周期、存储类型（下） （CSDN daheiantian）</a></p>
+
+<p><a href="http://blog.csdn.net/a7055117a/article/details/50549104">C_作用域、链接属性和储存类型 (CSDN Gummary)</a></p>
+
+<p><a href="http://blog.csdn.net/rcj183419/article/details/45459969">C语言提高之——C语言中的作用域、链接属性和存储类型 (CSDN 任长江)</a></p>
+
+<p><a href="http://blog.chinaunix.net/uid-23193900-id-3181984.html">作用域+链接属性+存储类型(博客园 graylocus</a>)</p>
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://MHz-Xing.github.io/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://MHz-Xing.github.io/tags/%E5%AD%98%E5%82%A8%E7%B1%BB%E5%9E%8B" role="button">存储类型 </a></li>
+      
+    
+      <li><a href="https://MHz-Xing.github.io/tags/%E4%BD%9C%E7%94%A8%E5%9F%9F" role="button">作用域 </a></li>
+      
+    
+      <li><a href="https://MHz-Xing.github.io/tags/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F" role="button">生命周期 </a></li>
+      
+    
+      <li><a href="https://MHz-Xing.github.io/tags/%E9%93%BE%E6%8E%A5%E5%B1%9E%E6%80%A7" role="button">链接属性 </a></li>
+      
+    
+      <li><a href="https://MHz-Xing.github.io/tags/c" role="button">C </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%B8%83-%E7%BB%93%E6%9E%84%E4%BD%93/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>嵌入式Linux-C语言（七）--结构体</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://MHz-Xing.github.io/blog/2019-12/%E5%B5%8C%E5%85%A5%E5%BC%8Flinux-c%E8%AF%AD%E8%A8%80%E4%B9%9D-c%E8%AF%AD%E8%A8%80%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E5%92%8C%E6%8C%87%E9%92%88%E9%99%B7%E9%98%B1/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>嵌入式Linux-C语言（九）--C语言的安全问题和指针陷阱</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- 目录 - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%80-%e5%ad%98%e5%82%a8%e7%b1%bb%e5%9e%8b">
+												 一、存储类型
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e9%9d%99%e6%80%81%e5%8f%98%e9%87%8f">
+												 1、静态变量
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e8%87%aa%e5%8a%a8%e5%8f%98%e9%87%8f">
+												 2、自动变量
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e5%af%84%e5%ad%98%e5%99%a8%e5%ad%98%e5%82%a8">
+												 3、寄存器存储
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%ba%8c-%e4%bd%9c%e7%94%a8%e5%9f%9f">
+												 二、作用域
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e6%96%87%e4%bb%b6%e4%bd%9c%e7%94%a8%e5%9f%9f">
+												 1、文件作用域
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e4%bb%a3%e7%a0%81%e5%9d%97%e4%bd%9c%e7%94%a8%e5%9f%9f">
+												 2、代码块作用域
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e5%87%bd%e6%95%b0%e4%bd%9c%e7%94%a8%e5%9f%9f">
+												 3、函数作用域
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#4-%e5%87%bd%e6%95%b0%e5%8e%9f%e5%9e%8b%e4%bd%9c%e7%94%a8%e5%9f%9f">
+												 4、函数原型作用域
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#5-%e6%a0%87%e8%af%86%e7%ac%a6%e7%9a%84%e5%91%bd%e5%90%8d%e7%a9%ba%e9%97%b4">
+												 5、标识符的命名空间
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#6-%e9%87%8d%e5%90%8d%e6%a0%87%e8%af%86%e7%ac%a6%e7%9a%84%e5%a4%84%e7%90%86">
+												 6、重名标识符的处理
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%b8%89-%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f">
+												 三、生命周期
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e9%9d%99%e6%80%81%e7%94%9f%e5%ad%98%e6%9c%9f">
+												 1、静态生存期
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e8%87%aa%e5%8a%a8%e7%94%9f%e5%ad%98%e6%9c%9f">
+												 2、自动生存期
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e5%8a%a8%e6%80%81%e5%88%86%e9%85%8d%e7%94%9f%e5%ad%98%e6%9c%9f">
+												 3、动态分配生存期
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%9b%9b-%e9%93%be%e6%8e%a5%e5%b1%9e%e6%80%a7">
+												 四、链接属性
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e5%a4%96%e9%83%a8%e9%93%be%e6%8e%a5">
+												 1、外部链接
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e5%86%85%e9%83%a8%e9%93%be%e6%8e%a5">
+												 2、内部链接
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e6%97%a0%e9%93%be%e6%8e%a5">
+												 3、无链接
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e4%ba%94-%e7%9b%b8%e4%ba%92%e5%85%b3%e7%b3%bb">
+												 五、相互关系
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-extern%e5%85%b3%e9%94%ae%e5%ad%97">
+												 1、extern关键字
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-static%e5%85%b3%e9%94%ae%e5%ad%97">
+												 2、static关键字
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e5%b1%9e%e6%80%a7%e4%bf%ae%e6%94%b9%e7%9a%84%e4%b8%80%e8%88%ac%e5%8e%9f%e5%88%99">
+												 3、属性修改的一般原则
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#%e5%85%ad-c%e8%af%ad%e8%a8%80%e5%b7%a5%e7%a8%8b%e4%b8%ad%e6%a0%87%e8%af%86%e7%ac%a6%e7%9a%84%e4%bd%bf%e7%94%a8%e5%8e%9f%e5%88%99">
+												 六、C语言工程中标识符的使用原则
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e5%87%bd%e6%95%b0%e7%9a%84%e5%ae%9a%e4%b9%89%e4%b8%8e%e5%a3%b0%e6%98%8e">
+												 1、函数的定义与声明
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e5%85%a8%e5%b1%80%e5%8f%98%e9%87%8f%e7%9a%84%e5%ae%9a%e4%b9%89%e4%b8%8e%e5%a3%b0%e6%98%8e">
+												 2、全局变量的定义与声明
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e6%a8%a1%e5%9d%97%e5%8c%96%e7%bc%96%e7%a8%8b">
+												 3、模块化编程
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+      <a href="//github.com/MHz-Xing " target="_blank" rel="noopener"><i class="fab fa-github mr-3" aria-hidden="true"></i></a>    
+    
+    
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+    <a href="//weibo.com/2462050587" target="_blank" rel="noopener"><i class="fab fa-weibo mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+    
+        <a href="//cli.im/text?1c3bfd70c3d1d9ab80ca5543243dc57f" target="_blank" rel="noopener"><i class="fab fa-weixin mr-3" aria-hidden="true"></i></a>
+    
+
+
+    
+        <a href="mailto:xingzhh@126.com"><i class="far fa-envelope mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span>  2016 - 2019 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne' target="_blank">AllinOne</a> Modefied by <a href='https://github.com/MHz-Xing' target="_blank">MHz-Xing</a>  </span>
+  </div>
+  
+
+</footer>
+
+
+    
+
+
+
+
+
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/main.js"></script>
+
+
+
+  
+  <script src="https://MHz-Xing.github.io/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+ 
+  <script src="https://MHz-Xing.github.io/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://MHz-Xing.github.io/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  </body>
+</html>
