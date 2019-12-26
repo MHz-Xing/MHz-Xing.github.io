@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  <meta name="author" content="Xing MHz">
+  <meta name="description" content="1. 简介 物理层（Physical Layer）是BLE协议栈最底层，它规定了BLE通信的基础射频参数，包">
+  
+  <meta property="og:title" content="认识BLE5协议栈[九]--物理层" />
+<meta property="og:description" content="1. 简介 物理层（Physical Layer）是BLE协议栈最底层，它规定了BLE通信的基础射频参数，包" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://MHz-Xing.github.io/blog/2019-12/%E8%AE%A4%E8%AF%86ble5%E5%8D%8F%E8%AE%AE%E6%A0%88%E4%B9%9D-%E7%89%A9%E7%90%86%E5%B1%82/" />
+<meta property="article:published_time" content="2019-12-26T11:43:23+08:00" />
+<meta property="article:modified_time" content="2019-12-26T11:43:23+08:00" />
+
+
+
+  <title>
+  
+       认识BLE5协议栈[九]--物理层 | Xing MHz 
+  
+  </title>
+
+  <link rel="canonical" href="https://MHz-Xing.github.io/blog/2019-12/%E8%AE%A4%E8%AF%86ble5%E5%8D%8F%E8%AE%AE%E6%A0%88%E4%B9%9D-%E7%89%A9%E7%90%86%E5%B1%82/">
+
+  
+  
+
+  
+  <link href="https://MHz-Xing.github.io/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://MHz-Xing.github.io/css/font.css" rel="stylesheet"> 
+    
+  
+  <link href="https://MHz-Xing.github.io/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://MHz-Xing.github.io/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet"> 
+  <link href="https://MHz-Xing.github.io/css/vendors/mdb/style.min.css" rel="stylesheet"> 
+  <link href="https://MHz-Xing.github.io/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"
+  
+      href="https://MHz-Xing.github.io/img/xing.svg"
+  
+  >
+
+
+  
+  
+
+  <style type="text/css">
+      @media (min-width: 800px) and (max-width: 850px) {
+              .navbar:not(.top-nav-collapse) {
+                  background: #1C2331!important;
+              }
+          }
+  </style>
+
+
+  
+    
+    <link rel="stylesheet" href="https://MHz-Xing.github.io/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+    
+    <link rel="stylesheet" href="https://MHz-Xing.github.io/css/vendors/highlight/github-gist.css">
+  
+  
+  
+  <link href="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet"></head>
+
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://MHz-Xing.github.io/">
+          
+        <img class="smallavatar" src="https://MHz-Xing.github.io/img/xing.svg" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> Xing MHz</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://MHz-Xing.github.io/">主页</a>
+          </li>
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/blog/" >文章  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/picture/" >照片  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/about/" >档案馆  </a>
+            </li>
+          
+          
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+  
+ 
+      
+ 
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;" >  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+      
+
+        
+        <div class="carousel-item active">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides/IMG_0264.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+              
+              
+              
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides//IMG_0276.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides//IMG_0593.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+
+  
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://MHz-Xing.github.io/">
+          
+            <img class="pull-right avatar avatar-md" src="https://avatars1.githubusercontent.com/u/16077406?s=460&amp;v=4" alt="" >
+          
+        </a>
+      </div>
+      
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://MHz-Xing.github.io/">
+          <h1 class="mb-2 h1" style="font-weight: 300;" >
+            <strong>Xing MHz</strong>
+          </h1>
+        </a>
+        
+
+             
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+            
+              <a href="//github.com/MHz-Xing" target="_blank" rel="noopener"><i class="fab fa-github pr-1" aria-hidden="true"></i></a>    
+            
+            
+              <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin pr-1" aria-hidden="true"></i></a>
+            
+
+            
+
+            
+            <a href="//weibo.com/2462050587" target="_blank" rel="noopener"><i class="fab fa-weibo pr-1" aria-hidden="true"></i></a>
+            
+
+            
+
+            
+    
+            
+                <a href="https://MHz-Xing.github.io/images/about/wechat_pay.png" target="_blank" rel="noopener"><i class="fab fa-weixin pr-1" aria-hidden="true"></i></a>
+            
+    
+        
+            
+                <a href="mailto:xingzhh@126.com"><i class="far fa-envelope pr-1" aria-hidden="true"></i></a>
+            
+    
+            
+
+            
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://MHz-Xing.github.io/categories/%E6%97%A0%E7%BA%BFble%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 无线BLE技术 </a></li>
+      
+    
+    
+      
+        <li><a href="https://MHz-Xing.github.io/series/ble5%E5%8D%8F%E8%AE%AE%E6%A0%88"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>BLE5协议栈</a></li>
+      
+    
+  </ul>
+
+  <div class="px-4 post-heading">认识BLE5协议栈[九]--物理层</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Dec 26, 2019</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>8 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            
+
+<h2 id="1-简介">1. 简介</h2>
+
+<p>物理层（Physical Layer）是BLE协议栈最底层，它规定了BLE通信的基础射频参数，包括信号频率、调制方案等。</p>
+
+<p>BLE工作频率是2.4GHz，它使用GFSK频率调制，并使用跳频机制来解决频道拥挤问题。</p>
+
+<p>BLE 5的物理层有三种实现方案，分别是1M Sym/s的无编码物理层、2M Sym/s的无编码物理层和1M Sym/s的编码物理层。其中1M Sym/s的无编码物理层与BLE v4系列协议的物理层兼容，另外两种物理层则分别扩展了通信速率和通信距离。</p>
+
+<h2 id="2-频段和跳频">2. 频段和跳频</h2>
+
+<p>大多数无线通信的频段需要申请授权才可以使用，不同地区开辟了少量免授权频段，只要产品满足当地无线电规范，即可免授权使用。下图展示了全球免授权的频段及其分布（<a href="http://predictabledesigns.com/most-important-decision-when-creating-wireless-product/">链接</a>）：</p>
+
+<p><center><img src="https://MHz-Xing.github.io/images/blog/BLE/9-1.png" alt="9-1：Free frequency band in the world" /></center></p>
+
+<p>图中2.4GHz的频段很强势，覆盖了整个地图，是专为工业（Industrial）、科学（Scientific）和医学（Medical）三个机构使用，称为ISM频段。全球范围都可以免授权使用ISM频段。</p>
+
+<p>BLE即工作在2.4GHz频段。</p>
+
+<p>2.4GHz频段信号有明显的优缺点，优点是免费、技术成熟，缺点是频段拥挤、信号传播特性差、遇水衰减。目前除了蓝牙信号外，WIFI、ZigBee、无线键盘、无线玩具甚至微波炉都工作在这个频段，当一个空间内同时运行着多个无线设备时，频带占用情况如下图（<a href="http://www.ti.com/lit/ml/slap127/slap127.pdf">链接</a>）：</p>
+
+<p><center><img src="https://MHz-Xing.github.io/images/blog/BLE/9-2.png" alt="9-2：Crowded Frequency Band" /></center></p>
+
+<p>其中绿色的脉冲为BLE信号，红色信号分别是WIFI、微波炉和无线设备，它们形成了干扰噪声。</p>
+
+<p>BLE工作在2.400GHz – 2.480GHz频率区间，并将这个区间均匀分为40个频道，相邻频道间隔2MHz。在不引起误解的情况下，频道也称为信道，40个信道的频率和分布如下图：</p>
+
+<p><center><img src="https://MHz-Xing.github.io/images/blog/BLE/9-3.png" alt="9-3：BLE frequency channels" /></center></p>
+
+<p>BLE使用跳频技术来解决频段拥挤问题，即令每次数据通信发生在不同的信道上，假如某个信道拥挤，则避开该信道，选择其他可用信道进行通信。</p>
+
+<p>一个简单的跳频算法是：F(n+1) = [F(n) + hop] % 37，其中hop参数为物理层自己设定的跳频参数。</p>
+
+<p>实际中使用自适应跳频算法来更新通信信道。</p>
+
+<p>自适应跳频的工作机制是，如果某个信道拥挤则做上标记，工作时维护一张信道表以记录各信道的拥挤情况，并将拥挤信道映射到可用信道中，然后结合上述简单跳频算法共同完成信道选择。假如简单跳频算法结果指向一个拥挤信道，则进一步跳转到它映射的可用信道上，从而实现数据通信总是工作在可用信道上。</p>
+
+<h2 id="3-调制">3. 调制</h2>
+
+<h3 id="3-1-调制方式">3.1 调制方式</h3>
+
+<p>物理层定义了两种调制方式。</p>
+
+<p>一种方案采用高斯频移键控GFSK，具有1MSym/s的符号速率。第二种方式是与第一种相似（Similar），但是具有2MSym/s的符号速率。</p>
+
+<p><strong>第一种方式又分成两种类型：</strong></p>
+
+<ul>
+<li>LE 1M Uncoded PHY。该方式的比特率为1Mb/s，它是BLE v4版本协议保持兼容。</li>
+<li>LE 1M Coded PHY。该方式对报文进行编码，使接收端收到的报文具有前向纠正的能力，在相同误码率条件下，能够显著降低误码重传次数，从而提高通信速率。 如果采用8符号编码，比特率为125kb/s，如果采用2符号编码，比特率为500kb/s。</li>
+</ul>
+
+<p>LE 1M Uncoded PHY是BLE协议强制要求实现的物理层，而LE 1M Coded PHY则是可选方案。</p>
+
+<p>这两种实现方式符号速率都是1MSym/s。</p>
+
+<p>符号速率中的“符号”是指单次采样所得到的信息，这个信息可能包含多个比特，也可能多个信息等效于一个比特。比如一个电压幅度调制系统中，用+5V表示11b， +2V表示10b， -2V表示01b， -5V表示00b，那么采样一次电压可以获得两个比特信息，此时比特率是符号速率的两倍。在LE 1M Coded PHY机制中，用8个符号表示1个比特，此时比特率是符号速率的1/8。</p>
+
+<p><strong>第二种物理层实现方式为：</strong></p>
+
+<ul>
+<li>LE 2M Uncoded PHY。该方案的比特率为2Mb/s，是可选的实现方式。</li>
+</ul>
+
+<p>官方文档使用LE 1M PHY、LE Coded PHY、LE 2M PHY来表示以上三种不同的物理层实现方式：</p>
+
+<table>
+<thead>
+<tr>
+<th>物理层</th>
+<th>调制方式</th>
+<th>编码方案（报头部分）</th>
+<th>编码方案（有效载荷）</th>
+<th>比特率</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>LE 1M PHY</td>
+<td>1Msym/s 方式</td>
+<td>无编码</td>
+<td>无编码</td>
+<td>1Mb/s</td>
+</tr>
+
+<tr>
+<td>LE 2M PHY</td>
+<td>2Msym/s 方式</td>
+<td>无编码</td>
+<td>无编码</td>
+<td>2Mb/s</td>
+</tr>
+
+<tr>
+<td>LE Coded PHY</td>
+<td>1Msym/s 方式</td>
+<td>编码S=8 编码S=8;</td>
+<td>编码S=2</td>
+<td>125kb/s; 500kb/s</td>
+</tr>
+</tbody>
+</table>
+
+<p>表中的S=8表示8个符号编码成1个比特。</p>
+
+<h3 id="3-2-gfsk">3.2 GFSK</h3>
+
+<p>频率调制是将低频数据信号加载到高频载波上，数据的变化反映为调制波频率的疏密变化，如下图所示：</p>
+
+<p><center><img src="https://MHz-Xing.github.io/images/blog/BLE/9-4.png" alt="9-4：frequency modulation" /></center></p>
+
+<p>数字化的信号仅有0、1变化，在调制时，可以定义载波频率正向偏移视为1，负向偏移视为0。这种调制方式称为“频移键控（FSK）”。数字信号发生0/1变换时，会产生大量噪声，引入高斯滤波器能够延展0/1变换时间，从而降低噪声。这种做法称为“高斯频移键控（GFSK）”。</p>
+
+<p>GFSK技术成熟，实现简单，适合低功耗BLE的需求。</p>
+
+<p>BLE协议规定，中心频率正向偏移大于等于185kHz视为比特1， 负向偏移大于等于185kHz视为比特0。如果选择2402MHz作为中心频率，比特1的频率应为2402.185MHz， 比特0的频率应为2401.815MHz。</p>
+
+<h2 id="4-发射机">4. 发射机</h2>
+
+<h3 id="4-1-发射机框图">4.1 发射机框图</h3>
+
+<p><center><img src="https://MHz-Xing.github.io/images/blog/BLE/9-5.png" alt="9-5：RF Transmitter" /></center></p>
+
+<p>图中信号从左向右流动，基带信号经过GFSK调制分成同相（I信号）和正交（Q信号）两路信号，再依次经过DA转换和低通滤波器，然后利用频率合成器进行频率上转换，再将两个信号分量合成后通过PA放大将信号推送到天线上。</p>
+
+<p>I/Q相位分量并行操作用以抑制镜像频率，PLL驱动的频率合成器可以产生稳定和精确的频率信号，其他的滤波和变换则比较容易理解。（<a href="http://www.elektrorevue.cz/clanky/04003/english.htm#Kapitola%203">链接</a>）</p>
+
+<h3 id="4-2-发射机参数">4.2 发射机参数</h3>
+
+<p><strong>（1）发射功率</strong>
+最小输出功率 | 最大输出功率
+&mdash;|&mdash;
+0.01mW (-20dBm) | 100mW (+20dBm)</p>
+
+<p>当两个设备首次连接时，应该避免将输出功率调至最大，这可能导致对端设备的接收器瞬间饱和，造成通信失败。</p>
+
+<p>BLE协议按照输出功率将BLE设备分成如下几类：</p>
+
+<table>
+<thead>
+<tr>
+<th>功率等级</th>
+<th>最大输出功率</th>
+<th>最小输出功率</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td>100mW (+20dBm)</td>
+<td>10mW (+10dBm)</td>
+</tr>
+
+<tr>
+<td>1.5</td>
+<td>10mW (+10dBm)</td>
+<td>0.01mW (-20dBm)</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>2.5mW (+4dBm)</td>
+<td>0.01mW (-20dBm)</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>1mW (0dBm)</td>
+<td>0.01mW (-20dBm)</td>
+</tr>
+</tbody>
+</table>
+
+<p>第一等级值得注意，如果设备最大输出功率为+20dBm，那么最小功率等于+10dBm。</p>
+
+<p><strong>（2）调制参数</strong>
+调制方式：GFSK</p>
+
+<p>带宽时间积BT：0.5</p>
+
+<p>调制因子：0.45-0.55</p>
+
+<p>有效频率偏移为：±185kHz</p>
+
+<p>时钟精度：±50ppm</p>
+
+<p><strong>（3）杂散波</strong></p>
+
+<p>使用某个频率发射随机数据，在相邻±2MHz的频点位置，杂散波功率应小于-20dBm，在相邻±3MHz以上的频点位置，杂散波功率应小于-30dBm。</p>
+
+<p><strong>（4）射频容限</strong></p>
+
+<p>中心频率偏移小于等于±150kHz。</p>
+
+<p>最大频率漂移小于等于±50kHz。</p>
+
+<p>最大频率漂移速率小于等于400Hz/us。</p>
+
+<p>由于射频频率稳定性跟晶振有直接关联，所以频偏参数限定了外部射频晶振的误差值。</p>
+
+<p>举个例子，使用16MHz的外部石英晶振为射频提供时钟，16MHz扩频到2.4GHz需要放大150倍，其误差也将一同放大150倍。假如它的误差为±50ppm，即16MHz × ±50ppm = ±800Hz，放大150倍后变成±120kHz，这几乎达到±150kHz的频偏限制，因此许多芯片都限制射频晶振的误差要小于50ppm。</p>
+
+<p>假如使用24MHz的晶振，扩频倍数降低，那么相同的误差等级的晶振，将获得更优良的射频频偏参数。（不过16MHz的晶体更便宜和常用。）</p>
+
+<h2 id="5-接收机">5. 接收机</h2>
+
+<h3 id="5-1-接收机框图">5.1 接收机框图</h3>
+
+<p>接收过程是发射过程的逆过程，但相比于发射机而言更加复杂，相关研究文献也更加丰富。</p>
+
+<p>这篇项目报告（<a href="http://www2.imm.dtu.dk/pubdb/views/edoc_download.php/5479/pdf/imm5479.pdf">链接</a>）详细论述了蓝牙接收机的解调器，截取其中的接收机架构框图如下：</p>
+
+<p><center><img src="https://MHz-Xing.github.io/images/blog/BLE/9-6.png" alt="9-6：RF Receiver" /></center></p>
+
+<p>蓝牙信号进入到芯片内部，首先经过低噪声放大器（LNA），仍然是分成I/Q两个相位分量，再通过带通滤波器，使用VGA（Variable Gain Amplifier）进行放大，最后转成数字信号传入处理器中，这里框图省略了GFSK的解调过程，它位于AD转换器之后。</p>
+
+<h3 id="5-2-接收机参数">5.2 接收机参数</h3>
+
+<p><strong>（1）误码率</strong></p>
+
+<p>BLE通信过程，可能因为外部干扰而导致数据发送失败，使用误码率BER（Bit Error Rate）表征比特传输失败的几率。</p>
+
+<p>误码率过高会影响通信速率，BLE协议要求传输小型报文时，误码率要低于0.1%。这也是BLE设备RF性能测试的一个标准。</p>
+
+<p>BLE协议规定了传输不同长度报文的误码率的阈值：</p>
+
+<table>
+<thead>
+<tr>
+<th>最大支持的Payload长度</th>
+<th>BER阈值（%）</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>≤ 37</td>
+<td>0.1</td>
+</tr>
+
+<tr>
+<td>38 ~ 63</td>
+<td>0.064</td>
+</tr>
+
+<tr>
+<td>64 ~ 127</td>
+<td>0.034</td>
+</tr>
+
+<tr>
+<td>≥ 128</td>
+<td>0.017</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>（2）接收灵敏度</strong></p>
+
+<p>BLE协议对于编码型和非编码型物理层给出了不同的接收灵敏度要求：</p>
+
+<table>
+<thead>
+<tr>
+<th>物理层类型</th>
+<th>接收灵敏度（dBm）</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>LE Uncoded PHY</td>
+<td>≤ -70</td>
+</tr>
+
+<tr>
+<td>LE Coded PHY with S=2 coding</td>
+<td>≤ -75</td>
+</tr>
+
+<tr>
+<td>LE Coded PHY with S=8 coding</td>
+<td>≤ -82</td>
+</tr>
+</tbody>
+</table>
+
+<p>市面上的BLE芯片大多都宣称达到-90dBm甚至更低的接收灵敏度，某BLE 5的芯片其接收灵敏度甚至高达-97dBm。</p>
+
+<p>在理想的条件下，假设发射机输出功率是0dBm，接收机灵敏度是-90dBm，发射机输出信号经过一段路径到达接收机，功率衰减到-90dBm，意味着这段路径上的路径损耗等于90dB。如果输出功率是20dBm，当衰减至-90dBm时，路径损耗就是110dB。</p>
+
+<p>路径损耗与通信距离有如下相关性：</p>
+
+<p>path loss = 40 + 25 × log(distance)</p>
+
+<p>做成表格将更加直观：</p>
+
+<table>
+<thead>
+<tr>
+<th>路径损耗(path loss)</th>
+<th>通信距离(distance)</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>50dB</td>
+<td>2.5m</td>
+</tr>
+
+<tr>
+<td>60dB</td>
+<td>6.3m</td>
+</tr>
+
+<tr>
+<td>70dB</td>
+<td>16m</td>
+</tr>
+
+<tr>
+<td>80dB</td>
+<td>40m</td>
+</tr>
+
+<tr>
+<td>90dB</td>
+<td>100m</td>
+</tr>
+
+<tr>
+<td>100dB</td>
+<td>250m</td>
+</tr>
+
+<tr>
+<td>110dB</td>
+<td>630m</td>
+</tr>
+</tbody>
+</table>
+
+<p>如果通信距离为630m，通信系统需要能够承受110dB的路径损耗。</p>
+
+<p>当发射功率为默认0dBm，接收灵敏度为BLE协议规定的最小值-70dBm，那么可实现的最大距离为16m，这也是许多文档认为BLE是一个10米范围的通信技术的原因。考虑到大多数BLE芯片的接收灵敏度都优于-90dBm，实际通信距离应大于10米。</p>
+
+<p>BLE 5的推出，极大提升了通信距离的潜力，各芯片厂商正努力提升通信距离。最近Nordic和TI针对自家BLE 5芯片做了实际测试，在良好的环境下通信距离超过1000米，令人吃惊。</p>
+
+<p><strong>（3） 抗干扰能力</strong></p>
+
+<p>一个接收机的同频道噪声抵抗能力为21dB，相邻的1MHz频点处的噪声抵抗能力为15dB。</p>
+
+<p>1M PHY与2M PHY的要求略有不同。</p>
+
+<p>对带外（2.4GHz范围外的频段）噪声，也应有相应的抵抗能力。</p>
+
+<p><strong>（4）最大有效功率</strong></p>
+
+<p>接收机至少在-10dBm下能够正常工作，保证BER优于0.1%。</p>
+
+<h2 id="6-收发机">6. 收发机</h2>
+
+<p>前面介绍了发射机和接收机，在实际的BLE芯片中，接收机和发射机放在同一个电路中，称为收发机（Transceiver），下图是一个2.4GHz产品框图，有实际的参考价值（<a href="http://www.semtech.com/images/datasheet/rf_design_guidelines_semtech.pdf">链接</a>）：</p>
+
+<p><center><img src="https://MHz-Xing.github.io/images/blog/BLE/9-7.png" alt="9-7：RF Transceiver" /></center></p>
+
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://MHz-Xing.github.io/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://MHz-Xing.github.io/tags/ble5.0" role="button">BLE5.0 </a></li>
+      
+    
+      <li><a href="https://MHz-Xing.github.io/tags/%E5%8D%8F%E8%AE%AE%E6%A0%88" role="button">协议栈 </a></li>
+      
+    
+      <li><a href="https://MHz-Xing.github.io/tags/phy" role="button">PHY </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://MHz-Xing.github.io/blog/2019-12/%E8%AE%A4%E8%AF%86ble5%E5%8D%8F%E8%AE%AE%E6%A0%88%E5%85%AB-%E9%93%BE%E8%B7%AF%E5%B1%82/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>认识BLE5协议栈[八]--链路层</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://MHz-Xing.github.io/blog/2018-07/theme-preview/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>Theme preview</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- 目录 - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-%e7%ae%80%e4%bb%8b">
+												 1. 简介
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e9%a2%91%e6%ae%b5%e5%92%8c%e8%b7%b3%e9%a2%91">
+												 2. 频段和跳频
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-%e8%b0%83%e5%88%b6">
+												 3. 调制
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-1-%e8%b0%83%e5%88%b6%e6%96%b9%e5%bc%8f">
+												 3.1 调制方式
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-2-gfsk">
+												 3.2 GFSK
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#4-%e5%8f%91%e5%b0%84%e6%9c%ba">
+												 4. 发射机
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#4-1-%e5%8f%91%e5%b0%84%e6%9c%ba%e6%a1%86%e5%9b%be">
+												 4.1 发射机框图
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#4-2-%e5%8f%91%e5%b0%84%e6%9c%ba%e5%8f%82%e6%95%b0">
+												 4.2 发射机参数
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#5-%e6%8e%a5%e6%94%b6%e6%9c%ba">
+												 5. 接收机
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#5-1-%e6%8e%a5%e6%94%b6%e6%9c%ba%e6%a1%86%e5%9b%be">
+												 5.1 接收机框图
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#5-2-%e6%8e%a5%e6%94%b6%e6%9c%ba%e5%8f%82%e6%95%b0">
+												 5.2 接收机参数
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#6-%e6%94%b6%e5%8f%91%e6%9c%ba">
+												 6. 收发机
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+      <a href="//github.com/MHz-Xing " target="_blank" rel="noopener"><i class="fab fa-github mr-3" aria-hidden="true"></i></a>    
+    
+    
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+    <a href="//weibo.com/2462050587" target="_blank" rel="noopener"><i class="fab fa-weibo mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+    
+        <a href="https://MHz-Xing.github.io/images/about/wechat_pay.png" target="_blank" rel="noopener"><i class="fab fa-weixin mr-3" aria-hidden="true"></i></a>
+    
+
+
+    
+        <a href="mailto:xingzhh@126.com"><i class="far fa-envelope mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span>  2016 - 2019 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne' target="_blank">AllinOne</a> Modefied by <a href='https://github.com/MHz-Xing' target="_blank">MHz-Xing</a>  </span>
+  </div>
+  
+
+</footer>
+
+
+    
+
+
+
+
+
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/main.js"></script>
+
+
+
+  
+  <script src="https://MHz-Xing.github.io/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+ 
+  <script src="https://MHz-Xing.github.io/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://MHz-Xing.github.io/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  </body>
+</html>

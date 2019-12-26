@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LL on Xing MHz</title>
+    <link>https://MHz-Xing.github.io/tags/ll/</link>
+    <description>Recent content in LL on Xing MHz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Thu, 26 Dec 2019 11:33:29 +0800</lastBuildDate>
+    
+	<atom:link href="https://MHz-Xing.github.io/tags/ll/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>认识BLE5协议栈[八]--链路层</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E8%AE%A4%E8%AF%86ble5%E5%8D%8F%E8%AE%AE%E6%A0%88%E5%85%AB-%E9%93%BE%E8%B7%AF%E5%B1%82/</link>
+      <pubDate>Thu, 26 Dec 2019 11:33:29 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E8%AE%A4%E8%AF%86ble5%E5%8D%8F%E8%AE%AE%E6%A0%88%E5%85%AB-%E9%93%BE%E8%B7%AF%E5%B1%82/</guid>
+      <description>&lt;p&gt;链路层LL（Link Layer）是协议栈中最重要的一层。&lt;/p&gt;
+
+&lt;p&gt;链路层的核心是状态机，包含广播、扫描、发起和连接等几种状态，围绕这几种状态，BLE设备可以执行广播和连接等操作，链路层定义了在各种状态下的数据包格式、时序规范和接口协议。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

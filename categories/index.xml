@@ -6,10 +6,19 @@
     <description>Recent content in Categories on Xing MHz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zn-Hans</language>
-    <lastBuildDate>Tue, 24 Dec 2019 10:21:20 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 26 Dec 2019 11:43:23 +0800</lastBuildDate>
     
 	<atom:link href="https://MHz-Xing.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>无线BLE技术</title>
+      <link>https://MHz-Xing.github.io/categories/%E6%97%A0%E7%BA%BFble%E6%8A%80%E6%9C%AF/</link>
+      <pubDate>Thu, 26 Dec 2019 11:43:23 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/categories/%E6%97%A0%E7%BA%BFble%E6%8A%80%E6%9C%AF/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>编程技术</title>

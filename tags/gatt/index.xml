@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GATT on Xing MHz</title>
+    <link>https://MHz-Xing.github.io/tags/gatt/</link>
+    <description>Recent content in GATT on Xing MHz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Thu, 26 Dec 2019 10:58:35 +0800</lastBuildDate>
+    
+	<atom:link href="https://MHz-Xing.github.io/tags/gatt/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>认识BLE5协议栈[三]--通用属性规范层</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E8%AE%A4%E8%AF%86ble5%E5%8D%8F%E8%AE%AE%E6%A0%88%E4%B8%89-%E9%80%9A%E7%94%A8%E5%B1%9E%E6%80%A7%E8%A7%84%E8%8C%83%E5%B1%82/</link>
+      <pubDate>Thu, 26 Dec 2019 10:58:35 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E8%AE%A4%E8%AF%86ble5%E5%8D%8F%E8%AE%AE%E6%A0%88%E4%B8%89-%E9%80%9A%E7%94%A8%E5%B1%9E%E6%80%A7%E8%A7%84%E8%8C%83%E5%B1%82/</guid>
+      <description>&lt;p&gt;通用属性规范GATT（Generic Attribute Profile）将ATT层定义的属性打包成不同的属性实体，包括服务项、特征项和描述符，这些属性实体组合在一起组成规范，即GATT规范。GATT规范是服务项的集合，服务项是特征项的集合，特征项携带了属性参数和数据，描述符协助特征项描述特征值的形式和功能。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="zn-Hans">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1" />
+  <meta name="author" content="Xing MHz">
+  <meta name="description" content="BLE协议栈规定物理层、链路层和DTM层属于控制器，其他协议层属于主机，主机与控制器之间的通信是通过主机控制器接口传输层完成的。
+
+主机控制器接口常简称为HCI（Host Controller Interface）。
+
+HCI定义了一套“命令-事件”机制，主机向控制器发送HCI命令，控制器向主机返回命令执行结果。应用层的所有操作都会转换成HCI命令传给控制器。">
+  
+  <meta property="og:title" content="认识BLE5协议栈[六]--主机控制器接口" />
+<meta property="og:description" content="BLE协议栈规定物理层、链路层和DTM层属于控制器，其他协议层属于主机，主机与控制器之间的通信是通过主机控制器接口传输层完成的。
+
+主机控制器接口常简称为HCI（Host Controller Interface）。
+
+HCI定义了一套“命令-事件”机制，主机向控制器发送HCI命令，控制器向主机返回命令执行结果。应用层的所有操作都会转换成HCI命令传给控制器。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://MHz-Xing.github.io/blog/2019-12/%E8%AE%A4%E8%AF%86ble5%E5%8D%8F%E8%AE%AE%E6%A0%88%E5%85%AD-%E4%B8%BB%E6%9C%BA%E6%8E%A7%E5%88%B6%E5%99%A8%E6%8E%A5%E5%8F%A3/" />
+<meta property="article:published_time" content="2019-12-26T11:24:30+08:00" />
+<meta property="article:modified_time" content="2019-12-26T11:24:30+08:00" />
+
+
+
+  <title>
+  
+       认识BLE5协议栈[六]--主机控制器接口 | Xing MHz 
+  
+  </title>
+
+  <link rel="canonical" href="https://MHz-Xing.github.io/blog/2019-12/%E8%AE%A4%E8%AF%86ble5%E5%8D%8F%E8%AE%AE%E6%A0%88%E5%85%AD-%E4%B8%BB%E6%9C%BA%E6%8E%A7%E5%88%B6%E5%99%A8%E6%8E%A5%E5%8F%A3/">
+
+  
+  
+
+  
+  <link href="https://MHz-Xing.github.io/css/vendors-extensions/fontawesome/all.min.css" rel="stylesheet">
+
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Ubuntu+Mono:400,400i,700,700i|Raleway:300,400,500,600">
+  <link href="https://MHz-Xing.github.io/css/font.css" rel="stylesheet"> 
+    
+  
+  <link href="https://MHz-Xing.github.io/css/vendors/bootstrap4/bootstrap.min.css" rel="stylesheet">
+  <link href="https://MHz-Xing.github.io/css/vendors-extensions/mdb/mdb.min.css" rel="stylesheet"> 
+  <link href="https://MHz-Xing.github.io/css/vendors/mdb/style.min.css" rel="stylesheet"> 
+  <link href="https://MHz-Xing.github.io/css/main.css" rel="stylesheet">
+
+
+  
+  <link rel="shortcut icon"
+  
+      href="https://MHz-Xing.github.io/img/xing.svg"
+  
+  >
+
+
+  
+  
+
+  <style type="text/css">
+      @media (min-width: 800px) and (max-width: 850px) {
+              .navbar:not(.top-nav-collapse) {
+                  background: #1C2331!important;
+              }
+          }
+  </style>
+
+
+  
+    
+    <link rel="stylesheet" href="https://MHz-Xing.github.io/js/vendors/katex/katex.min.css">
+  
+  
+
+  
+    
+    <link rel="stylesheet" href="https://MHz-Xing.github.io/css/vendors/highlight/github-gist.css">
+  
+  
+  
+  <link href="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet"></head>
+
+  <body class="bg-light" data-spy="scroll" data-target="#page-scrollspy" data-offset="90">
+  
+    
+    
+
+    
+      
+
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+
+      
+      <a class="navbar-brand" href="https://MHz-Xing.github.io/">
+          
+        <img class="smallavatar" src="https://MHz-Xing.github.io/img/xing.svg" style="width: 40px!important;height: auto;"  class="d-inline-block align-top" alt="" >
+        
+        <strong> Xing MHz</strong>
+      </a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        
+        <ul class="navbar-nav mr-auto ">
+          <li class="nav-item ">
+            <a class="nav-link" href="https://MHz-Xing.github.io/">主页</a>
+          </li>
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/blog/" >文章  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/picture/" >照片  </a>
+            </li>
+          
+             
+            <li class="nav-item ">
+              <a class="nav-link" href="https://MHz-Xing.github.io/about/" >档案馆  </a>
+            </li>
+          
+          
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+  
+ 
+      
+ 
+
+
+
+
+
+
+<div id="site-header" class="carousel slide carousel-fade" data-ride="carousel" style="height: 18rem;" >  
+
+  
+  
+  
+
+  
+  <div class="carousel-inner" role="listbox">
+    
+      
+
+        
+        <div class="carousel-item active">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides/IMG_0264.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+              
+              
+              
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides//IMG_0276.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+      
+
+        
+        <div class="carousel-item">
+          <div class="view" style="background-image: url('https://MHz-Xing.github.io/img/header-slides//IMG_0593.JPG'); background-repeat: no-repeat; background-size: cover;">
+
+            
+            <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+
+            
+
+            </div>
+            
+
+          </div>
+        </div>
+        
+      
+    
+
+  
+  </div>
+  
+
+  
+  <div class="carousel-content text-center white-text wow fadeIn">
+    <div class="row mx-0 headfont mt-3 pt-4">
+      
+      <div class="col-12 col-sm-5 align-middle">
+        <a href="https://MHz-Xing.github.io/">
+          
+            <img class="pull-right avatar avatar-md" src="https://avatars1.githubusercontent.com/u/16077406?s=460&amp;v=4" alt="" >
+          
+        </a>
+      </div>
+      
+      <div class="col-12 col-sm-7 text-left pl-2">
+        <a href="https://MHz-Xing.github.io/">
+          <h1 class="mb-2 h1" style="font-weight: 300;" >
+            <strong>Xing MHz</strong>
+          </h1>
+        </a>
+        
+
+             
+        <div class="mt-2" style="font-size: 1rem; color: white;">
+            
+              <a href="//github.com/MHz-Xing" target="_blank" rel="noopener"><i class="fab fa-github pr-1" aria-hidden="true"></i></a>    
+            
+            
+              <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin pr-1" aria-hidden="true"></i></a>
+            
+
+            
+
+            
+            <a href="//weibo.com/2462050587" target="_blank" rel="noopener"><i class="fab fa-weibo pr-1" aria-hidden="true"></i></a>
+            
+
+            
+
+            
+    
+            
+                <a href="https://MHz-Xing.github.io/images/about/wechat_pay.png" target="_blank" rel="noopener"><i class="fab fa-weixin pr-1" aria-hidden="true"></i></a>
+            
+    
+        
+            
+                <a href="mailto:xingzhh@126.com"><i class="far fa-envelope pr-1" aria-hidden="true"></i></a>
+            
+    
+            
+
+            
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  
+  
+  
+
+</div>
+  
+    
+
+    
+  
+  <main class="post-main-wrapper">
+    
+    
+    <div class="row">
+
+      
+
+      
+      <div class="col-md-10">
+      
+
+        
+        <div class="z-depth-1  post-wrapper white-bg single-post">
+
+          <div class="post-header text-center" >
+  <ul class="post-meta li-x">
+    
+      
+        <li><a href="https://MHz-Xing.github.io/categories/%E6%97%A0%E7%BA%BFble%E6%8A%80%E6%9C%AF"><i class="fas fa-folder-open pr-1" aria-hidden="true"></i> 无线BLE技术 </a></li>
+      
+    
+    
+      
+        <li><a href="https://MHz-Xing.github.io/series/ble5%E5%8D%8F%E8%AE%AE%E6%A0%88"><i class="fas fa-bookmark pr-1" aria-hidden="true"></i>BLE5协议栈</a></li>
+      
+    
+  </ul>
+
+  <div class="px-4 post-heading">认识BLE5协议栈[六]--主机控制器接口</div>
+
+  <ul class="post-meta li-x mt-1">
+    
+      <li>Dec 26, 2019</li>
+    
+
+    
+      <li class="middot"></li>
+      <li>4 minutes read</li>
+    
+  </ul>
+  
+
+</div>
+
+
+          <div class="post-content markdown">
+            <p>BLE协议栈规定物理层、链路层和DTM层属于控制器，其他协议层属于主机，主机与控制器之间的通信是通过主机控制器接口传输层完成的。</p>
+
+<p>主机控制器接口常简称为HCI（Host Controller Interface）。</p>
+
+<p>HCI定义了一套“命令-事件”机制，主机向控制器发送HCI命令，控制器向主机返回命令执行结果。应用层的所有操作都会转换成HCI命令传给控制器。</p>
+
+<h2 id="1-hci通信">1. HCI通信</h2>
+
+<p>HCI接口物理形式可以是串口、SPI、USB和三线串口。</p>
+
+<p>对于串口HCI，其通信模型如下：</p>
+
+<p><center><img src="https://MHz-Xing.github.io/images/blog/BLE/6-1.png" alt="6-1：HCI_UART_Interface" /></center></p>
+
+<p>左侧蓝牙主机向右侧蓝牙控制器发送命令，控制器返回命令执行状态。当收到对端设备发送的消息，控制器会以事件形式发送给主机。</p>
+
+<p>通过HCI的数据包括：HCI命令、HCI事件和连接数据。HCI层本身不能区分这三种类型，因此在发送HCI数据包前需要先发送该数据包的类型指示信息。串口HCI的数据包类型指示信息如下：</p>
+
+<table>
+<thead>
+<tr>
+<th>HCI包类型</th>
+<th>指示信息</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>HCI命令</td>
+<td>0x01</td>
+</tr>
+
+<tr>
+<td>连接数据</td>
+<td>0x02</td>
+</tr>
+
+<tr>
+<td>HCI事件</td>
+<td>0x04</td>
+</tr>
+</tbody>
+</table>
+
+<p>指示信息中缺少0x03，该信息用于经典蓝牙概念。</p>
+
+<p>包类型指示位在HCI包发送前发给给主机或控制器。</p>
+
+<h2 id="2-连接数据">2. 连接数据</h2>
+
+<p>两个设备建立连接后相互收发数据，从主机将数据发送给控制器，再通过无线发送到对端设备，或控制器接收到对端设备数据后通过HCI发送给主机。连接数据的结构如下所示：</p>
+
+<p><center><img src="https://MHz-Xing.github.io/images/blog/BLE/6-2.png" alt="6-2：HCI_Data_Packet_Format" /></center></p>
+
+<ul>
+<li>Handle：连接句柄。</li>
+<li>FB Flag：数据边界标志（Packet Boundary Flag），表示当前数据包是一个完整数据包的开头片段或中间片段。</li>
+<li>BC Flag：播报标志（Broadcast Flag），不用于BLE。</li>
+<li>Data Total Length：数据总长度。</li>
+<li>Data：有效数据。</li>
+
+<li><h2 id="3-hci命令">3. HCI命令</h2>
+
+<p>HCI命令包包括：操作码OpCode、参数总长度和参数个数，如下所示：</p></li>
+</ul>
+
+<p><center><img src="https://MHz-Xing.github.io/images/blog/BLE/6-3.png" alt="6-3：HCI_Command_Packet_Format" /></center></p>
+
+<p>为了避免控制器的缓冲区溢出，发送命令包时需要应用流程控制。主机向控制器发送一个命令，控制器返回命令执行状态事件，事件中包含参数Num HCI Command Packets，该参数指主机可以发送的最大命令包的数量。</p>
+
+<p>控制器按接收顺序执行主机命令，但后面的命令可能提前执行完毕。</p>
+
+<p>如果命令执行出错，将在控制器的状态事件中包含错误码。</p>
+
+<p>HCI命令非常多，将近300个，BLE仅支持部分命令，所有BLE专属的命令OGF字段都等于0x08。</p>
+
+<p>下面列出BLE支持的最基础的一部分HCI命令：</p>
+
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>LE Add Device To White List Command</td>
+<td>添加白名单</td>
+</tr>
+
+<tr>
+<td>LE Clear White List Command</td>
+<td>清空白名单</td>
+</tr>
+
+<tr>
+<td>LE Read Buffer Size Command</td>
+<td>读控制器缓存</td>
+</tr>
+
+<tr>
+<td>LE Read Local Supported Features Command</td>
+<td>读本设备支持的功能</td>
+</tr>
+
+<tr>
+<td>LE Read Supported States Command</td>
+<td>读本设备支持的状态</td>
+</tr>
+
+<tr>
+<td>LE Read White List Size Command</td>
+<td>读白名单空间</td>
+</tr>
+
+<tr>
+<td>LE Remove Device From White List Command</td>
+<td>从白名单移除设备</td>
+</tr>
+
+<tr>
+<td>LE Set Event Mask Command</td>
+<td>设置事件掩码</td>
+</tr>
+
+<tr>
+<td>LE Test End Command</td>
+<td>结束测试</td>
+</tr>
+
+<tr>
+<td>Read BD_ADDR Command</td>
+<td>读取设备地址</td>
+</tr>
+
+<tr>
+<td>Reset Command</td>
+<td>重启</td>
+</tr>
+
+<tr>
+<td>LE Read Advertising Channel TX Power Command</td>
+<td>读取广播发射功率</td>
+</tr>
+
+<tr>
+<td>LE Transmitter Test Command</td>
+<td>发送数据测试</td>
+</tr>
+
+<tr>
+<td>LE Set Advertising Data Command</td>
+<td>设置广播数据</td>
+</tr>
+
+<tr>
+<td>LE Set Advertising Enable Command</td>
+<td>开启广播</td>
+</tr>
+
+<tr>
+<td>LE Set Advertising Parameters Command</td>
+<td>设置广播参数</td>
+</tr>
+
+<tr>
+<td>LE Set Random Address Command</td>
+<td>设置随机地址</td>
+</tr>
+
+<tr>
+<td>LE Receiver Test Command</td>
+<td>接收数据测试</td>
+</tr>
+
+<tr>
+<td>LE Set Scan Enable Command</td>
+<td>开启扫描</td>
+</tr>
+
+<tr>
+<td>LE Set Scan Parameters Command</td>
+<td>设置扫描参数</td>
+</tr>
+
+<tr>
+<td>Disconnect Command</td>
+<td>断开连接</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="4-hci事件">4. HCI事件</h2>
+
+<p>HCI事件包包括：时间代码， 参数总长度和具体参数，如下所示：</p>
+
+<p><center><img src="https://MHz-Xing.github.io/images/blog/BLE/6-4.png" alt="6-4：HCI_Event_Packet_Format" /></center></p>
+
+<p>HCI事件包不强制要求流程控制，因为通常主机总是具有充足资源来处理控制器返回的事件。</p>
+
+<p>当连接断开时，主机默认所有命令都已经执行完毕，将不再接收任何事件。</p>
+
+<p>控制器收到不同的主机命令，可能返回以下类型事件：</p>
+
+<ul>
+<li>执行完毕事件</li>
+<li>状态信息事件</li>
+</ul>
+
+<p>对于不涉及连接的命令，可以立即得到执行结果，执行完毕事件报告该命令执行成功或失败。</p>
+
+<p>对于涉及连接的命令，无法立即得到执行结果，命令执行完毕后，先返回执行完毕事件，等命令最终结果产生，再返回新的执行完毕事件。比如LE Create Connection Command命令，执行命令时先返回执行完毕，表面链路层开始执行或加入执行队列，待两端设备建立连接，将返回连接完成事件。</p>
+
+<p>部分读命令，比如LE Read Advertising Channel Tx Power Command，执行完毕后将读取结果存放在状态信息事件中返回。</p>
+
+<p>HCI事件包括BLE专有事件和通用事件，通用事件适用于经典蓝牙和BLE。BLE专有事件称为“元事件（LE Meta Event）”，共有20个，它们的事件代码均为0x3E，事件参数的第一个字节为Subevent_code，用以区分不同的元事件。如下：</p>
+
+<table>
+<thead>
+<tr>
+<th>事件</th>
+<th>Subevent_Code</th>
+<th>描述</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>LE Connection Complete Event</td>
+<td>0x01</td>
+<td>建立连接完毕</td>
+</tr>
+
+<tr>
+<td>LE Advertising Report Event</td>
+<td>0x02</td>
+<td>检测到广播数据或收到扫描响应数据</td>
+</tr>
+
+<tr>
+<td>LE Connection Update Complete Event</td>
+<td>0x03</td>
+<td>连接参数更新完毕</td>
+</tr>
+
+<tr>
+<td>LE Read Remote Features Complete Event</td>
+<td>0x04</td>
+<td>读取对端设备功能完毕</td>
+</tr>
+
+<tr>
+<td>LE Long Term Key Request Event</td>
+<td>0x05</td>
+<td>控制器向主机发送LTK以加密链接</td>
+</tr>
+
+<tr>
+<td>LE Remote Connection Parameter Request Event</td>
+<td>0x06</td>
+<td>对端设备发起更新连接参数请求</td>
+</tr>
+
+<tr>
+<td>LE Data Length Change Event</td>
+<td>0x07</td>
+<td>控制器通知主机链路层数据长度发生了更新</td>
+</tr>
+
+<tr>
+<td>LE Read Local P-256 Public Key Complete Event</td>
+<td>0x08</td>
+<td>控制器通知主机P-256密钥生成完毕</td>
+</tr>
+
+<tr>
+<td>LE Generate DHKey Complete Event</td>
+<td>0x09</td>
+<td>控制器通知主机椭圆加密算法密钥生成完毕</td>
+</tr>
+
+<tr>
+<td>LE Enhanced Connection Complete Event</td>
+<td>0x0A</td>
+<td>建立连接完毕（还支持扩展连接）</td>
+</tr>
+
+<tr>
+<td>LE Directed Advertising Report Event</td>
+<td>0x0B</td>
+<td>检测到定向广播数据或扫描响应数据</td>
+</tr>
+
+<tr>
+<td>LE PHY Update Complete Event</td>
+<td>0x0C</td>
+<td>物理层更新完毕</td>
+</tr>
+
+<tr>
+<td>LE Extended Advertising Report Event</td>
+<td>0x0D</td>
+<td>检测到扩展广播数据或扫描响应数据</td>
+</tr>
+
+<tr>
+<td>LE Periodic Advertising Sync Established Event</td>
+<td>0x0E</td>
+<td>建立周期广播同步完毕</td>
+</tr>
+
+<tr>
+<td>LE Periodic Advertising Report Event</td>
+<td>0x0F</td>
+<td>检测到周期广播数据或扫描响应数据</td>
+</tr>
+
+<tr>
+<td>LE Periodic Advertising Sync Lost Event</td>
+<td>0x10</td>
+<td>周期广播数据无法同步</td>
+</tr>
+
+<tr>
+<td>LE Scan Timeout Event</td>
+<td>0x11</td>
+<td>扫描超时</td>
+</tr>
+
+<tr>
+<td>LE Advertising Set Terminated Event</td>
+<td>0x12</td>
+<td>终止广播数据集事件</td>
+</tr>
+
+<tr>
+<td>LE Scan Request Received Event</td>
+<td>0x13</td>
+<td>收到扫描请求</td>
+</tr>
+
+<tr>
+<td>LE Channel Selection Algorithm Event</td>
+<td>0x14</td>
+<td>使用了信道选择算法</td>
+</tr>
+</tbody>
+</table>
+          </div>
+
+          
+          <div class="row">
+            <div class="col-md-8">
+            
+              <div class="mb-5">
+                
+<div class="li-x div-x post-meta">
+  <li class="pr-0"><a href="https://MHz-Xing.github.io/tags/"><i class="fas fa-tags"></i></a></li>
+  <div class="tags-sm">
+    
+      <li><a href="https://MHz-Xing.github.io/tags/ble5.0" role="button">BLE5.0 </a></li>
+      
+    
+      <li><a href="https://MHz-Xing.github.io/tags/%E5%8D%8F%E8%AE%AE%E6%A0%88" role="button">协议栈 </a></li>
+      
+    
+      <li><a href="https://MHz-Xing.github.io/tags/hci" role="button">HCI </a></li>
+      
+    
+  </div>
+</div>
+              </div>
+            
+            </div>
+            
+          </div>
+          
+
+          
+          <div class="row pt-3">
+            <div class="col-md-6">
+              
+                <a href=https://MHz-Xing.github.io/blog/2019-12/%E8%AE%A4%E8%AF%86ble5%E5%8D%8F%E8%AE%AE%E6%A0%88%E4%BA%94-%E9%80%BB%E8%BE%91%E9%93%BE%E8%B7%AF%E6%8E%A7%E5%88%B6%E4%B8%8E%E9%80%82%E9%85%8D%E5%8D%8F%E8%AE%AE%E5%B1%82/ class="post-meta">Previous
+                  <div class="pt-2 pb-5 d-flex">
+                    <i class="fas fa-angle-left text-grey font-weight-bold mr-2 active-color"></i>
+                    <span>认识BLE5协议栈[五]--逻辑链路控制与适配协议层</span>
+                  </div>
+                </a>
+              
+            </div>
+            
+            <div class="col-md-6 text-right" >
+              
+                <a href=https://MHz-Xing.github.io/blog/2019-12/%E8%AE%A4%E8%AF%86ble5%E5%8D%8F%E8%AE%AE%E6%A0%88%E4%B8%83-%E7%9B%B4%E6%8E%A5%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%BC%8F/ class="post-meta">Next
+                  <div class="pt-2 pb-5 flex-reverse">
+                    <i class="fas fa-angle-right text-grey font-weight-bold ml-2 active-color"></i>
+                    <span>认识BLE5协议栈[七]--直接测试模式</span>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+
+          
+
+        </div>
+        
+
+      </div>
+      
+
+      
+	
+	
+	
+	
+		
+		
+		
+	
+
+		
+		<div class="col-md-2 pl-0">
+
+			
+			<div id="page-scrollspy" class="toc-nav">
+				
+				<ul class="nav nav-pills ml-0">
+					
+					<li class="nav-item pb-3 text-center">
+						<span class="font-weight-bold mb-2">- 目录 - </span>
+					</li>
+
+					
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#1-hci%e9%80%9a%e4%bf%a1">
+												 1. HCI通信
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#2-%e8%bf%9e%e6%8e%a5%e6%95%b0%e6%8d%ae">
+												 2. 连接数据
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#3-hci%e5%91%bd%e4%bb%a4">
+												 3. HCI命令
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+						
+						
+							
+								
+								
+									<ul class="nav">
+								
+								
+
+										<li class="nav-item">
+						 					<a class="nav-link" href="#4-hci%e4%ba%8b%e4%bb%b6">
+												 4. HCI事件
+											</a>
+										</li>
+						 
+								
+								
+									</ul>
+								
+							
+						
+				 
+
+				</ul>
+			</div>
+			
+
+		</div>
+		
+	
+
+    </div>
+    
+
+
+  </main>
+  
+
+
+    
+    
+
+<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+  
+  <div class="pb-2 mt-5 pt-5">
+    
+      <a href="//github.com/MHz-Xing " target="_blank" rel="noopener"><i class="fab fa-github mr-3" aria-hidden="true"></i></a>    
+    
+    
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+    <a href="//weibo.com/2462050587" target="_blank" rel="noopener"><i class="fab fa-weibo mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+    
+        <a href="https://MHz-Xing.github.io/images/about/wechat_pay.png" target="_blank" rel="noopener"><i class="fab fa-weixin mr-3" aria-hidden="true"></i></a>
+    
+
+
+    
+        <a href="mailto:xingzhh@126.com"><i class="far fa-envelope mr-3" aria-hidden="true"></i></a>
+    
+
+    
+
+    
+
+  </div>
+  
+
+  
+  <div class="copyright py-4">
+    
+    <span>  2016 - 2019 &copy; | Theme <a href='https://github.com/orianna-zzo/AllinOne' target="_blank">AllinOne</a> Modefied by <a href='https://github.com/MHz-Xing' target="_blank">MHz-Xing</a>  </span>
+  </div>
+  
+
+</footer>
+
+
+    
+
+
+
+
+
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/jquery/jquery.smooth-scroll.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/popper.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/holder.min.js"></script>
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors-extensions/bootstrap4/bootstrap.js" ></script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/vendors/mdb/mdb.min.js"></script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/main.js"></script>
+
+
+
+  
+  <script src="https://MHz-Xing.github.io/js/vendors/highlight.pack.js"> </script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+ 
+  <script src="https://MHz-Xing.github.io/js/vendors/katex/katex.min.js"> </script>
+  <script src="https://MHz-Xing.github.io/js/vendors/katex/contrib/auto-render.min.js"></script>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          renderMathInElement(document.body);
+      });
+  </script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+  
+  new WOW().init();
+</script>
+
+<script type="text/javascript" src="https://MHz-Xing.github.io/js/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  </body>
+</html>

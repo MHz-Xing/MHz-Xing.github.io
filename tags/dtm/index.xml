@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DTM on Xing MHz</title>
+    <link>https://MHz-Xing.github.io/tags/dtm/</link>
+    <description>Recent content in DTM on Xing MHz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Thu, 26 Dec 2019 11:28:23 +0800</lastBuildDate>
+    
+	<atom:link href="https://MHz-Xing.github.io/tags/dtm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>认识BLE5协议栈[七]--直接测试模式</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E8%AE%A4%E8%AF%86ble5%E5%8D%8F%E8%AE%AE%E6%A0%88%E4%B8%83-%E7%9B%B4%E6%8E%A5%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 26 Dec 2019 11:28:23 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E8%AE%A4%E8%AF%86ble5%E5%8D%8F%E8%AE%AE%E6%A0%88%E4%B8%83-%E7%9B%B4%E6%8E%A5%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;BLE协议充分考虑了设备的测试问题，在协议栈层面提供了直接测试模式，用于执行BLE设备的RF物理层一致性的测试。&lt;/p&gt;
+
+&lt;p&gt;直接测试模式（Direct Test Mode）常简称为DTM。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

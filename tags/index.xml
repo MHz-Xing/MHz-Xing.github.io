@@ -6,10 +6,109 @@
     <description>Recent content in Tags on Xing MHz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zn-Hans</language>
-    <lastBuildDate>Tue, 24 Dec 2019 10:21:20 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 26 Dec 2019 11:43:23 +0800</lastBuildDate>
     
 	<atom:link href="https://MHz-Xing.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>BLE5.0</title>
+      <link>https://MHz-Xing.github.io/tags/ble5.0/</link>
+      <pubDate>Thu, 26 Dec 2019 11:43:23 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/ble5.0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>PHY</title>
+      <link>https://MHz-Xing.github.io/tags/phy/</link>
+      <pubDate>Thu, 26 Dec 2019 11:43:23 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/phy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>协议栈</title>
+      <link>https://MHz-Xing.github.io/tags/%E5%8D%8F%E8%AE%AE%E6%A0%88/</link>
+      <pubDate>Thu, 26 Dec 2019 11:43:23 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/%E5%8D%8F%E8%AE%AE%E6%A0%88/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>LL</title>
+      <link>https://MHz-Xing.github.io/tags/ll/</link>
+      <pubDate>Thu, 26 Dec 2019 11:33:29 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/ll/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DTM</title>
+      <link>https://MHz-Xing.github.io/tags/dtm/</link>
+      <pubDate>Thu, 26 Dec 2019 11:28:23 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/dtm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>HCI</title>
+      <link>https://MHz-Xing.github.io/tags/hci/</link>
+      <pubDate>Thu, 26 Dec 2019 11:24:30 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/hci/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>L2CAP</title>
+      <link>https://MHz-Xing.github.io/tags/l2cap/</link>
+      <pubDate>Thu, 26 Dec 2019 11:11:15 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/l2cap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ATT</title>
+      <link>https://MHz-Xing.github.io/tags/att/</link>
+      <pubDate>Thu, 26 Dec 2019 11:05:41 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/att/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GATT</title>
+      <link>https://MHz-Xing.github.io/tags/gatt/</link>
+      <pubDate>Thu, 26 Dec 2019 10:58:35 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/gatt/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SM</title>
+      <link>https://MHz-Xing.github.io/tags/sm/</link>
+      <pubDate>Thu, 26 Dec 2019 10:52:05 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/sm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GAP</title>
+      <link>https://MHz-Xing.github.io/tags/gap/</link>
+      <pubDate>Thu, 26 Dec 2019 10:36:45 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/tags/gap/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>C</title>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PHY on Xing MHz</title>
+    <link>https://MHz-Xing.github.io/tags/phy/</link>
+    <description>Recent content in PHY on Xing MHz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zn-Hans</language>
+    <lastBuildDate>Thu, 26 Dec 2019 11:43:23 +0800</lastBuildDate>
+    
+	<atom:link href="https://MHz-Xing.github.io/tags/phy/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>认识BLE5协议栈[九]--物理层</title>
+      <link>https://MHz-Xing.github.io/blog/2019-12/%E8%AE%A4%E8%AF%86ble5%E5%8D%8F%E8%AE%AE%E6%A0%88%E4%B9%9D-%E7%89%A9%E7%90%86%E5%B1%82/</link>
+      <pubDate>Thu, 26 Dec 2019 11:43:23 +0800</pubDate>
+      
+      <guid>https://MHz-Xing.github.io/blog/2019-12/%E8%AE%A4%E8%AF%86ble5%E5%8D%8F%E8%AE%AE%E6%A0%88%E4%B9%9D-%E7%89%A9%E7%90%86%E5%B1%82/</guid>
+      <description>1. 简介 物理层（Physical Layer）是BLE协议栈最底层，它规定了BLE通信的基础射频参数，包</description>
+    </item>
+    
+  </channel>
+</rss>
